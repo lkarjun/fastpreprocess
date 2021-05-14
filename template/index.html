@@ -17,28 +17,25 @@
 
 <!-- ------------File Uploading------------ -->
 
-    <section class="m-4 p-4" style="background-color: rgb(238, 238, 238);" id = "upload">
+    <section class="m-4 p-4" style="background-color: rgb(238, 238, 238); display: block;" id="upload-sec">
         <div class="container text-center">
 
             <div class="jumbotron">
-                <h2 class="display-7" style="line-height: 20px;  font-family: 'Major Mono Display', monospace;"> Upload File</h1>
-                <p>Format supported: csv, txt, xlsx, xls</p>
+                <h2 class="display-6 pb-1" style="line-height: 20px;  font-family: 'Major Mono Display', monospace; font-weight: bold;"> Upload Your File</h1>
+                <p>(Format supported: csv, txt, xlsx, xls)</p>
             </div>
             
 
 
-            <form enctype="multipart/form-data" method="POST">
+            <form enctype="multipart/form-data" id="UploadForm" action="/edafileupload" method="POST">
                 <div class="form-group">
-                    <input type="file" class="btn" id="exampleFormControlFile1" accept=".xls,.xlsx,.csv, .txt" required>
-                </div>
-
-                <div class="form-group pt-3">
-                    <button type="submit" class="btn btn-rounded btn-primary" id="upload">Let's Go</button>
+                    <input type="file" accept=".xls,.xlsx,.csv, .txt" required id='fileData' class="btn">
                 </div>
                 
+                <div class="form-group pt-3">
+                    <button type="submit" class="btn btn-rounded btn-primary" id="upload" onclick="upload">Get Ready</button>
+                </div>
             </form>
-
-
 
         </div>
     </section>    
@@ -46,5 +43,37 @@
 
 <!---------------Upload ending--------------------->
 
+<!--------------- Previewing file deteails --------------------->
+<section class="m-4 p-4 bg-primary" style=" display: block;" id="show-details">
+
+    <div class="container">
+        <div class="jumbotron">
+            <h2 class="text-center text-dark">File Details</h1>
+            
+        </div>
+
+        <div class="table-responsive">
+            <table class="table">
+                <tr class="table-primary">
+                    <td>File Name: </td>
+                    <td id='filename'></td>
+                </tr>
+
+                <tr class="table-secondary">
+                    <td>File Size: </td>
+                    <td id='filesize'></td>
+                </tr>
+
+                <tr class="table-success">
+                    <td>File Type: </td>
+                    <td id='filetype'></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+</section>
+
+<!--------------- Previewing Ending--------------------->
 
 {% endblock %}
