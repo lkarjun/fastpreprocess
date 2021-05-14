@@ -21,7 +21,10 @@ upload = $(document).ready(function (e) {
                 console.log("success");
                 console.log(data);
                 $("#upload-sec").css('display', 'none');
-                $("#show-details").css('display', 'block')
+                $("#show-details").css('display', 'block');
+                $('#filename').html(data.filename);
+                $('#filesize').html(data.filesize);
+                $('#filetype').html(data.filetype);
 
             },
             error: function(data){
