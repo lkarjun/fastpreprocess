@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/3.3.0/mdb.min.css" rel="stylesheet"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="{{ url_for('static', path='/css/style.css') }}">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Exo&display=swap" rel="stylesheet">
+    <title>Home</title>
+</head>
+<body>
+
+    
+<!-- ------------Landing page ------------ -->
+   <section class="banner">
+    
+        <div class="jumbotron text-center content">
+            <div class="content">
+                <h1 class="display-3" style="font-family: 'Exo', sans-serif;"> FAST EDA</h1>
+                <p style="line-height: 20px;  font-family: 'Major Mono Display', monospace;" class="lead">One-Click Exploratory Data Analysis</p>
+                <a href="#upload"><button class="btn-rounded btn btn-success">Get Started</button></a>
+            </div>
+        </div>
+    </section>
+<!-- ------------Landing page ending ------------ -->
+
+<!-- ------------File Uploading------------ -->
+
+    <section class="m-4 p-4" style="background-color: rgb(238, 238, 238);" id = "upload">
+        <div class="container text-center">
+
+            <div class="jumbotron">
+                <h2 class="display-7" style="line-height: 20px;  font-family: 'Major Mono Display', monospace;"> Upload File</h1>
+                <p>Format supported: csv, txt, xlsx</p>
+            </div>
+            
+            <form>
+                <div class="form-group">
+                    <input type="file" class="btn" id="exampleFormControlFile1">
+                </div>
+
+                <div class="form-group pt-3">
+                    <button type="submit" class="btn btn-rounded btn-primary">Let's Go</button>
+                </div>
+                
+            </form>
+
+        </div>
+    </section>    
+
+
+<!-- ------------File Uploading Ending------------ -->
+    <script type="text/javascript"  src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/3.3.0/mdb.min.js"></script>
+</body>
+</html>
