@@ -22,21 +22,29 @@
 
             <div class="jumbotron">
                 <h2 class="display-7" style="line-height: 20px;  font-family: 'Major Mono Display', monospace;"> Upload File</h1>
-                <p>Format supported: csv, txt, xlsx</p>
+                <p>Format supported: csv, txt, xlsx, xls</p>
             </div>
             
-            <form>
+
+
+            <form enctype="multipart/form-data" method="POST">
                 <div class="form-group">
-                    <input type="file" class="btn" id="exampleFormControlFile1">
+                    <input type="file" class="btn" id="exampleFormControlFile1" accept=".xls,.xlsx,.csv, .txt" required>
                 </div>
 
                 <div class="form-group pt-3">
-                    <button type="submit" class="btn btn-rounded btn-primary">Let's Go</button>
+                    <button type="submit" class="btn btn-rounded btn-primary" id="upload">Let's Go</button>
                 </div>
                 
             </form>
 
+
+
         </div>
     </section>    
+
+
+<!---------------Upload ending--------------------->
+
 
 {% endblock %}
