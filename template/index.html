@@ -17,11 +17,11 @@
 
 <!-- ------------File Uploading------------ -->
 
-    <section class="m-4 p-4" style="background-color: rgb(238, 238, 238); display: block;" id="upload-sec">
+    <section class="m-4 p-4 table-success" style="display: block;" id="upload-sec">
         <div class="container text-center">
 
             <div class="jumbotron">
-                <h2 class="display-6 pb-1" style="line-height: 20px;  font-family: 'Major Mono Display', monospace; font-weight: bold;"> Upload Your File</h1>
+                <h2 class="display-6 pb-1 font-weight-bold" style="line-height: 20px;  font-family: 'Major Mono Display', monospace;"> Upload Your File</h1>
                 <p>(Format supported: csv, txt, xlsx, xls)</p>
             </div>
             
@@ -44,28 +44,27 @@
 <!---------------Upload ending--------------------->
 
 <!--------------- Previewing file deteails --------------------->
-<section class="m-4 p-4 bg-primary" style=" display: block;" id="show-details">
+<section class="m-4 p-4 table-primary" style=" display: none;" id="show-details">
 
     <div class="container">
         <div class="jumbotron">
-            <h2 class="text-center text-dark">File Details</h1>
-            
+            <h2 class="text-center text-dark font-weight-bold">Detail of this file</h1>
         </div>
 
         <div class="table-responsive">
             <table class="table">
-                <tr class="table-primary">
-                    <td>File Name: </td>
+                <tr class="table-light">
+                    <td class="font-weight-bold">File Name: </td>
                     <td id='filename'></td>
                 </tr>
 
                 <tr class="table-secondary">
-                    <td>File Size: </td>
+                    <td class="font-weight-bold">File Size: </td>
                     <td id='filesize'></td>
                 </tr>
 
                 <tr class="table-success">
-                    <td>File Type: </td>
+                    <td class="font-weight-bold">File Type: </td>
                     <td id='filetype'></td>
                 </tr>
             </table>
