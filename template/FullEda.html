@@ -1,6 +1,31 @@
 {% extends "layout.html" %}
 {% block content %}
+<h1>File name is {{ fname }}</h1>
 
-<h1>File name is</h1>
+
+<div class="container">
+
+<div class="table-responsive">
+    <table class="table table-striped table-hover">
+
+        <tr>
+            {% for n in columns %}
+                <th class="font-weight-bold">{{n}}</th>
+                {% endfor %}
+        </tr>
+
+        {% for n in rows %}
+        <tr>
+
+           {% for i in n %}
+                <td class="font-weight-bold">{{i}}</td>
+            {% endfor %} 
+        </tr>
+            
+            {% endfor %}
+    </table>
+</div>
+</div>
+
 
 {% endblock %}
