@@ -1,4 +1,4 @@
-from typing import List, NamedTuple
+from typing import List, NamedTuple, Tuple
 
 
 class FileDetail(NamedTuple):
@@ -14,3 +14,9 @@ class SampleData(NamedTuple):
     columns: List[str]
     number_of_columns: int
     length: int
+
+
+class QuickStat(NamedTuple):
+    stat: List[List[float]] = None
+    zipped: Tuple[str, List] = None
+    variables: List[str] = ['Count', 'Mean', 'Std', 'Min', '25%', '50%', '75%', 'Max']
