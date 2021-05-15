@@ -2,14 +2,12 @@ from fastapi import FastAPI, File, UploadFile, Request, BackgroundTasks
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from essential import FileDetail
-from fasteda import file_columns, pd
+from fasteda import *
 import os
-
 app = FastAPI()
 
 app.mount("/static", StaticFiles(directory="static"), name='static')
 templates = Jinja2Templates(directory="template")
-
 
 @app.get('/')
 async def home(requset: Request):
@@ -39,10 +37,12 @@ async def eda(request: Request):
                      pd.read_csv('static/dataset/bank_data_processed.csv'))
 
     sample_data = file_columns(fd)
+    quick = quick_stat(fd)
 
     return templates.TemplateResponse('FullEda.html', 
                 context={'request': request, 'title': 'Workspace', 
                         'fname': fd.filename,\
-                        'sample': sample_data})
+                        'sample': sample_data,\
+                        'quick': quick})
 
 
