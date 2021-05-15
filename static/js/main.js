@@ -1,4 +1,4 @@
-upload = $(document).ready(function (e) {
+$(document).ready(function (e) {
     $('#UploadForm').on('submit',(function(e) {
         e.preventDefault();
         var formData = new FormData();

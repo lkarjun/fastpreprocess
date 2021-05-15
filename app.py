@@ -21,7 +21,10 @@ async def upload(reqest: Request, file: UploadFile = File(...)):
     with open(filename, 'wb') as file: file.write(content)
 
     global filedetail
-    filedetail = FileDetail(filename[15:], filename.split('.')[-1], filesize=f"{os.stat(filename).st_size} bytes", sysfilepath=filename)
+    filedetail = FileDetail(filename[15:], 
+                            filename.split('.')[-1], 
+                            filesize=f"{os.stat(filename).st_size} bytes", 
+                            sysfilepath=filename, obj=pd.read_csv(filename))
 
     return {'filename': filedetail.filename, 'filesize': filedetail.filesize, 'filetype': filedetail.filetype}
 
