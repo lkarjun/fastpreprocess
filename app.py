@@ -36,13 +36,12 @@ async def eda(request: Request):
                     '500 bytes', 'static/dataset/bank_data_processed.csv', 
                      pd.read_csv('static/dataset/bank_data_processed.csv'))
 
-    sample_data = file_columns(fd)
-    quick = quick_stat(fd)
+    fasteda = FastEda(fd)
 
     return templates.TemplateResponse('FullEda.html', 
                 context={'request': request, 'title': 'Workspace', 
                         'fname': fd.filename,\
-                        'sample': sample_data,\
-                        'quick': quick})
+                        'sample': fasteda.file_columns(),\
+                        'quick': fasteda.quick_stat()})
 
 
