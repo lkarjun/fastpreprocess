@@ -1,5 +1,16 @@
-from typing import List, NamedTuple, Tuple
+from typing import List, NamedTuple, Tuple, Type
+from pydantic import BaseModel
 
+
+class VariableDetail(BaseModel):
+    vname: str
+    missing: str
+    vtype: str
+    vsummary: Tuple[List, List]
+    
+class IndividualVariables(BaseModel):
+    length: int = 0
+    Variables: List[Type[VariableDetail]] = []
 
 class FileDetail(NamedTuple):
     filename: str
