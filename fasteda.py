@@ -1,7 +1,29 @@
 from essential import *
 import numpy as np
 import pandas as pd
+from eda_report.univariate import Variable
+import tqdm
 
+
+class IndividualVariable():
+
+    def __init__(self, filedetail: FileDetail):
+        self.filedetail = filedetail
+        self.data = filedetail.obj
+        self.full_variables = IndividualVariables(length=0)
+    
+    def start(self):
+        for i in tqdm.tqdm(self.filedetail.obj.columns, desc="Univariate Analysing"):
+            v = Variable(self.data[i])
+            variable = VariableDetail(
+                            vname=i,
+                            missing=v.missing,
+                            vtype=v.var_type,
+                            vsummary=(v.statistics.index.to_list(), v.statistics.values.tolist()))
+            self.full_variables.Variables.append(variable)
+            self.full_variables.length += 1
+            
+        assert self.full_variables.length == len(self.data.columns), "Length counter value and total number of columns is different"
 
 class FastEda:
 
@@ -28,5 +50,6 @@ if __name__ == "__main__":
                      pd.read_csv('static/dataset/bank_data_processed.csv'))
     
     fasteda = FastEda(fd)
-
-    print(fasteda.file_columns())
+    process = IndividualVariable(fd)
+    process.start()
+    print(process.full_variables.length)
