@@ -2,6 +2,7 @@ from fastapi import FastAPI, File, UploadFile, Request, BackgroundTasks
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from essential import FileDetail
+from fasteda import file_columns, pd
 import os
 
 app = FastAPI()
@@ -22,7 +23,7 @@ async def upload(reqest: Request, file: UploadFile = File(...)):
     with open(filename, 'wb') as file: file.write(content)
 
     global filedetail
-    filedetail = FileDetail(filename[15:], filename.split('.')[-1], filesize=f"{os.stat(filename).st_size} bytes")
+    filedetail = FileDetail(filename[15:], filename.split('.')[-1], filesize=f"{os.stat(filename).st_size} bytes", sysfilepath=filename)
 
     return {'filename': filedetail.filename, 'filesize': filedetail.filesize, 'filetype': filedetail.filetype}
 
@@ -30,6 +31,18 @@ async def upload(reqest: Request, file: UploadFile = File(...)):
 
 @app.get('/workspace')
 async def eda(request: Request):
-    return templates.TemplateResponse('FullEda.html', context={'request': request, 'title': 'Workspace', 'fname': filedetail.filename})
+
+    fd = FileDetail(
+                    'bank_data_processed.csv',
+                    'csv', 
+                    '500 bytes', 'static/dataset/bank_data_processed.csv', 
+                     pd.read_csv('static/dataset/bank_data_processed.csv'))
+
+    sample_data = file_columns(fd)
+
+    return templates.TemplateResponse('FullEda.html', 
+                context={'request': request, 'title': 'Workspace', 
+                        'fname': fd.filename,\
+                        'sample': sample_data})
 
 
