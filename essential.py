@@ -1,4 +1,4 @@
-from typing import List, NamedTuple, Tuple, Type
+from typing import Iterable, List, NamedTuple, Tuple, Type
 from pydantic import BaseModel
 
 
@@ -31,3 +31,9 @@ class QuickStat(NamedTuple):
     stat: List[List[float]] = None
     zipped: Tuple[str, List] = None
     variables: List[str] = ['Count', 'Mean', 'Std', 'Min', '25%', '50%', '75%', 'Max']
+
+
+class Correlation(BaseModel):
+    variable: List[str]
+    correlation: List
+    zipped: Iterable
