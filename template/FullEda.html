@@ -58,7 +58,7 @@
 
                 <tr>
                     <th> </th>
-                    {% for n in sample.columns %}
+                    {% for n in quick.numerical_col %}
                         <th class="font-weight-bold">{{n.upper()}}</th>
                     {% endfor %}
                 </tr>
@@ -89,9 +89,13 @@
             <h2 class="display-6" style="font-family: 'Exo', sans-serif;">Correlation Between Variables</h2>
         </div>
 
-        <div id="myChart" width="auto" height="auto"></div>
-
-
+        <div class="row">
+            <div class="col-md-1"></div>
+            <div class="col-md-10">
+                <div id="chart" ></div>
+            </div>
+            <div class="col-md-1"></div>
+        </div>
     </div>
 </section>
 
@@ -99,10 +103,10 @@
 <!---------End---------->
 </div>
 
-<script>      
-
-    corr();
-  
+<script>
+const data1 = {{ corr|tojson }}
+console.log(data1)
+corr(data1)
 </script>
 
 {% endblock %}
