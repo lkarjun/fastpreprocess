@@ -34,10 +34,10 @@ async def upload(reqest: Request, file: UploadFile = File(...)):
 async def eda(request: Request):
 
     fd = FileDetail(
-                    'bank_data_processed.csv',
+                    'cardio_train.csv',
                     'csv', 
-                    '500 bytes', 'static/dataset/bank_data_processed.csv', 
-                     pd.read_csv('static/dataset/bank_data_processed.csv'))
+                    '500 bytes', 'static/dataset/cardio_train.csv', 
+                     pd.read_csv('static/dataset/cardio_train.csv', delimiter=';'))
 
     fasteda = FastEda(fd)
 
@@ -46,6 +46,6 @@ async def eda(request: Request):
                         'fname': fd.filename,\
                         'sample': fasteda.file_columns(),\
                         'quick': fasteda.quick_stat(),\
-                        'corr': fasteda.correlation()})
+                        'corr': fasteda.correlation().json()})
 
 
