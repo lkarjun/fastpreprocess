@@ -45,7 +45,7 @@ async def eda(request: Request):
     fasteda = FastEda(fd)
     process = IndividualVariable(fd)
     process.start()
-    sample2 = process.full_variables.Variables[0].boxplot_json()
+    sample2 = process.IV.Variables[0].boxplot_json()
     print(sample2)
 
     return templates.TemplateResponse('FullEda.html', 
