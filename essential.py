@@ -1,4 +1,4 @@
-from typing import Iterable, List, NamedTuple, Tuple, Type
+from typing import Iterable, List, NamedTuple, Tuple, Type, TypeVar, Union
 from pydantic import BaseModel
 
 
@@ -7,10 +7,30 @@ class VariableDetail(BaseModel):
     missing: str
     vtype: str
     vsummary: Tuple[List, List]
+    stat: TypeVar('pandas.core.frame.DataFrame')
+    outlier_track: Union[TypeVar('numpy.ndarray'), None]
+
+    def boxplot_json(self):
+        if self.vtype == 'numeric':
+            stat = (self.stat.iloc[[3, 4, 5, 6,7]].values).flatten().tolist()
+            if self.outlier_track is None:
+                json = [{'name': self.vname, 'type': 'boxplot', 'data': [{'x': self.vname, 'y': stat}]}]
+                return json
+            json = [{'name': self.vname, 'type': 'boxplot', 'data': [{'x': self.vname, 'y': stat}]}, self.outlier_json()]
+            return json
+        else: print("Skipping")
     
+    def outlier_json(self):
+        json = {'name': 'outliers', 
+                'type': 'scatter', 
+                'data': [{'x': self.vname, 'y': self.outlier_track}]}
+        return json
+        
 class IndividualVariables(BaseModel):
     length: int = 0
     Variables: List[Type[VariableDetail]] = []
+
+
 
 class FileDetail(NamedTuple):
     filename: str
