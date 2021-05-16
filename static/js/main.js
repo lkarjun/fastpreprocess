@@ -66,3 +66,29 @@ var chart = new ApexCharts(document.querySelector("#chart"), options);
 chart.render()
 
 }
+
+
+
+function boxplot(data){
+  var options = {
+    series: data,
+    
+    chart: {
+      type: 'boxPlot',
+      height: 350 },
+      
+      colors: ['#008FFB', '#FEB019'],
+      title: {
+      text: 'BoxPlot - Scatter Chart',
+      align: 'center'
+    },
+    tooltip: {
+      shared: false,
+      intersect: true
+    }
+  };
+
+  var chart = new ApexCharts(document.querySelector("#boxplot"), options);
+  chart.render();
+
+}

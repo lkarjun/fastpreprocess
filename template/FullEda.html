@@ -101,12 +101,50 @@
 
 
 <!---------End---------->
+
+<hr style="border: 4px solid rgb(71, 71, 71); border-radius: 5px;">
+
+<!------------Individual Variable Analysis-------------->
+<section class="p-3 m-3">
+    <div class="container">
+        <div class="jumbotron pb-2 mb-2">
+            <h2 class="display-6 text-center" style="font-family: 'Exo', sans-serif;">Individual Numerical Variable Analysis</h2>
+        </div>
+
+        <div class="row">
+            <div class="text-danger font-weight-bold text-center">Box Plot</div>
+            <div id="boxplot"></div>
+        </div>
+    </div>
+</section>
+
+
+
+<!-----------End------------->
+
+
+
+
 </div>
 
 <script>
-const data1 = {{ corr|tojson }}
-console.log(data1)
-corr(data1)
+const data1 = {{ corr|tojson }};
+console.log(data1);
+corr(data1);
+// boxplot([
+//             { name: 'box', type: 'boxPlot',
+//               data: [{x: 'Age', y: [30, 40, 60, 98, 233]}]
+//             },
+//             { name: 'outliers', type: 'scatter',
+//               data: [{x: 'Age', y: 1}]}
+//         ])
 </script>
 
+<script>
+const data2 = {{ bplot|tojson }};
+console.log(data2);
+
+boxplot(data2);
+
+</script>
 {% endblock %}
