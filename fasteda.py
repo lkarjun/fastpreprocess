@@ -29,10 +29,10 @@ class FastEda:
 
     def __init__(self, file: FileDetail) -> None:
         self.file = file
-
+        self.obj = file.obj
 
     def file_columns(self) -> SampleData:
-        obj = self.file.obj
+        obj = self.obj
         sample_data = SampleData(10, obj.sample(10).values.tolist(), obj.columns, len(obj.columns), len(obj))
         return sample_data
     
@@ -40,6 +40,13 @@ class FastEda:
         stat = np.round(self.file.obj.describe().values.tolist(), 3).tolist()
         zipping = [(variable, data) for variable, data in zip(QuickStat().variables, stat)]
         return QuickStat(stat, zipping)
+
+    def correlation(self) -> Correlation:
+        v = self.obj.corr().index.to_list()
+        corr = np.round(self.obj.corr().values, 2).tolist()
+        return Correlation(variable = v,
+                            correlation = corr,
+                            zipped = zip(v, corr))
 
 
 if __name__ == "__main__":
@@ -50,6 +57,9 @@ if __name__ == "__main__":
                      pd.read_csv('static/dataset/bank_data_processed.csv'))
     
     fasteda = FastEda(fd)
-    process = IndividualVariable(fd)
-    process.start()
-    print(process.full_variables.length)
+    print(fasteda.correlation().zipped)
+    for i, j in fasteda.correlation().zipped:
+        print(i, j)
+    # process = IndividualVariable(fd)
+    # process.start()
+    # print(process.full_variables.length)
