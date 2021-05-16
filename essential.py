@@ -29,6 +29,7 @@ class SampleData(NamedTuple):
 
 class QuickStat(NamedTuple):
     stat: List[List[float]] = None
+    numerical_col: List = None
     zipped: Tuple[str, List] = None
     variables: List[str] = ['Count', 'Mean', 'Std', 'Min', '25%', '50%', '75%', 'Max']
 
@@ -36,4 +37,8 @@ class QuickStat(NamedTuple):
 class Correlation(BaseModel):
     variable: List[str]
     correlation: List
-    zipped: Iterable
+    
+    def json(self):
+        return  [{'name': i,\
+                 'data': [{'x': self.variable[u], 'y': v} for u, v in enumerate(j)]} 
+                  for i, j in zip(self.variable, self.correlation)]
