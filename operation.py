@@ -4,38 +4,89 @@ import tqdm
 import pandas as pd
 import numpy as np
 
+class NumericDetail(BaseModel):
+    vname: str
+    vmissing: str
+    vtype: str
+    vsummary: Tuple[List, List]
+    vstat: TypeVar('pandas.core.frame.DataFrame')
+    voutlier_track: Union[List, None]
+        
+    
+    def boxplot_json(self):
+        stat = (self.vstat.iloc[[3, 4, 5, 6,7]].values).flatten().astype(int).tolist()
+        if self.voutlier_track is None:
+            json = [{'name': self.vname, 'type': 'boxPlot', 'data': [{'x': self.vname, 'y': int(vstat)}]}]
+            return json
+        json = [{'name': self.vname, 'type': 'boxPlot', 'data': [{'x': self.vname, 'y': stat}]}, self.outlier_json()]
+        return json
+    
+    def outlier_json(self):
+        json = {'name': 'outliers', 
+                'type': 'scatter', 
+                'data': [{'x': self.vname, 'y': list(set(self.voutlier_track))}]}
+        return json
+
+
+class CategoricalDetail(BaseModel):
+    vname: str
+    vmissing: str
+    vtype: str
+    vsummary: Tuple[List, List]
+    vstat: TypeVar('pandas.core.frame.DataFrame')
+    
+    def barplot_json(self):
+        ...
+
+
+class IndividualVariables(BaseModel):
+    TotalNumeric: int = 0
+    TotalCategorical: int = 0
+    Length: int = 0
+    Variables: List[Union[NumericDetail, CategoricalDetail]] = []
+
+
 class IndividualVariable():
 
     def __init__(self, filedetail: FileDetail):
         self.filedetail = filedetail
         self.data = filedetail.obj
-        self.full_variables = IndividualVariables()
+        self.IV = IndividualVariables()
     
     def outlier(self, v, i):
         df = self.data
         q1q2 = v.statistics.iloc[[4,6]].values.flatten()
         IQR = q1q2[1] - q1q2[0]
-        print('Iqr: ', i, IQR)
         outlier = df[i][(df[i] < (q1q2[0] - 1.5 * IQR)) |(df[i] > (q1q2[1] + 1.5 * IQR))].values
         return (outlier.astype(int)).tolist()
         
     def start(self):
         for i in tqdm.tqdm(self.filedetail.obj.columns, desc="Univariate Analysing"):
             v = Variable(self.data[i])
-            outlier = None
             if v.var_type == 'numeric':
-                outlier = self.outlier(v, i)
-            
-            variable = VariableDetail(
+                self.IV.TotalNumeric += 1
+                var = NumericDetail(
                             vname=i,
-                            missing=v.missing,
+                            vmissing=v.missing,
                             vtype=v.var_type,
                             vsummary=(v.statistics.index.to_list(), v.statistics.values.tolist()),
-                            stat=v.statistics,
-                            outlier_track=outlier)
-            self.full_variables.Variables.append(variable)
-            self.full_variables.length += 1
-        assert self.full_variables.length == len(self.data.columns), "Length counter value and total number of columns is different"
+                            vstat=v.statistics,
+                            voutlier_track=self.outlier(v, i)
+                    )
+                
+            if v.var_type == 'categorical':
+                self.IV.TotalCategorical += 1
+                var = CategoricalDetail(
+                            vname=i,
+                            vmissing=v.missing,
+                            vtype=v.var_type,
+                            vsummary=(v.statistics.index.to_list(), v.statistics.values.tolist()),
+                            vstat=v.statistics
+                    )
+            
+            self.IV.Variables.append(var)
+            self.IV.Length += 1
+        assert self.IV.Length == len(self.data.columns), "Length counter value and total number of columns is different"
 
 
 
@@ -51,4 +102,4 @@ if __name__ == "__main__":
     
     process = IndividualVariable(fd)
     process.start()
-    print(process.full_variables.Variables[0].boxplot_json())
+    print(process.IV.Variables[0].boxplot_json())
