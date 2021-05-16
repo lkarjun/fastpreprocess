@@ -1,4 +1,4 @@
-from eda_report.univariate import Variable
+from blueprint import Variable
 from essential import *
 import tqdm
 import pandas as pd
