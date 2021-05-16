@@ -11,8 +11,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Exo&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js@3.2.1/dist/chart.min.js"></script>
     <script src="{{ url_for('static', path='/js/main.js') }}"></script>
-    <script src="{{ url_for('static', path='/js/dist/apexcharts.js') }}"></script>
-    <!-- <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script> -->
+    <!-- <script type="module" src="{{ url_for('static', path='/node_modules/apexcharts/apexcharts.js') }}"></script> -->
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
     
     <title>{{ title }}</title>
 </head>
