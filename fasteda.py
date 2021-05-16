@@ -34,7 +34,7 @@ if __name__ == "__main__":
                      pd.read_csv('static/dataset/cars.csv'))
     
     fasteda = FastEda(fd)
-    print(fasteda.quick_stat().numerical_col)
+    print(fasteda.correlation().json())
     # process = IndividualVariable(fd)
     # process.start()
     # print(process.full_variables.length)

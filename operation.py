@@ -2,6 +2,7 @@ from eda_report.univariate import Variable
 from essential import *
 import tqdm
 import pandas as pd
+import numpy as np
 
 class IndividualVariable():
 
@@ -16,7 +17,7 @@ class IndividualVariable():
         IQR = q1q2[1] - q1q2[0]
         print('Iqr: ', i, IQR)
         outlier = df[i][(df[i] < (q1q2[0] - 1.5 * IQR)) |(df[i] > (q1q2[1] + 1.5 * IQR))].values
-        return outlier
+        return (outlier.astype(int)).tolist()
         
     def start(self):
         for i in tqdm.tqdm(self.filedetail.obj.columns, desc="Univariate Analysing"):
@@ -40,7 +41,7 @@ class IndividualVariable():
 
 if __name__ == "__main__":
     df = pd.read_csv('static/dataset/cars.csv', delimiter=',')
-    sub_df = df[[' time-to-60', ' brand', ' year']].copy()
+    sub_df = df[[' time-to-60', ' brand']].copy()
     
     fd = FileDetail('cars.csv',
                 'csv', 
@@ -50,4 +51,4 @@ if __name__ == "__main__":
     
     process = IndividualVariable(fd)
     process.start()
-    print(process.full_variables.length)
+    print(process.full_variables.Variables[0].boxplot_json())
