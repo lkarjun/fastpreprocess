@@ -45,6 +45,7 @@ async def eda(request: Request):
                 context={'request': request, 'title': 'Workspace', 
                         'fname': fd.filename,\
                         'sample': fasteda.file_columns(),\
-                        'quick': fasteda.quick_stat()})
+                        'quick': fasteda.quick_stat(),\
+                        'corr': fasteda.correlation()})
 
 
