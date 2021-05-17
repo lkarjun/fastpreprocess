@@ -5,6 +5,7 @@ import pandas as pd
 import numpy as np
 
 class NumericDetail(BaseModel):
+    data: TypeVar('pandas.core.series.Series')
     vname: str
     vmissing: Union[Tuple[int, float], None]
     vtype: str
@@ -26,6 +27,13 @@ class NumericDetail(BaseModel):
                 'type': 'scatter', 
                 'data': [{'x': self.vname, 'y': list(set(self.voutlier_track))}]}
         return json
+
+    def distribution_json(self):
+        hist = np.histogram(self.data.values)
+        counter = hist[0].astype(int).tolist()
+        categ = hist[1].astype(float).tolist()
+        json = {'data': counter, 'categories': categ}
+        return [json]
 
 
 class CategoricalDetail(BaseModel):
@@ -64,10 +72,11 @@ class IndividualVariable():
         
     def start(self):
         for i in tqdm.tqdm(self.filedetail.obj.columns, desc="Univariate Analysing"):
-            v = Variable(self.data[i])
+            v = Variable(self.filedetail.obj[i])
             if v.var_type == 'numeric':
                 self.IV.TotalNumeric += 1
                 var = NumericDetail(
+                            data = self.filedetail.obj[i],
                             vname=i,
                             vmissing=v.missing,
                             vtype=v.var_type,
@@ -98,7 +107,7 @@ class IndividualVariable():
 if __name__ == "__main__":
     df = pd.read_csv('static/dataset/cars.csv', delimiter=',')
     sub_df = df[[' time-to-60', ' brand']].copy()
-    
+    global fd
     fd = FileDetail('cars.csv',
                 'csv', 
                 '500 bytes', 'cars.csv',
@@ -108,3 +117,5 @@ if __name__ == "__main__":
     process = IndividualVariable(fd)
     process.start()
     print(process.IV.Variables[1].vmissing)
+
+    print(process.IV.Variables[0].distribution_json())
