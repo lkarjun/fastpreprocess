@@ -69,7 +69,7 @@ chart.render()
 
 
 
-function boxplot(data){
+function boxplot(data, div_id){
   var options = {
     series: data,
     
@@ -79,8 +79,8 @@ function boxplot(data){
       
       colors: ['#008FFB', '#FEB019'],
       title: {
-      text: 'BoxPlot - Scatter Chart',
-      align: 'center'
+      text: 'BoxPlot',
+      align: 'left'
     },
     tooltip: {
       shared: false,
@@ -88,7 +88,7 @@ function boxplot(data){
     }
   };
 
-  var chart = new ApexCharts(document.querySelector("#boxplot"), options);
+  var chart = new ApexCharts(document.querySelector(div_id), options);
   chart.render();
 
 }
