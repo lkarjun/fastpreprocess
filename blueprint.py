@@ -98,9 +98,9 @@ class Variable:
         """
         missing_values = self.data.isna().sum()
         if missing_values == 0:
-            return "None"
+            return None
         else:
-            return f"{missing_values} ({missing_values / len(self.data):.2%})"
+            return missing_values, round(missing_values / len(self.data), 3)
 
     def _graphs(self):
         """Plot graphs for the column/feature, based on variable type.
