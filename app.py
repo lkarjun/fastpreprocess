@@ -34,13 +34,13 @@ async def upload(reqest: Request, file: UploadFile = File(...)):
 @app.get('/workspace')
 async def eda(request: Request):
 
-    df = pd.read_csv('static/dataset/cars.csv', delimiter=',')
-    sub_df = df[[' time-to-60', ' year']]
+    # df = pd.read_csv('static/dataset/cars.csv', delimiter=',')
+    # sub_df = df[[' time-to-60', ' year', ' brand']]
     fd = FileDetail(
                     'cars.csv',
                     'csv', 
                     '500 bytes', 'static/dataset/cars.csv', 
-                     sub_df)
+                     pd.read_csv("static/dataset/bank_data_processed.csv"))
 
     fasteda = FastEda(fd)
     process = IndividualVariable(fd)
@@ -55,3 +55,19 @@ async def eda(request: Request):
                         'process': process})
 
 
+@app.get('/testing')
+async def test(request: Request):
+    df = pd.read_csv('static/dataset/cars.csv', delimiter=',')
+    sub_df = df[[' time-to-60', ' year', ' brand']]
+    fd = FileDetail(
+                    'cars.csv',
+                    'csv', 
+                    '500 bytes', 'static/dataset/cars.csv', 
+                     sub_df)
+
+    fasteda = FastEda(fd)
+    process = IndividualVariable(fd)
+    process.start()
+
+    return templates.TemplateResponse('testing.html', 
+                context={'request': request, 'title': 'Workspace'})
