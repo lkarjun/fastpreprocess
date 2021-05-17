@@ -6,12 +6,12 @@ import numpy as np
 
 class NumericDetail(BaseModel):
     vname: str
-    vmissing: str
+    vmissing: Union[Tuple[int, float], None]
     vtype: str
     vsummary: Tuple[List, List]
     vstat: TypeVar('pandas.core.frame.DataFrame')
     voutlier_track: Union[List, None]
-        
+    vhtmlid: Tuple[str, str]
     
     def boxplot_json(self):
         stat = (self.vstat.iloc[[3, 4, 5, 6,7]].values).flatten().astype(int).tolist()
@@ -30,11 +30,13 @@ class NumericDetail(BaseModel):
 
 class CategoricalDetail(BaseModel):
     vname: str
-    vmissing: str
+    vmissing: Union[Tuple[int, float], None]
     vtype: str
     vsummary: Tuple[List, List]
     vstat: TypeVar('pandas.core.frame.DataFrame')
-    
+    vhtmlid: Tuple[str, str]
+    vnunique: int
+
     def barplot_json(self):
         ...
 
@@ -69,9 +71,10 @@ class IndividualVariable():
                             vname=i,
                             vmissing=v.missing,
                             vtype=v.var_type,
-                            vsummary=(v.statistics.index.to_list(), v.statistics.values.tolist()),
+                            vsummary=(v.statistics.index.to_list(), v.statistics.values.flatten().tolist()),
                             vstat=v.statistics,
-                            voutlier_track=self.outlier(v, i)
+                            voutlier_track=self.outlier(v, i),
+                            vhtmlid=(f'#var{self.IV.Length}', f'var{self.IV.Length}')
                     )
                 
             if v.var_type == 'categorical':
@@ -80,8 +83,10 @@ class IndividualVariable():
                             vname=i,
                             vmissing=v.missing,
                             vtype=v.var_type,
-                            vsummary=(v.statistics.index.to_list(), v.statistics.values.tolist()),
-                            vstat=v.statistics
+                            vsummary=(v.statistics.index.to_list(),  v.statistics.values.flatten().tolist()),
+                            vstat=v.statistics,
+                            vhtmlid=(f'#var{self.IV.Length}', f'var{self.IV.Length}'),
+                            vnunique = v.num_unique
                     )
             
             self.IV.Variables.append(var)
@@ -102,4 +107,4 @@ if __name__ == "__main__":
     
     process = IndividualVariable(fd)
     process.start()
-    print(process.IV.Variables[0].boxplot_json())
+    print(process.IV.Variables[1].vmissing)
