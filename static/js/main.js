@@ -92,3 +92,39 @@ function boxplot(data, div_id){
   chart.render();
 
 }
+
+
+function distribution(values, div_id, xaxisdata){
+  console.log(values[0].data)
+  var options = {
+    series: [{
+
+          data: values[0].data}],
+    chart: { type: "histogram", foreColor: "#999"},
+    plotOptions: {
+          bar: {borderRadius: 8, horizontal: false}},
+    
+    title: {
+          text: "Distribution Plot"
+        },
+    xaxis: {  categories: values[0].categories, 
+              axisBorder: { show: false},
+              axisTicks: { show: true },
+              title: {
+                text: xaxisdata,
+              }},
+
+    yaxis: {   tickAmount: 6, 
+               labels: { offsetX: -5, offsetY: -5 },
+               title: {
+                text: 'Count',
+              }
+              },
+    dataLabels: { enabled: false }
+  
+  };
+
+  var chart = new ApexCharts(document.querySelector(div_id), options);
+  chart.render();
+
+}
