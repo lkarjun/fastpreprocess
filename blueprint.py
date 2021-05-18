@@ -88,8 +88,11 @@ class Variable:
         # Get most common items and their relative frequency (%)
         most_common_items = self.data.value_counts().head()
         n = len(self.data)
+        var = most_common_items.index.to_list()
+        count = most_common_items.values.tolist()
+        percentage = most_common_items.apply(lambda x: f'{x / n:.2%}').values.tolist()
         self.most_common_items = \
-            most_common_items.apply(lambda x: f'{x} ({x / n:.2%})').to_frame()
+            var, percentage, count
 
         return summary.to_frame()
 
@@ -117,4 +120,6 @@ if __name__ == '__main__':
     sub_df = df[[' time-to-60', ' brand', ' year']]
 
     v = Variable(sub_df[' brand'])
-    print(v.graph)
+    # print(v.missing)
+    # print(v.unique)
+    print(v.most_common_items)
