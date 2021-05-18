@@ -6,21 +6,71 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/3.3.0/mdb.min.css" rel="stylesheet"/>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <link rel="stylesheet" href="{{ url_for('static', path='/css/style.css') }}">
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Exo&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js@3.2.1/dist/chart.min.js"></script>
     <script src="{{ url_for('static', path='/js/main.js') }}"></script>
-    <!-- <script type="module" src="{{ url_for('static', path='/node_modules/apexcharts/apexcharts.js') }}"></script> -->
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    <link rel="shortcut icon" href="{{ url_for('static', path='/Images/logo.svg') }}" type="image/x-icon">
     
     <title>{{ title }}</title>
 </head>
 <body>
+    
+    <!-- Navbar -->
+<nav class="navbar navbar-expand-lg stick-top navbar-light bg-light">
+    <!-- Container wrapper -->
+    <div class="container">
+      <!-- Navbar brand -->
+        <img
+          src="{{ url_for('static', path='/Images/logo.svg') }}"
+          height="70px"
+          alt=""
+          loading="lazy"
+          style="margin-top: -5px;"
+        />
 
+  
+      <!-- Collapsible wrapper -->
+      <div class="collapse navbar-collapse" id="navbarButtonsExample">
+        <!-- Left links -->
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link" href="#">Workspace</a>
+          </li>
+        </ul>
+        <!-- Left links -->
+        
+        <div style="display: none;">
+            <div class="d-flex align-items-center">
+            <button type="button" class="btn btn-primary btn-theme font-weight-bold ">
+                Save File
+            </button>
+        </div>
+        
+        </div>
+      </div>
+      <!-- Collapsible wrapper -->
+    </div>
+    <!-- Container wrapper -->
+  </nav>
+  <!-- Navbar -->
 
-
-    {% block content %}{% endblock %}
+  
+  <button
+      type="button"
+      class="btn btn-danger btn-floating btn-lg"
+      id="btn-back-to-top"
+      style="
+          position: fixed;
+          bottom: 20px;
+          right: 20px;
+          display: none;">
+        <img src="{{ url_for('static', path='/Images/arrow-up-circle-fill.svg') }}">
+  </button>
+  
+  
+  {% block content %}{% endblock %}
 
 
 
@@ -39,7 +89,32 @@
 
 <!-- ---------------Footer------------ -->
 
+<script>
+  let mybutton = document.getElementById("btn-back-to-top");
 
+// When the user scrolls down 20px from the top of the document, show the button
+window.onscroll = function () {
+  scrollFunction();
+};
+
+function scrollFunction() {
+  if (
+    document.body.scrollTop > 20 ||
+    document.documentElement.scrollTop > 20
+  ) {
+    mybutton.style.display = "block";
+  } else {
+    mybutton.style.display = "none";
+  }
+}
+// When the user clicks on the button, scroll to the top of the document
+mybutton.addEventListener("click", backToTop);
+
+function backToTop() {
+  document.body.scrollTop = 0;
+  document.documentElement.scrollTop = 0;
+}
+</script>
 
 <script type="text/javascript"  src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/3.3.0/mdb.min.js"></script>
 
