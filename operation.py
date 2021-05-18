@@ -29,7 +29,7 @@ class NumericDetail(BaseModel):
         return json
 
     def distribution_json(self):
-        hist = np.histogram(self.data.values)
+        hist = np.histogram(self.data.dropna().values)
         counter = hist[0].astype(int).tolist()
         categ = np.round(hist[1], 2).astype(str).tolist()
         json = {'data': counter, 'categories': categ}
