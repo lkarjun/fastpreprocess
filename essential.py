@@ -1,4 +1,4 @@
-from typing import Iterable, List, NamedTuple, Tuple, Type, TypeVar, Union
+from typing import Iterable, List, NamedTuple, Tuple, Type, TypeVar, Union, Set
 from pydantic import BaseModel
 
 class FileDetail(NamedTuple):
