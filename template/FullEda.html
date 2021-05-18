@@ -8,6 +8,17 @@
 </div>
 
 
+<div class="container p-3 m-3">
+    <div class="row">
+        <div class="col-md-6">
+            <div id='Badge'>
+                <a href="#sample" class="btn btn-round bg-success text-light m-2 p-2">Sample 10</a>
+                <a href="#quickreport" class="btn btn-round bg-success text-light m-2 p-2">Quick Statistics</a>
+                <a href="#corr" class="btn btn-round bg-success text-light m-2 p-2">Correlation</a>    
+            </div>
+        </div>
+    </div>
+</div>
 
 <!-- Section Sample Data display-->
 <section id="sample" class="p-3 m-3">
@@ -47,7 +58,7 @@
 <hr style="border: 4px solid rgb(71, 71, 71); border-radius: 5px;">
 <!--------Section Quick Report--------->
 
-<section class="p-3 m-3">
+<section class="p-3 m-3" id='quickreport'>
     <div class="container">
         <div class="jumbotron pb-2 mb-2">
             <h2 class="display-6" style="font-family: 'Exo', sans-serif;">Quick Statistics</h2>
@@ -83,7 +94,7 @@
 
 <!-------Section Correlation-------->
 
-<section class="p-3 m-3">
+<section class="p-3 m-3" id="corr">
     <div class="container">
         <div class="jumbotron pb-2 mb-2">
             <h2 class="display-6" style="font-family: 'Exo', sans-serif;">Correlation Between Variables</h2>
@@ -106,7 +117,15 @@
 <hr style="border: 4px solid rgb(71, 71, 71); border-radius: 5px;">
 
 <!------------Individual Numeric Variable Analysis-------------->
-<section class="p-3 m-3">
+{% if process.IV.TotalNumeric %}
+<section class="p-3 m-3" id="INVA">
+    <script>
+        function add(){
+            document.getElementById('Badge').innerHTML += '<a href="#INVA" class="btn btn-round bg-success text-light m-2 p-2">Numerical Variables</a>';
+            }
+        add();
+    </script>
+
     <div class="container">
         <div class="jumbotron pb-2 mb-2">
             <h2 class="display-6 text-center" style="font-family: 'Exo', sans-serif; text-decoration: underline;">Individual Numerical Variable Analysis</h2>
@@ -115,7 +134,7 @@
         {% for values in process.IV.Variables%}
         {% if values.vtype == 'numeric'%}
 
-        <div class="jumbotron p-3 m-3">
+        <div class="jumbotron p-3 m-3" id={{values.vhtmlid[1]}}>
             <p class="h4 text-capitalize font-weight-bold" style="font-family: 'Exo', sans-serif;">{{values.vname}}</p>
         </div>
 
@@ -172,11 +191,11 @@
         <!------------Box plot Visualising here------------->
         <div class="row p-4 m-4">
             <div class="col-md-6">
-                <div id="{{ values.vhtmlid[1] }}"></div>
+                <div id="{{ values.vhtmlid[1]+'box' }}"></div>
             </div>
         
 
-            <script>boxplot({{values.boxplot_json()|tojson}}, "{{ values.vhtmlid[0] }}");</script>
+            <script>boxplot({{values.boxplot_json()|tojson}}, "{{ values.vhtmlid[0]+'box' }}");</script>
         <!------------Box plot Visualising finish------------->
 
         <!------------Distribution plot Visualising finish------------->
@@ -191,6 +210,15 @@
         <!------------Distribution Visualising finish------------->
         <hr style="border: 1px solid rgb(0, 0, 0); border-radius: 5px; color: black;">
     
+        <!------------Badge Setting------------->
+        <script>
+            function add(){
+                document.getElementById('Badge').innerHTML += '<a href="{{values.vhtmlid[0]}}" class="btn btn-round bg-secondary text-light m-2 p-2">{{values.vname}}</a>';
+                }
+            
+            add();
+        </script>
+        <!------------ Badge Seted ------------->
         {% endif %}
         {% endfor %}
 
@@ -198,13 +226,20 @@
 
     </div>
 </section>
-
+{% endif %}
 
 
 <!-----------End------------->
 
 <!------------Individual Categorical Variable Analysis-------------->
-<section class="p-3 m-3">
+{% if process.IV.TotalCategorical %}
+<section class="p-3 m-3" id="ICVA">
+    <script>
+        function add(){
+            document.getElementById('Badge').innerHTML += '<a href="#ICVA" class="btn btn-round bg-success text-light m-2 p-2">Categorical Variables</a>';
+            }
+        add();
+    </script>
     <div class="container">
         <div class="jumbotron pb-2 mb-2">
             <h2 class="display-6 text-center" style="font-family: 'Exo', sans-serif; text-decoration: underline;">Individual Categorical Variable Analysis</h2>
@@ -213,7 +248,7 @@
         {% for values in process.IV.Variables%}
         {% if values.vtype == 'categorical'%}
 
-        <div class="jumbotron p-3 m-3">
+        <div class="jumbotron p-3 m-3" id={{values.vhtmlid[1]}}>
             <p class="h4 text-capitalize font-weight-bold" style="font-family: 'Exo', sans-serif;">{{ values.vname }}</p>
         </div>
         
@@ -252,19 +287,36 @@
             </div>
         </div>
 
+        <!------------BarPlot Visualising here------------->
+
         <div class="col-md-6">
             <div id="{{ values.vhtmlid[1]+'bar' }}"></div>
                 <script>
                     chartbar({{ values.barplot_json()|tojson }}, "{{ values.vhtmlid[0]+'bar' }}")
                 </script>
         </div>
+
+        <!------------BarPlot Visualising finish------------->
         
+        <hr style="border: 1px solid rgb(0, 0, 0); border-radius: 5px; color: black;">
+        
+
+        <!------------Badge Setting------------->
+        <script>
+            function add(){
+                document.getElementById('Badge').innerHTML += '<a href="{{values.vhtmlid[0]}}" class="btn btn-round bg-warning text-light m-2 p-2">{{values.vname}}</a>';
+                }
+            
+            add();
+        </script>
+        <!------------ Badge Seted ------------->
+    
         {% endif %}
         {% endfor %}
 
     </div>
 </section>
-
+{% endif %}
 <!-----------End------------->
 </div>
 
