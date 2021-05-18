@@ -31,7 +31,7 @@ class NumericDetail(BaseModel):
     def distribution_json(self):
         hist = np.histogram(self.data.values)
         counter = hist[0].astype(int).tolist()
-        categ = hist[1].astype(float).tolist()
+        categ = np.round(hist[1], 2).astype(str).tolist()
         json = {'data': counter, 'categories': categ}
         return [json]
 
@@ -44,9 +44,11 @@ class CategoricalDetail(BaseModel):
     vstat: TypeVar('pandas.core.frame.DataFrame')
     vhtmlid: Tuple[str, str]
     vnunique: int
+    vnuniquevalues: Set[str]
+    vmostcommon: Tuple[List, List, List]
 
     def barplot_json(self):
-        ...
+        return  {'categories': self.vmostcommon[0], 'data': self.vmostcommon[2]}
 
 
 class IndividualVariables(BaseModel):
@@ -95,7 +97,9 @@ class IndividualVariable():
                             vsummary=(v.statistics.index.to_list(),  v.statistics.values.flatten().tolist()),
                             vstat=v.statistics,
                             vhtmlid=(f'#var{self.IV.Length}', f'var{self.IV.Length}'),
-                            vnunique = v.num_unique
+                            vnunique = v.num_unique,
+                            vnuniquevalues = v.unique,
+                            vmostcommon = v.most_common_items
                     )
             
             self.IV.Variables.append(var)
@@ -105,17 +109,17 @@ class IndividualVariable():
 
 
 if __name__ == "__main__":
-    df = pd.read_csv('static/dataset/cars.csv', delimiter=',')
-    sub_df = df[[' time-to-60', ' brand']].copy()
+    df = pd.read_csv('static/dataset/car_testing.csv', delimiter=',')
+  
     global fd
     fd = FileDetail('cars.csv',
                 'csv', 
                 '500 bytes', 'cars.csv',
-                sub_df
+                df
                  )
     
     process = IndividualVariable(fd)
     process.start()
-    print(process.IV.Variables[1].vmissing)
+    print(process.IV.Variables[2].vmostcommon)
 
-    print(process.IV.Variables[0].distribution_json())
+    # print(process.IV.Variables[1].vnunique)
