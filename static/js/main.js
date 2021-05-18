@@ -65,7 +65,7 @@ var chart = new ApexCharts(document.querySelector("#chart"), options);
 
 chart.render()
 
-}
+};
 
 
 
@@ -91,7 +91,7 @@ function boxplot(data, div_id){
   var chart = new ApexCharts(document.querySelector(div_id), options);
   chart.render();
 
-}
+};
 
 
 function distribution(values, div_id, xaxisdata){
@@ -127,4 +127,40 @@ function distribution(values, div_id, xaxisdata){
   var chart = new ApexCharts(document.querySelector(div_id), options);
   chart.render();
 
-}
+};
+
+
+function chartbar(data, div_id){
+  console.log(data);
+  var options = {
+                series: [{
+                      data: data.data
+                    }],
+                
+                title: {
+                      text: "Bar Plot"
+                  },
+                chart: {
+                      type: 'bar',
+                      height: 350
+                    },
+                
+                plotOptions: {
+                      bar: {  borderRadius: 15,
+                      horizontal: true,
+                      }
+                  },
+   
+                dataLabels: {
+                      enabled: true
+                  },
+                    
+                xaxis: {
+                      categories: data.categories
+                  }
+                };
+  var chart = new ApexCharts(document.querySelector(div_id), options);
+  chart.render();
+};
+
+

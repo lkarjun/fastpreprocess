@@ -210,24 +210,27 @@
             <h2 class="display-6 text-center" style="font-family: 'Exo', sans-serif; text-decoration: underline;">Individual Categorical Variable Analysis</h2>
         </div>
 
+        {% for values in process.IV.Variables%}
+        {% if values.vtype == 'categorical'%}
 
         <div class="jumbotron p-3 m-3">
-            <p class="h4 text-capitalize font-weight-bold" style="font-family: 'Exo', sans-serif;">Brand</p>
+            <p class="h4 text-capitalize font-weight-bold" style="font-family: 'Exo', sans-serif;">{{ values.vname }}</p>
         </div>
+        
 
         <div class="row p-4 m-4">
             <div class="col-md-6">
                 <table class="table table-hover">
                     <tr>
-                        <th class="font-weight-bold">Number of observations</th> <td></td>
+                        <th class="font-weight-bold">Number of observations</th> <td>{{ values.vsummary[1][0] }}</td>
                     </tr>
 
                     <tr>
-                        <th class="font-weight-bold">Number of unique values</th><td></td>
+                        <th class="font-weight-bold">Number of unique values</th><td>{{ values.vsummary[1][1] }}</td>
                     </tr>
 
                     <tr>
-                        <th class="font-weight-bold">Highest occuring values</th><td></td>
+                        <th class="font-weight-bold">Highest occuring values</th><td>{{ values.vsummary[1][2] }}</td>
                     </tr>
                 </table>
             </div>
@@ -238,13 +241,27 @@
                     <div class="card-body">
                         <table class="table text-white">
                             <tr>
-                                <th>Variable Name: </th> <td class="text-capitalize">23%</td>
+                                <th>{{ values.vmostcommon[0][0] }}</th> <td class="text-capitalize">{{ values.vmostcommon[1][0] }}</td>
+                            </tr>
+                            <tr>
+                                <th>{{ values.vmostcommon[0][1] }}</th> <td class="text-capitalize">{{ values.vmostcommon[1][1] }}</td>
                             </tr>
                         </table>
                     </div>
                 </div>
             </div>
         </div>
+
+        <div class="col-md-6">
+            <div id="{{ values.vhtmlid[1]+'bar' }}"></div>
+                <script>
+                    chartbar({{ values.barplot_json()|tojson }}, "{{ values.vhtmlid[0]+'bar' }}")
+                </script>
+        </div>
+        
+        {% endif %}
+        {% endfor %}
+
     </div>
 </section>
 
