@@ -26,8 +26,9 @@ class QuickStat(NamedTuple):
 
 
 class Correlation(BaseModel):
-    variable: List[str]
-    correlation: List
+    variable: Union[None, List]
+    correlation: Union[None, List]
+    empty: int = 0
     
     def json(self):
         return  [{'name': i,\
