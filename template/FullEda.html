@@ -47,8 +47,7 @@
         <div class="col-md-12">
             <div id='Badge'>
                 <a href="#sample" class="btn btn-round bg-success text-light m-2 p-2">Sample 10</a>
-                <a href="#quickreport" class="btn btn-round bg-success text-light m-2 p-2">Quick Statistics</a>
-                <a href="#corr" class="btn btn-round bg-success text-light m-2 p-2">Correlation</a>     
+                <a href="#quickreport" class="btn btn-round bg-success text-light m-2 p-2">Quick Statistics</a>   
             </div>
         </div>
     </div>
@@ -129,7 +128,7 @@
 <hr style="border: 4px solid rgb(71, 71, 71); border-radius: 5px;">
 
 <!-------Section Correlation-------->
-
+{% if corr.empty %}
 <section class="p-3 m-3" id="corr">
     <div class="container">
         <div class="jumbotron pb-2 mb-2">
@@ -144,13 +143,16 @@
             <div class="col-md-1"></div>
         </div>
     </div>
-    <script> corr({{ corr|tojson }}); </script>
+    <script> 
+        $('<a href="#corr" class="btn btn-round bg-success text-light m-2 p-2">Correlation</a>').appendTo("#Badge");
+        corr({{ corr.json()|tojson }}); 
+    </script>
 </section>
-
-
+<hr style="border: 4px solid rgb(71, 71, 71); border-radius: 5px;">
+{% endif %}
 <!---------End---------->
 
-<hr style="border: 4px solid rgb(71, 71, 71); border-radius: 5px;">
+
 
 <!------------Individual Numeric Variable Analysis-------------->
 {% if process.IV.TotalNumeric %}
