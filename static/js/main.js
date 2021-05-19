@@ -3,13 +3,11 @@ $(document).ready(function (e) {
     $('#UploadForm').on('submit',(function(e) {
         e.preventDefault();
         var formData = new FormData();
-        formData.append('file', $('#fileData')[0].files[0])
-        var imgname  =  $('input[type=file]').val();
-        var size  =  $('#fileData')[0].files[0].size;
-        var type = $('#fileData')[0].files[0].type;
-        console.log(size);
-        console.log(imgname);
-        console.log(type);
+        var delimiter = $("#delimiter").val();
+  
+        formData.append('file', $('#fileData')[0].files[0]);
+        formData.append('dm', delimiter);
+        console.log(delimiter);
         $.ajax({
             type:'POST',
             url: '/edafileupload',
