@@ -164,3 +164,31 @@ function chartbar(data, div_id){
 };
 
 
+
+function plot_piechart(missing, total){
+  var options = {
+        series: [missing, total],
+        chart: {
+                type: 'donut',
+              },
+        
+        title: {
+              text: "Data"
+              },
+        
+        responsive: [{
+                breakpoint: 480,
+                options: {
+                    legend: {
+                      position: 'bottom'
+                      }
+                  }
+              }],
+        labels: ['Missing', 'Non Missing'],
+      };
+
+      var chart = new ApexCharts(document.querySelector("#overview"), options);
+      chart.render();
+};
+
+
