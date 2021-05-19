@@ -1,12 +1,14 @@
 from typing import Iterable, List, NamedTuple, Tuple, Type, TypeVar, Union, Set
 from pydantic import BaseModel
 
-class FileDetail(NamedTuple):
+class FileDetail(BaseModel):
     filename: str
     filetype: str
     filesize: str
     sysfilepath: str
-    obj: object
+    obj: TypeVar('pandas.core.frame.DataFrame')
+    missing: int
+    objcopy: TypeVar('pandas.core.frame.DataFrame')
 
 class SampleData(NamedTuple):
     samplesize: int
