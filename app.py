@@ -7,6 +7,10 @@ from fasteda import *
 import os
 app = FastAPI()
 
+filedetail = None
+fasteda_ = None
+process = None
+
 app.mount("/static", StaticFiles(directory="static"), name='static')
 templates = Jinja2Templates(directory="template")
 
@@ -34,7 +38,7 @@ async def upload(request: Request, file: UploadFile = File(...), dm=Form(...)):
                             objcopy = df.copy()
                         )
     global fasteda
-    fasteda = FastEda(filedetail)
+    fasteda_ = FastEda(filedetail)
     global process
     process = IndividualVariable(filedetail)
     process.start()
@@ -48,9 +52,9 @@ async def workspace(request: Request):
         return templates.TemplateResponse('FullEda.html', 
                 context={'request': request, 'title': 'Workspace', 
                         'fname': filedetail.filename,\
-                        'sample': fasteda.file_columns(),\
-                        'quick': fasteda.quick_stat(),\
-                        'corr': fasteda.correlation(),\
+                        'sample': fasteda_.file_columns(),\
+                        'quick': fasteda_.quick_stat(),\
+                        'corr': fasteda_.correlation(),\
                         'process': process})
     except Exception as e:
         return templates.TemplateResponse('Errorhandel.html', context={'request': request, 'error': str(e)})
