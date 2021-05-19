@@ -37,7 +37,7 @@ async def upload(request: Request, file: UploadFile = File(...), dm=Form(...)):
                             missing = df.isna().sum().values.sum(),
                             objcopy = df.copy()
                         )
-    global fasteda
+    global fasteda_
     fasteda_ = FastEda(filedetail)
     global process
     process = IndividualVariable(filedetail)
