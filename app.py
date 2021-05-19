@@ -24,6 +24,7 @@ def process_data(fd):
 app.mount("/static", StaticFiles(directory="static"), name='static')
 templates = Jinja2Templates(directory="template")
 
+
 @app.get('/')
 async def home(requset: Request):
     return templates.TemplateResponse('index.html', context={'request': requset, 'title': 'Home'})
