@@ -11,6 +11,16 @@ filedetail = None
 fasteda_ = None
 process = None
 
+def process_data(fd):
+    global filedetail
+    filedetail
+    global fasteda_
+    fasteda_ = FastEda(fd)
+    global process
+    process = IndividualVariable(fd)
+    process.start()
+
+
 app.mount("/static", StaticFiles(directory="static"), name='static')
 templates = Jinja2Templates(directory="template")
 
@@ -37,11 +47,7 @@ async def upload(request: Request, file: UploadFile = File(...), dm=Form(...)):
                             missing = df.isna().sum().values.sum(),
                             objcopy = df.copy()
                         )
-    global fasteda_
-    fasteda_ = FastEda(filedetail)
-    global process
-    process = IndividualVariable(filedetail)
-    process.start()
+    process_data(filedetail)
 
     return {'filename': filedetail.filename, 'filesize': filedetail.filesize, 'filetype': filedetail.filetype}
 
