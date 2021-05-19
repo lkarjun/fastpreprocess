@@ -36,38 +36,50 @@ async def eda(request: Request):
 
     # df = pd.read_csv('static/dataset/cars.csv', delimiter=',')
     # sub_df = df[[' time-to-60', ' year', ' brand']]
-    fd = FileDetail(
-                    'cars.csv',
-                    'csv', 
-                    '500 bytes', 'static/dataset/cars.csv', 
-                     pd.read_csv("static/dataset/bank_data_processed.csv"))
+    try:
+        df = pd.read_csv("static/dataset/cardio_train.csv", delimiter=';')
+        fd = FileDetail(
+                    filename = 'cars.csv',
+                    filetype = 'csv',
+                    filesize = '500 bytes', 
+                    sysfilepath = 'static/dataset/cars.csv', 
+                    obj = df,
+                    missing = df.isna().sum().values.sum(),
+                    objcopy = df.copy())
 
-    fasteda = FastEda(fd)
-    process = IndividualVariable(fd)
-    process.start()
-
-    return templates.TemplateResponse('FullEda.html', 
+        fasteda = FastEda(fd)
+        process = IndividualVariable(fd)
+        process.start()
+        return templates.TemplateResponse('FullEda.html', 
                 context={'request': request, 'title': 'Workspace', 
                         'fname': fd.filename,\
                         'sample': fasteda.file_columns(),\
                         'quick': fasteda.quick_stat(),\
-                        'corr': fasteda.correlation().json(),\
+                        'corr': fasteda.correlation(),\
                         'process': process})
-
+    except Exception as e:
+        return templates.TemplateResponse('Errorhandel.html', context={'request': request, 'error': str(e)})
 
 @app.get('/testing')
 async def test(request: Request):
-    df = pd.read_csv('static/dataset/cars.csv', delimiter=',')
-    sub_df = df[[' time-to-60', ' year', ' brand']]
+    df = pd.read_csv("static/dataset/car_testing.csv")
     fd = FileDetail(
-                    'cars.csv',
-                    'csv', 
-                    '500 bytes', 'static/dataset/cars.csv', 
-                     sub_df)
+                    filename = 'cars.csv',
+                    filetype = 'csv',
+                    filesize = '500 bytes', 
+                    sysfilepath = 'static/dataset/cars.csv', 
+                    obj = df,
+                    missing = df.isna().sum().values.sum(),
+                    objcopy = df.copy())
 
     fasteda = FastEda(fd)
     process = IndividualVariable(fd)
     process.start()
 
     return templates.TemplateResponse('testing.html', 
-                context={'request': request, 'title': 'Workspace'})
+                context={'request': request, 'title': 'Workspace', 
+                        'fname': fd.filename,\
+                        'sample': fasteda.file_columns(),\
+                        'quick': fasteda.quick_stat(),\
+                        'corr': fasteda.correlation().json(),\
+                        'process': process})
