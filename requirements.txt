@@ -9,4 +9,5 @@ aiofiles
 requests
 pandas==1.2.4
 tqdm==4.60.0
-jinja2
+jinja2==2.11.3
+gunicorn==19.9.0
