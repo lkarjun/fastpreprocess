@@ -3,22 +3,58 @@
 
 <div class="container">
     
-<div class="jumbotron p-2 m-2">
+<div class="jumbotron p-1 m-1">
     <h2 class="display-6" style="font-family: 'Exo', sans-serif;">File name is {{ fname }}</h2>
 </div>
 
+<!-------Section Overview--------->
+<section class="p-2 m-2" style="height: 400px;">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 ">
+                <div class="pt-5 mt-5">
+                    <div class="card bg-light mb-3 shadow-2-strong " style="min-width: 20rem; ">
+                        <div class="card-header font-weight-bold text-danger">Over View</div>
+                        <div class="card-body">
+                            <table class="table">
+                                <tr>
+                                    <th class="font-weight-bold">Numerical Columns</th><td class="text-capitalize font-weight-bold">{{ process.IV.TotalNumeric }}</td>
+                                </tr>
+                                <tr>
+                                    <th class="font-weight-bold">Categorical Columns</th><td class="text-capitalize font-weight-bold">{{ process.IV.TotalCategorical }}</td>
+                                </tr>
+                                <tr>
+                                    <th class="font-weight-bold">Rows & Columns</th> <td class="text-capitalize font-weight-bold">{{sample.length}} X {{sample.number_of_columns}}</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    
+            <div class="col-md-6 d-flex justify-content-center">
+                <div class="pt-3 mt-4" id='overview' style="height: 30rem; width: 30rem;"></div>
+            </div>
+            <script>plot_piechart({{ process.filedetail.missing }}, {{ sample.length}});</script>
+        </div>
+    </div>
+</section>
+<!-------End---------->
 
-<div class="container p-3 m-3">
+<!-------Section Badge-------->
+<div class="container" style="padding-top: 90px;">
     <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-12">
             <div id='Badge'>
                 <a href="#sample" class="btn btn-round bg-success text-light m-2 p-2">Sample 10</a>
                 <a href="#quickreport" class="btn btn-round bg-success text-light m-2 p-2">Quick Statistics</a>
-                <a href="#corr" class="btn btn-round bg-success text-light m-2 p-2">Correlation</a>    
+                <a href="#corr" class="btn btn-round bg-success text-light m-2 p-2">Correlation</a>     
             </div>
         </div>
     </div>
 </div>
+
+<!-------End------------------>
 
 <!-- Section Sample Data display-->
 <section id="sample" class="p-3 m-3">
@@ -120,10 +156,7 @@
 {% if process.IV.TotalNumeric %}
 <section class="p-3 m-3" id="INVA">
     <script>
-        function add(){
-            document.getElementById('Badge').innerHTML += '<a href="#INVA" class="btn btn-round bg-success text-light m-2 p-2">Numerical Variables</a>';
-            }
-        add();
+        $('<a href="#INVA" class="btn btn-round bg-success text-light m-2 p-2">Numerical Variables</a>').appendTo("#Badge");
     </script>
 
     <div class="container">
@@ -212,12 +245,9 @@
     
         <!------------Badge Setting------------->
         <script>
-            function add(){
-                document.getElementById('Badge').innerHTML += '<a href="{{values.vhtmlid[0]}}" class="btn btn-round bg-secondary text-light m-2 p-2">{{values.vname}}</a>';
-                }
-            
-            add();
+            $("<a href='{{values.vhtmlid[0]}}' class='btn btn-round bg-secondary text-light m-2 p-2'>{{values.vname}}</a>").appendTo("#Badge");          
         </script>
+
         <!------------ Badge Seted ------------->
         {% endif %}
         {% endfor %}
@@ -235,10 +265,7 @@
 {% if process.IV.TotalCategorical %}
 <section class="p-3 m-3" id="ICVA">
     <script>
-        function add(){
-            document.getElementById('Badge').innerHTML += '<a href="#ICVA" class="btn btn-round bg-success text-light m-2 p-2">Categorical Variables</a>';
-            }
-        add();
+        $('<a href="#ICVA" class="btn btn-round bg-success text-light m-2 p-2">Categorical Variables</a>').appendTo("#Badge");
     </script>
     <div class="container">
         <div class="jumbotron pb-2 mb-2">
@@ -303,11 +330,7 @@
 
         <!------------Badge Setting------------->
         <script>
-            function add(){
-                document.getElementById('Badge').innerHTML += '<a href="{{values.vhtmlid[0]}}" class="btn btn-round bg-warning text-light m-2 p-2">{{values.vname}}</a>';
-                }
-            
-            add();
+            $('<a href="{{values.vhtmlid[0]}}" class="btn btn-round bg-warning text-light m-2 p-2">{{values.vname}}</a>').appendTo("#Badge");
         </script>
         <!------------ Badge Seted ------------->
     
