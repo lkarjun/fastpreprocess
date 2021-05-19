@@ -31,7 +31,7 @@ class FastEda:
             return Correlation(variable = index, correlation = corr, empty=1) if len(index) > 1 \
                    else Correlation(variable = None, correlation = None, empty=0)
         # -------------------------------------------Debuging----------------------------------------
-        corr = self.obj.corr()
+        
         return Correlation(variable = None,
                            correlation = None,
                            empty=0
