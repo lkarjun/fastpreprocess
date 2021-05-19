@@ -35,8 +35,8 @@
     <section class="m-4 p-4 table-success" style="display: block;" id="upload-sec">
         <div class="container text-center">
 
-            <div class="jumbotron">
-                <h2 class="display-6 pb-1 font-weight-bold" style="line-height: 20px;  font-family: 'Exo', sans-serif;"> Upload Your File</h1>
+            <div class="jumbotron p-3 m-3">
+                <h2 class="display-6 pb-3 font-weight-bold" style="line-height: 20px;  font-family: 'Exo', sans-serif;"> Upload Your File</h1>
                 <p>(Format supported: csv, txt, xlsx, xls)</p>
             </div>
             
@@ -45,6 +45,10 @@
             <form enctype="multipart/form-data" id="UploadForm" action="/edafileupload" method="POST">
                 <div class="form-group">
                     <input type="file" accept=".xls,.xlsx,.csv, .txt" required id='fileData' class="btn">
+                </div>
+
+                <div class="form-group pt-4">
+                    Delimiter: <input type="text" id="delimiter" >
                 </div>
                 
                 <div class="form-group pt-3">
