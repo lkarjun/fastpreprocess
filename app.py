@@ -17,14 +17,15 @@ async def home(requset: Request):
 
 @app.post('/edafileupload')
 async def upload(request: Request, file: UploadFile = File(...), dm=Form(...)):
-    filename = f'static/dataset/{str(file.filename)}'
+    # filename = f'static/dataset/{str(file.filename)}'
+    filename = file.filename
     content = await file.read()
     with open(filename, 'wb') as file: file.write(content)
 
     df = pd.read_csv(filename, delimiter=dm)
 
     global filedetail
-    filedetail = FileDetail(filename = filename[15:], 
+    filedetail = FileDetail(filename = file.filename, 
                             filetype = filename.split('.')[-1], 
                             filesize=f"{os.stat(filename).st_size} bytes", 
                             sysfilepath=filename, 
