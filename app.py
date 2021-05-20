@@ -30,8 +30,8 @@ def process_data(filename, dm):
         process.start()
         return {'filename': filedetail.filename, 'filesize': filedetail.filesize, 'filetype': filedetail.filetype, 'verify': "Validated"}
 
-    except:
-        return {'filename': "Error", 'filesize': "Error", 'filetype': "Error", 'verify': "Error"}
+    except Exception as e:
+        return {'filename': "Error", 'filesize': "Error", 'filetype': "Error", 'verify': str(e)}
 
 app.mount("/static", StaticFiles(directory="static"), name='static')
 templates = Jinja2Templates(directory="template")
