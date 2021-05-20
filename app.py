@@ -33,6 +33,14 @@ def process_data(filename, dm):
     except Exception as e:
         return {'filename': "Error", 'filesize': "Error", 'filetype': "Error", 'verify': str(e)}
 
+def set_global_none():
+    global filedetail
+    filedetail = None
+    global fasteda_
+    fasteda_ = None
+    global process
+    process = None
+
 app.mount("/static", StaticFiles(directory="static"), name='static')
 templates = Jinja2Templates(directory="template")
 
@@ -44,12 +52,10 @@ async def home(requset: Request):
 
 @app.post('/edafileupload')
 async def upload(request: Request, file: UploadFile = File(...), dm=Form(...)):
-    # filename = f'static/dataset/{str(file.filename)}'
+    set_global_none()
     filename = file.filename
     content = await file.read()
     with open(filename, 'wb') as file: file.write(content)
-
-    
     e = process_data(filename, dm)
     return e
 
