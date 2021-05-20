@@ -12,6 +12,7 @@ fasteda_ = None
 process = None
 
 def process_data(filename, dm):
+    #Process data if any error occur it return verify "error message"
     try:
         df = pd.read_csv(filename, delimiter=dm)
 
