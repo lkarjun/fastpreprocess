@@ -81,6 +81,7 @@ async def eda(request: Request):
 
     try:
         df = pd.read_csv("static/dataset/cardio_train.csv", delimiter=';')
+        
         fd = FileDetail(
                     filename = 'cars.csv',
                     filetype = 'csv',
