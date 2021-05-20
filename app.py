@@ -79,8 +79,6 @@ async def workspace(request: Request):
 @app.get('/testing')
 async def eda(request: Request):
 
-    # df = pd.read_csv('static/dataset/cars.csv', delimiter=',')
-    # sub_df = df[[' time-to-60', ' year', ' brand']]
     try:
         df = pd.read_csv("static/dataset/cardio_train.csv", delimiter=';')
         fd = FileDetail(
