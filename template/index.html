@@ -13,8 +13,45 @@
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
     
     <title>{{ title }}</title>
+    <script>
+
+        function preloaderFadeOutInit(){
+                $('.preloader').fadeOut('slow');
+                $('body').attr('id','');
+            }
+        
+        // Window load function
+        jQuery(window).on('load', function () {
+            (function ($) {
+                preloaderFadeOutInit();
+            })(jQuery);
+            });
+
+    </script>
+
+    <style>
+        .preloader {
+                position: absolute;
+                top: 0;
+                left: 0;
+                bottom:0;
+                right:0;
+                width: 100%;
+                height: 100vh;
+                z-index: 99999999;
+                background-image: url('static/Images/1479.gif'); /* your icon gif file path */
+                background-repeat: no-repeat;
+                background-color: #FFF;
+                background-position: center;
+}
+    </style>
 </head>
-<body>
+<body id="stop-scrolling">
+
+    <!-- preloader -->
+    <div class="preloader"></div>
+    <!-- preloader ending -->
+    
 
 <!-- ------------Landing page ------------ -->
    <section class="banner">
