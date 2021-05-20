@@ -11,15 +11,27 @@ filedetail = None
 fasteda_ = None
 process = None
 
-def process_data(fd):
-    global filedetail
-    filedetail
-    global fasteda_
-    fasteda_ = FastEda(fd)
-    global process
-    process = IndividualVariable(fd)
-    process.start()
+def process_data(filename, dm):
+    try:
+        df = pd.read_csv(filename, delimiter=dm)
 
+        global filedetail
+        filedetail = FileDetail(filename = filename, 
+                            filetype = filename.split('.')[-1], 
+                            filesize=f"{os.stat(filename).st_size} bytes", 
+                            sysfilepath=filename, 
+                            obj=df,
+                            missing = df.isna().sum().values.sum(),
+                            objcopy = df.copy())
+        global fasteda_
+        fasteda_ = FastEda(filedetail)
+        global process
+        process = IndividualVariable(filedetail)
+        process.start()
+        return {'filename': filedetail.filename, 'filesize': filedetail.filesize, 'filetype': filedetail.filetype, 'verify': "Validated"}
+
+    except:
+        return {'filename': "Error", 'filesize': "Error", 'filetype': "Error", 'verify': "Error"}
 
 app.mount("/static", StaticFiles(directory="static"), name='static')
 templates = Jinja2Templates(directory="template")
@@ -37,20 +49,9 @@ async def upload(request: Request, file: UploadFile = File(...), dm=Form(...)):
     content = await file.read()
     with open(filename, 'wb') as file: file.write(content)
 
-    df = pd.read_csv(filename, delimiter=dm)
-
-    global filedetail
-    filedetail = FileDetail(filename = filename, 
-                            filetype = filename.split('.')[-1], 
-                            filesize=f"{os.stat(filename).st_size} bytes", 
-                            sysfilepath=filename, 
-                            obj=df,
-                            missing = df.isna().sum().values.sum(),
-                            objcopy = df.copy()
-                        )
-    process_data(filedetail)
-
-    return {'filename': filedetail.filename, 'filesize': filedetail.filesize, 'filetype': filedetail.filetype}
+    
+    e = process_data(filename, dm)
+    return e
 
 
 @app.get('/workspace')
