@@ -54,7 +54,7 @@ async def home(requset: Request):
 def upload(request: Request, file: UploadFile = File(...), dm=Form(...)):
     set_global_none()
     filename = file.filename
-    content = await file.read()
+    content = file.read()
     with open(filename, 'wb') as file: file.write(content)
     e = process_data(filename, dm)
     return e
