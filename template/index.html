@@ -102,7 +102,7 @@
             </table>
         </div>
 
-        <div class="text-center">
+        <div class="text-center" id='analysis'>
             <a href="/workspace"><button type="submit" class="btn btn-rounded btn-primary">Let's Analyis</button></a>
         </div>
     </div>
@@ -169,6 +169,9 @@ $(document).ready(function (e) {
                 console.log("success");
                 console.log(data);
                 $("#upload-sec").css('display', 'none');
+                if (data.filename == "Error"){
+                    $("#analysis").css('display', 'none')
+                }
                 $("#show-details").css('display', 'block');
                 $('#filename').html(data.filename);
                 $('#filesize').html(data.filesize);

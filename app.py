@@ -51,7 +51,7 @@ async def home(requset: Request):
 
 
 @app.post('/edafileupload')
-async def upload(request: Request, file: UploadFile = File(...), dm=Form(...)):
+async def upload(file: UploadFile = File(...), dm=Form(...)):
     set_global_none()
     filename = file.filename
     content = await file.read()
