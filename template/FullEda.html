@@ -4,15 +4,16 @@
 <div class="container">
     
 <div class="jumbotron p-1 m-1">
-    <h2 class="display-6" style="font-family: 'Exo', sans-serif;">File name is {{ fname }}</h2>
+    <p class="h2"style="font-family: 'Exo', sans-serif;">File name is {{ fname }}</p>
+
 </div>
 
 <!-------Section Overview--------->
-<section class="p-2 m-2" style="height: 400px;">
+<section class="pt-2 mt-2 pb-2 mb-2">
     <div class="container">
         <div class="row">
             <div class="col-md-6 ">
-                <div class="pt-5 mt-5">
+                <div id="overview_s1">
                     <div class="card bg-light mb-3 shadow-2-strong " style="min-width: 20rem; ">
                         <div class="card-header font-weight-bold text-danger">Over View</div>
                         <div class="card-body">
@@ -33,16 +34,17 @@
             </div>
     
             <div class="col-md-6 d-flex justify-content-center">
-                <div class="pt-3 mt-4" id='overview' style="height: 30rem; width: 30rem;"></div>
+                <div id='overview'></div>
             </div>
             <script>plot_piechart({{ process.filedetail.missing }}, {{ sample.length}});</script>
         </div>
     </div>
 </section>
 <!-------End---------->
-
+<hr style="border: 1px solid rgb(0, 0, 0); border-radius: 5px; color: black;">
 <!-------Section Badge-------->
-<div class="container" style="padding-top: 90px;">
+<section id='Sbadge'>
+    <div class="container">
     <div class="row">
         <div class="col-md-12">
             <div id='Badge'>
@@ -52,6 +54,8 @@
         </div>
     </div>
 </div>
+
+</section>
 
 <!-------End------------------>
 
@@ -156,7 +160,7 @@
 
 <!------------Individual Numeric Variable Analysis-------------->
 {% if process.IV.TotalNumeric %}
-<section class="p-3 m-3" id="INVA">
+<section class="pt-3 mt-3 mb-3 pb-3" id="INVA">
     <script>
         $('<a href="#INVA" class="btn btn-round bg-success text-light m-2 p-2">Numerical Variables</a>').appendTo("#Badge");
     </script>
@@ -174,36 +178,39 @@
         </div>
 
     
-        <div class="row p-4 m-4">
-            <div class="col-md-6">
-                <table class="table table-hover">
-                    <tr>
-                        <th class="font-weight-bold">Number of observations</th> <td>{{values.vsummary[1][0]}}</td>
-                        <th class="font-weight-bold">Median</th><td>{{values.vsummary[1][5]}}</td>
-                    </tr>
-                    <tr>
-                        <th class="font-weight-bold">Mean</th><td>{{values.vsummary[1][1]}}</td>
-                        <th class="font-weight-bold">Quartile 2</th><td>{{values.vsummary[1][6]}}</td>
-                    </tr>
-                    <tr>
-                        <th class="font-weight-bold">Standard Deviation</th><td>{{values.vsummary[1][2]}}</td>
-                        <th class="font-weight-bold">Maximum</th><td>{{values.vsummary[1][7]}}</td>
-                    </tr>
-                    <tr>
-                        <th class="font-weight-bold">Minimum</th><td>{{values.vsummary[1][3]}}</td>
-                        <th class="font-weight-bold">Skewness</th><td>{{values.vsummary[1][8]}}</td>
-                    </tr>
-                    <tr>
-                        <th class="font-weight-bold">Quartile 1</th><td>{{values.vsummary[1][4]}}</td>
-                        <th class="font-weight-bold">Kurtosis</th><td>{{values.vsummary[1][9]}}</td>
-                    </tr>
-                </table>
+        <div class="row pt-4 mt-4 mb-4 pb-4">
+            <div class="col-md-6 col-sm-12 col-12 col-xl-6">
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <tr>
+                            <th class="font-weight-bold">Number of observations</th> <td>{{values.vsummary[1][0]}}</td>
+                            <th class="font-weight-bold">Median</th><td>{{values.vsummary[1][5]}}</td>
+                        </tr>
+                        <tr>
+                            <th class="font-weight-bold">Mean</th><td>{{values.vsummary[1][1]}}</td>
+                            <th class="font-weight-bold">Quartile 2</th><td>{{values.vsummary[1][6]}}</td>
+                        </tr>
+                        <tr>
+                            <th class="font-weight-bold">Standard Deviation</th><td>{{values.vsummary[1][2]}}</td>
+                            <th class="font-weight-bold">Maximum</th><td>{{values.vsummary[1][7]}}</td>
+                        </tr>
+                        <tr>
+                            <th class="font-weight-bold">Minimum</th><td>{{values.vsummary[1][3]}}</td>
+                            <th class="font-weight-bold">Skewness</th><td>{{values.vsummary[1][8]}}</td>
+                        </tr>
+                        <tr>
+                            <th class="font-weight-bold">Quartile 1</th><td>{{values.vsummary[1][4]}}</td>
+                            <th class="font-weight-bold">Kurtosis</th><td>{{values.vsummary[1][9]}}</td>
+                        </tr>
+                    </table>
+                </div>
+                
             </div>
 
-            <div class="col-md-6 d-flex justify-content-center">
-                <div class="card bg-danger" style="max-width: 20rem; max-height: 17rem;">
+            <div class="col-md-6 col-sm-12 col-12 col-xl-6 d-flex justify-content-center pt-3">
+                <div class="card bg-danger" id="card">
                     <div class="card-header text-white">Note</div>
-                    <div class="card-body">
+                    <div class="card-body table-responsive">
                         <table class="table text-white">
                             <tr>
                                 <th>Variable Name: </th> <td class="text-capitalize">{{ values.vname }}</td>
@@ -224,8 +231,8 @@
             </div>
         </div>
         <!------------Box plot Visualising here------------->
-        <div class="row p-4 m-4">
-            <div class="col-md-6">
+        <div class="row pt-4 mt-4 mb-3 pb-4">
+            <div class="col-md-6 col-sm-12 col-12 col-xl-6">
                 <div id="{{ values.vhtmlid[1]+'box' }}"></div>
             </div>
         
@@ -234,7 +241,7 @@
         <!------------Box plot Visualising finish------------->
 
         <!------------Distribution plot Visualising finish------------->
-            <div class="col-md-6">
+            <div class="col-md-6 col-12 col-sm-12 col-xl-6">
                 <div id="{{ values.vhtmlid[1]+'dis' }}"></div>
             </div>
             <script> 
@@ -265,7 +272,7 @@
 
 <!------------Individual Categorical Variable Analysis-------------->
 {% if process.IV.TotalCategorical %}
-<section class="p-3 m-3" id="ICVA">
+<section class="pt-3 mt-4 mb-3 pb-3" id="ICVA">
     <script>
         $('<a href="#ICVA" class="btn btn-round bg-success text-light m-2 p-2">Categorical Variables</a>').appendTo("#Badge");
     </script>
@@ -282,8 +289,8 @@
         </div>
         
 
-        <div class="row p-4 m-4">
-            <div class="col-md-6">
+        <div class="row pt-4 mt-4 pb-4 mb-4">
+            <div class="col-md-6 col-sm-12 col-12 col-xl-6 table-responsive">
                 <table class="table table-hover">
                     <tr>
                         <th class="font-weight-bold">Number of observations</th> <td>{{ values.vsummary[1][0] }}</td>
@@ -299,8 +306,8 @@
                 </table>
             </div>
 
-            <div class="col-md-6 d-flex justify-content-center">
-                <div class="card bg-danger" style="max-width: 20rem; max-height: 17rem;">
+            <div class="col-md-6 col-sm-12 col-12 col-xl-6 d-flex justify-content-center">
+                <div class="card bg-success" style="max-width: 20rem; max-height: 17rem;">
                     <div class="card-header text-white font-weight-bold">Most Common observations</div>
                     <div class="card-body">
                         <table class="table text-white">

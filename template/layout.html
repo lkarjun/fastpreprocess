@@ -10,10 +10,99 @@
     <link href="https://fonts.googleapis.com/css2?family=Exo&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js@3.2.1/dist/chart.min.js"></script>
     <script src="{{ url_for('static', path='/js/main.js') }}"></script>
+    <script src="{{ url_for('static', path='/css/style.css') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
     <link rel="shortcut icon" href="{{ url_for('static', path='/Images/logo.svg') }}" type="image/x-icon">
     
     <title>{{ title }}</title>
+
+    <style>
+      
+    @media (max-width: 575px) { 
+      #overview{
+          padding-top: 20px;
+          min-height: 20rem;
+          min-width: 5rem;
+          padding-left: 10px;
+    }
+        #Sbadge{
+            margin-top: 30px;
+            padding-top: 30px;
+            margin-bottom: 30px;
+            padding-bottom: 30px;
+        }
+    }
+    @media (max-width: 767px) { 
+      #overview{
+          padding-top: 20px;
+          min-height: 28rem; 
+          min-width: 25rem;
+    }
+        #Sbadge{
+            margin-top: 20px;
+            padding-top: 30px;
+            margin-bottom: 30px;
+            padding-bottom: 30px;
+        }
+    }
+
+    /* @media (max-width: 991px){ 
+        #Sbadge{
+          padding-top: 70px;
+          padding-bottom: 20px;
+    }
+    
+        #overview{
+          min-height: 30rem; 
+          min-width: 10rem;
+    }
+
+        #overview_s1{
+          padding-top: 60px;
+        }
+
+        #card{
+          max-width: 20rem; max-height: 18rem;
+        }
+  } */
+
+
+    @media (min-width: 992px) { 
+      #Sbadge{
+          padding-top: 70px;
+          padding-bottom: 20px;
+    }
+      #overview{
+          height: 30rem; 
+          width: 30rem;
+      }
+
+      #overview_s1{
+          padding-top: 60px;
+        }
+
+      #card{
+          max-width: 20rem; max-height: 18rem;
+        }
+  }
+
+
+    @media (min-width: 1200px) { 
+      
+      #overview{
+          height: 30rem; 
+          width: 30rem;
+      }
+      #overview_s1{
+          padding-top: 60px;
+        }
+
+      #card{
+          max-width: 20rem; max-height: 18rem;
+        }
+  }
+
+    </style>
 </head>
 <body>
     
@@ -22,6 +111,7 @@
     <!-- Container wrapper -->
     <div class="container">
       <!-- Navbar brand -->
+      <a href="/">
         <img
           src="{{ url_for('static', path='/Images/logo.svg') }}"
           height="70px"
@@ -30,6 +120,8 @@
           style="margin-top: -5px;"
         />
 
+      </a>
+        
   
       <!-- Collapsible wrapper -->
       <div class="collapse navbar-collapse" id="navbarButtonsExample">

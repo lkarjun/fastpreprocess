@@ -1,6 +1,6 @@
 *.vscode
 *__pycache__
-*static/dataset
+
 static/Images/WYOe.gif
 static/js/bin.py
 Untitled.ipynb
