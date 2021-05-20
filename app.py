@@ -49,12 +49,13 @@ templates = Jinja2Templates(directory="template")
 
 @app.get('/')
 async def home(requset: Request):
+    set_global_none()
     return templates.TemplateResponse('index.html', context={'request': requset, 'title': 'Home'})
 
 
 @app.post('/edafileupload')
 async def upload(file: UploadFile = File(...), dm=Form(...)):
-    set_global_none()
+    
     filename = file.filename
     content = await file.read()
     with open(filename, 'wb') as file: file.write(content)
