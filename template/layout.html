@@ -10,10 +10,74 @@
     <link href="https://fonts.googleapis.com/css2?family=Exo&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js@3.2.1/dist/chart.min.js"></script>
     <script src="{{ url_for('static', path='/js/main.js') }}"></script>
+    <script src="{{ url_for('static', path='/css/style.css') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
     <link rel="shortcut icon" href="{{ url_for('static', path='/Images/logo.svg') }}" type="image/x-icon">
     
     <title>{{ title }}</title>
+
+    <style>
+      
+    @media (max-width: 575px) { 
+        #Sbadge{
+            margin-top: 30px;
+            padding-top: 30px;
+            margin-bottom: 30px;
+            padding-bottom: 30px;
+        }
+    }
+    @media (max-width: 767px) { 
+        #Sbadge{
+            margin-top: 20px;
+            padding-top: 30px;
+            margin-bottom: 30px;
+            padding-bottom: 30px;
+        }
+    }
+
+    @media (min-width: 768px) and (max-width: 991px){ 
+        #Sbadge{
+          padding-top: 70px;
+          padding-bottom: 20px;
+    }
+    
+        #overview{
+          min-height: 30rem; 
+          min-width: 30rem;
+    }
+
+        #card{
+          max-width: 20rem; max-height: 18rem;
+        }
+  }
+
+
+    @media (min-width: 992px) { 
+      
+      #overview{
+          height: 30rem; 
+          width: 30rem;
+      }
+
+      #card{
+          max-width: 20rem; max-height: 18rem;
+        }
+  }
+
+
+    @media (min-width: 1200px) { 
+      
+      #overview{
+          height: 30rem; 
+          width: 30rem;
+      }
+
+      #card{
+          max-width: 20rem; max-height: 18rem;
+        }
+  }
+
+    </style>
 </head>
 <body>
     
