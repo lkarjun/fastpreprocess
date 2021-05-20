@@ -10,7 +10,7 @@ class FastEda:
 
     def file_columns(self) -> SampleData:
         obj = self.obj
-        sample_data = SampleData(10, obj.sample(10).values.tolist(), obj.columns, len(obj.columns), len(obj))
+        sample_data = SampleData(5, obj.sample(5).values.tolist(), obj.columns, len(obj.columns), len(obj))
         return sample_data
     
     def quick_stat(self) -> QuickStat:
