@@ -33,6 +33,7 @@ async def upload(file: UploadFile = File(...), dm=Form(...)):
                             obj=df,
                             missing = df.isna().sum().values.sum(),
                             objcopy = df.copy())
+        os.remove(filename)
         return {'filename': filedetail.filename, 'filesize': filedetail.filesize, 'filetype': filedetail.filetype, 'verify': "Validated"}
     except Exception as e:
         return {'filename': "Error", 'filesize': "Error", 'filetype': "Error", 'verify': "Validated"}
