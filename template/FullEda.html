@@ -12,7 +12,7 @@
     <div class="container">
         <div class="row">
             <div class="col-md-6 ">
-                <div class="pt-5 mt-5">
+                <div id="overview_s1">
                     <div class="card bg-light mb-3 shadow-2-strong " style="min-width: 20rem; ">
                         <div class="card-header font-weight-bold text-danger">Over View</div>
                         <div class="card-body">
@@ -33,7 +33,7 @@
             </div>
     
             <div class="col-md-6 d-flex justify-content-center">
-                <div class="pt-3 mt-4" id='overview'></div>
+                <div id='overview'></div>
             </div>
             <script>plot_piechart({{ process.filedetail.missing }}, {{ sample.length}});</script>
         </div>
