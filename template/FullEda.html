@@ -159,7 +159,7 @@
 
 <!------------Individual Numeric Variable Analysis-------------->
 {% if process.IV.TotalNumeric %}
-<section class="p-3 m-3" id="INVA">
+<section class="pt-3 mt-3 mb-3 pb-3" id="INVA">
     <script>
         $('<a href="#INVA" class="btn btn-round bg-success text-light m-2 p-2">Numerical Variables</a>').appendTo("#Badge");
     </script>
@@ -177,7 +177,7 @@
         </div>
 
     
-        <div class="row p-4 m-4">
+        <div class="row pt-4 mt-4 mb-4 pb-4">
             <div class="col-md-6 col-sm-12 col-12 col-xl-6">
                 <div class="table-responsive">
                     <table class="table table-hover">
@@ -206,7 +206,7 @@
                 
             </div>
 
-            <div class="col-md-6 col-sm-12 col-12 col-xl-6 d-flex justify-content-center">
+            <div class="col-md-6 col-sm-12 col-12 col-xl-6 d-flex justify-content-center pt-3">
                 <div class="card bg-danger" id="card">
                     <div class="card-header text-white">Note</div>
                     <div class="card-body table-responsive">
@@ -230,7 +230,7 @@
             </div>
         </div>
         <!------------Box plot Visualising here------------->
-        <div class="row p-4 m-4">
+        <div class="row pt-4 mt-4 mb-3 pb-4">
             <div class="col-md-6 col-sm-12 col-12 col-xl-6">
                 <div id="{{ values.vhtmlid[1]+'box' }}"></div>
             </div>
@@ -271,7 +271,7 @@
 
 <!------------Individual Categorical Variable Analysis-------------->
 {% if process.IV.TotalCategorical %}
-<section class="p-3 m-3" id="ICVA">
+<section class="pt-3 mt-4 mb-3 pb-3" id="ICVA">
     <script>
         $('<a href="#ICVA" class="btn btn-round bg-success text-light m-2 p-2">Categorical Variables</a>').appendTo("#Badge");
     </script>
@@ -288,8 +288,8 @@
         </div>
         
 
-        <div class="row p-4 m-4">
-            <div class="col-md-6 col-sm-12 col-12 col-xl-6">
+        <div class="row pt-4 mt-4 pb-4 mb-4">
+            <div class="col-md-6 col-sm-12 col-12 col-xl-6 table-responsive">
                 <table class="table table-hover">
                     <tr>
                         <th class="font-weight-bold">Number of observations</th> <td>{{ values.vsummary[1][0] }}</td>
@@ -306,7 +306,7 @@
             </div>
 
             <div class="col-md-6 col-sm-12 col-12 col-xl-6 d-flex justify-content-center">
-                <div class="card bg-danger" style="max-width: 20rem; max-height: 17rem;">
+                <div class="card bg-success" style="max-width: 20rem; max-height: 17rem;">
                     <div class="card-header text-white font-weight-bold">Most Common observations</div>
                     <div class="card-body">
                         <table class="table text-white">

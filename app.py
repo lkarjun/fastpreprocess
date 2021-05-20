@@ -34,6 +34,7 @@ def process_data(filename, dm):
         return {'filename': "Error", 'filesize': "Error", 'filetype': "Error", 'verify': str(e)}
 
 def set_global_none():
+    # This set global variables none -> solved issue with filedetail failed
     global filedetail
     filedetail = None
     global fasteda_
