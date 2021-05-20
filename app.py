@@ -82,7 +82,7 @@ async def eda(request: Request):
 
     try:
         df = pd.read_csv("static/dataset/cardio_train.csv", delimiter=';')
-        
+
         fd = FileDetail(
                     filename = 'cars.csv',
                     filetype = 'csv',
@@ -103,5 +103,6 @@ async def eda(request: Request):
                         'corr': fasteda.correlation(),\
                         'process': process})
     except Exception as e:
+        
         return templates.TemplateResponse('Errorhandel.html', context={'request': request, 'error': str(e)})
 
