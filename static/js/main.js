@@ -58,7 +58,7 @@ function boxplot(data, div_id){
 
 
 function distribution(values, div_id, xaxisdata){
-  console.log(values[0].data)
+
   var options = {
     series: [{
 
@@ -94,7 +94,7 @@ function distribution(values, div_id, xaxisdata){
 
 
 function chartbar(data, div_id){
-  console.log(data);
+
   var options = {
                 series: [{
                       data: data.data

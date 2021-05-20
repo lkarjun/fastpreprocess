@@ -25,7 +25,6 @@ class FastEda:
         corr = self.obj.corr()
         if len(corr) > 1:
             index = [k for i, k in zip(~corr.iloc[:1].isna().values.flatten(), corr.columns.values) if i]
-            print(len(index))
             corr = corr[index].dropna()
             corr = np.round(corr.values, 3).tolist()
             return Correlation(variable = index, correlation = corr, empty=1) if len(index) > 1 \
