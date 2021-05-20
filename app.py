@@ -56,8 +56,8 @@ async def upload(file: UploadFile = File(...), dm=Form(...)):
     filename = file.filename
     content = await file.read()
     with open(filename, 'wb') as file: file.write(content)
-    e = process_data(filename, dm)
-    return e
+
+    return process_data(filename, dm)
 
 
 @app.get('/workspace')
