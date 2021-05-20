@@ -1,5 +1,5 @@
 from pandas.api.types import is_bool_dtype, is_numeric_dtype
-from eda_report.validate import validate_univariate_input
+
 
 class Variable:
     """This is the blueprint for containers to hold the contents and
@@ -17,7 +17,7 @@ class Variable:
         :param name: The feature's name.
         :type name: str, optional
         """
-        self.data = validate_univariate_input(data)
+        self.data = data
         #: The *name* of the *column/feature*. If unspecified in the ``name``
         #: argument during instantiation, this will be taken as the value of
         #: the ``name`` attribute of the input data.
