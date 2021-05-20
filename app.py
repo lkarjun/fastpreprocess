@@ -7,49 +7,12 @@ from fasteda import *
 import os
 app = FastAPI()
 
-filedetail = None
-fasteda_ = None
-process = None
-
-def process_data(filename, dm):
-    #Process data if any error occur it return verify "error message"
-    try:
-        df = pd.read_csv(filename, delimiter=dm)
-
-        global filedetail
-        filedetail = FileDetail(filename = filename, 
-                            filetype = filename.split('.')[-1], 
-                            filesize=f"{os.stat(filename).st_size} bytes", 
-                            sysfilepath=filename, 
-                            obj=df,
-                            missing = df.isna().sum().values.sum(),
-                            objcopy = df.copy())
-        global fasteda_
-        fasteda_ = FastEda(filedetail)
-        global process
-        process = IndividualVariable(filedetail)
-        process.start()
-        return {'filename': filedetail.filename, 'filesize': filedetail.filesize, 'filetype': filedetail.filetype, 'verify': "Validated"}
-
-    except Exception as e:
-        return {'filename': "Error", 'filesize': "Error", 'filetype': "Error", 'verify': str(e)}
-
-def set_global_none():
-    # This set global variables none -> solved issue with filedetail failed
-    global filedetail
-    filedetail = None
-    global fasteda_
-    fasteda_ = None
-    global process
-    process = None
-
 app.mount("/static", StaticFiles(directory="static"), name='static')
 templates = Jinja2Templates(directory="template")
 
 
 @app.get('/')
 async def home(requset: Request):
-    set_global_none()
     return templates.TemplateResponse('index.html', context={'request': requset, 'title': 'Home'})
 
 
@@ -72,10 +35,10 @@ async def upload(file: UploadFile = File(...), dm=Form(...)):
                             objcopy = df.copy())
         return {'filename': filedetail.filename, 'filesize': filedetail.filesize, 'filetype': filedetail.filetype, 'verify': "Validated"}
     except Exception as e:
-        return None
+        return {'filename': "Error", 'filesize': "Error", 'filetype': "Error", 'verify': "Validated"}
 
 
-@app.get('/testing')
+@app.get('/workspace')
 async def eda(request: Request):
     try:
         fasteda = FastEda(filedetail)

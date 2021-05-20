@@ -19,13 +19,11 @@
                 $('.preloader').fadeOut('slow');
                 $('body').attr('id','');
             }
-        
-        // Window load function
         jQuery(window).on('load', function () {
             (function ($) {
                 preloaderFadeOutInit();
             })(jQuery);
-            });
+        });
 
     </script>
 
@@ -39,13 +37,14 @@
                 width: 100%;
                 height: 100vh;
                 z-index: 99999999;
-                background-image: url('static/Images/1479.gif'); /* your icon gif file path */
+                background-image: url('static/Images/1479.gif'); 
                 background-repeat: no-repeat;
                 background-color: #FFF;
                 background-position: center;
-}
+        }
     </style>
 </head>
+
 <body id="stop-scrolling">
 
     <!-- preloader -->
