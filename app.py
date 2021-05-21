@@ -73,6 +73,33 @@ async def test(request: Request):
         fasteda = FastEda(fd)
         process = IndividualVariable(fd)
         process.start()
+        return templates.TemplateResponse('testing.html', 
+                context={'request': request, 'title': 'Workspace', 
+                        'fname': fd.filename,\
+                        'sample': fasteda.file_columns(),\
+                        'quick': fasteda.quick_stat(),\
+                        'corr': fasteda.correlation(),\
+                        'process': process})
+    except Exception as e:
+        return templates.TemplateResponse('Errorhandel.html', context={'request': request, 'error': str(e)})
+
+
+@app.get('/ts2')
+async def test(request: Request):
+    try:
+        df = pd.read_csv("static/dataset/diabetes.csv", delimiter=',')
+        fd = FileDetail(
+                    filename = 'diabetes.csv',
+                    filetype = 'csv',
+                    filesize = '500 bytes', 
+                    sysfilepath = 'static/dataset/diabetes.csv', 
+                    obj = df,
+                    missing = df.isna().sum().values.sum(),
+                    objcopy = df.copy())
+
+        fasteda = FastEda(fd)
+        process = IndividualVariable(fd)
+        process.start()
         return templates.TemplateResponse('FullEda.html', 
                 context={'request': request, 'title': 'Workspace', 
                         'fname': fd.filename,\
