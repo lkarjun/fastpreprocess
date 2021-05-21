@@ -1,6 +1,6 @@
 *.vscode
 *__pycache__
-
+*.ipynb_checkpoints
 static/Images/WYOe.gif
 static/js/bin.py
 Untitled.ipynb
