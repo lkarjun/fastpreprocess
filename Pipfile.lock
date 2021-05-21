@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "1e60b24f3488eb28a77a7db9c2788dcc3fb1a2ac169a73e8d28de139d04be505"
+            "sha256": "1eb51f6e03cc82d285297b2eaa5dadf283480c072ccc48b20ba0420ca34a158c"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -16,6 +16,14 @@
         ]
     },
     "default": {
+        "aiofiles": {
+            "hashes": [
+                "sha256:a1c4fc9b2ff81568c83e21392a82f344ea9d23da906e4f6a52662764545e19d4",
+                "sha256:c67a6823b5f23fcab0a2595a289cec7d8c863ffcb4322fb8cd6b90400aedfdbc"
+            ],
+            "index": "pypi",
+            "version": "==0.7.0"
+        },
         "click": {
             "hashes": [
                 "sha256:d2b5255c7c6349bc1bd1e59e08cd12acbbd63ce649f2588755783aa94dfb6b1a",
@@ -39,6 +47,27 @@
             ],
             "markers": "python_version >= '3.6'",
             "version": "==0.12.0"
+        },
+        "httptools": {
+            "hashes": [
+                "sha256:01b392a166adcc8bc2f526a939a8aabf89fe079243e1543fd0e7dc1b58d737cb",
+                "sha256:200fc1cdf733a9ff554c0bb97a4047785cfaad9875307d6087001db3eb2b417f",
+                "sha256:3ab1f390d8867f74b3b5ee2a7ecc9b8d7f53750bd45714bf1cb72a953d7dfa77",
+                "sha256:78d03dd39b09c99ec917d50189e6743adbfd18c15d5944392d2eabda688bf149",
+                "sha256:79dbc21f3612a78b28384e989b21872e2e3cf3968532601544696e4ed0007ce5",
+                "sha256:80ffa04fe8c8dfacf6e4cef8277347d35b0442c581f5814f3b0cf41b65c43c6e",
+                "sha256:813871f961edea6cb2fe312f2d9b27d12a51ba92545380126f80d0de1917ea15",
+                "sha256:94505026be56652d7a530ab03d89474dc6021019d6b8682281977163b3471ea0",
+                "sha256:a23166e5ae2775709cf4f7ad4c2048755ebfb272767d244e1a96d55ac775cca7",
+                "sha256:a289c27ccae399a70eacf32df9a44059ca2ba4ac444604b00a19a6c1f0809943",
+                "sha256:a7594f9a010cdf1e16a58b3bf26c9da39bbf663e3b8d46d39176999d71816658",
+                "sha256:b08d00d889a118f68f37f3c43e359aab24ee29eb2e3fe96d64c6a2ba8b9d6557",
+                "sha256:cc9be041e428c10f8b6ab358c6b393648f9457094e1dcc11b4906026d43cd380",
+                "sha256:d5682eeb10cca0606c4a8286a3391d4c3c5a36f0c448e71b8bd05be4e1694bfb",
+                "sha256:fd3b8905e21431ad306eeaf56644a68fdd621bf8f3097eff54d0f6bdf7262065"
+            ],
+            "index": "pypi",
+            "version": "==0.2.0"
         },
         "jinja2": {
             "hashes": [
