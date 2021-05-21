@@ -21,34 +21,12 @@
 
 
   </head>
-
   <body>
-     <div id="box">
-        <div id="chart"></div>
-      </div>
-
-    <script>
-      
-        var options = {
-          series: [{
-          data: [ 6, 13, 30, 50, 76, 77, 52, 70, 71, 35]}],
-          chart: { type: "histogram", foreColor: "#999"},
-          plotOptions: {
-                bar: {borderRadius: 8, horizontal: false}},
-          xaxis: {  categories: ['59.243', '74', '88', '102', '117', '131', '145', '160', '174', '188'], 
-                    axisBorder: { show: false},
-                    axisTicks: { show: true }},
     
-          yaxis: {    tickAmount: 6, labels: { offsetX: -5, offsetY: -5 }},
-          dataLabels: { enabled: false }
-        
-        };
+    <p class="h2">
+      Testing
+    </p>
 
-        var chart = new ApexCharts(document.querySelector("#chart"), options);
-        chart.render();
-      
-      
-    </script>
   </body>
 </html>
 {% endblock %}
