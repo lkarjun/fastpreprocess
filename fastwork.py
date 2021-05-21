@@ -1,16 +1,17 @@
-from fastapi import FastAPI, File, UploadFile, Request, BackgroundTasks, Form
+from fastapi import FastAPI, Request
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 import uvicorn
-from fasteda import *
+import nest_asyncio
 import os
+
+from fasteda import *
 
 
 app = FastAPI()
 
 app.mount("/static", StaticFiles(directory="static"), name='static')
 templates = Jinja2Templates(directory="template")
-
 
 
 def process_data(request: Request):
@@ -35,25 +36,29 @@ async def home(requset: Request):
     return process_data(requset)
 
 
-def start(filename: str, dm=','):
+def start(filename: str, dm=',', port = 8000):
+    
     try:
         df = pd.read_csv(filename, delimiter=dm)
 
         global filedetail
-        filedetail = FileDetail(filename = filename[15:], 
+        filedetail = FileDetail(filename = filename[15:],
                             filetype = filename.split('.')[-1], 
                             filesize=f"{os.stat(filename).st_size} bytes", 
                             sysfilepath=filename, 
                             obj=df,
                             missing = df.isna().sum().values.sum(),
                             objcopy = df.copy())
-
         
-        uvicorn.run(app)
-
+        uvicorn.run(app, port=port)
+    
     except Exception as e:
+        
         print(e)
 
-if __name__ == "__main__":
-    path = 'static/dataset/cars.csv'
-    start(path)
+
+def start_from_jupyter():
+    '''if the server is starting from jupyter notebook, 
+        user must call start_from_jupyter() function befor calling start() function
+    '''
+    nest_asyncio.apply()
