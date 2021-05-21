@@ -1,8 +1,6 @@
 from fastapi import FastAPI, File, UploadFile, Request, BackgroundTasks, Form
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
-from essential import FileDetail
-from operation import IndividualVariable
 from fasteda import *
 import os
 app = FastAPI()
@@ -27,8 +25,7 @@ def process_data(filename, dm):
         global fasteda_
         fasteda_ = FastEda(filedetail)
         global process
-        process = IndividualVariable(filedetail)
-        process.start()
+        process = fasteda_.process
         return {'filename': filedetail.filename, 'filesize': filedetail.filesize, 'filetype': filedetail.filetype, 'verify': "Validated"}
 
     except Exception as e:
@@ -93,8 +90,8 @@ async def eda(request: Request):
                     objcopy = df.copy())
 
         fasteda = FastEda(fd)
-        process = IndividualVariable(fd)
-        process.start()
+        process = fasteda.process
+
         return templates.TemplateResponse('FullEda.html', 
                 context={'request': request, 'title': 'Workspace', 
                         'fname': fd.filename,\

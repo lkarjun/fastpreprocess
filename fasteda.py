@@ -1,12 +1,13 @@
-from essential import *
-import numpy as np
-import pandas as pd
+from operation import *
 
 class FastEda:
 
     def __init__(self, file: FileDetail) -> None:
         self.file = file
         self.obj = file.obj
+        self.process = IndividualVariable(self.file)
+        self.process.start()
+
 
     def file_columns(self) -> SampleData:
         obj = self.obj
@@ -25,7 +26,6 @@ class FastEda:
         corr = self.obj.corr()
         if len(corr) > 1:
             index = [k for i, k in zip(~corr.iloc[:1].isna().values.flatten(), corr.columns.values) if i]
-            print(len(index))
             corr = corr[index].dropna()
             corr = np.round(corr.values, 3).tolist()
             return Correlation(variable = index, correlation = corr, empty=1) if len(index) > 1 \
@@ -36,21 +36,3 @@ class FastEda:
                            correlation = None,
                            empty=0
                     )
-
-
-if __name__ == "__main__":
-    df = pd.read_csv('static/dataset/cardio_test.csv')
-    df = df[[' year', ' brand']]
-    fd = fd = FileDetail(filename ='cars.csv',
-                     filetype='csv', 
-                     filesize='500 bytes', 
-                     sysfilepath='cars.csv',
-                     obj=df,
-                     missing=df.isna().sum().values.sum())
-    
-    fasteda = FastEda(fd)
-    # print(fasteda.correlation().json())
-    print(fasteda.correlation())
-    # process = IndividualVariable(fd)
-    # process.start()
-    # print(process.full_variables.length)

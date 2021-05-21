@@ -1,8 +1,8 @@
-from blueprint import Variable
-from essential import *
 import tqdm
 import pandas as pd
 import numpy as np
+from pandas.api.types import is_bool_dtype, is_numeric_dtype
+from essential import *
 
 class NumericDetail(BaseModel):
     data: TypeVar('pandas.core.series.Series')
@@ -74,7 +74,7 @@ class IndividualVariable():
         
     def start(self):
         for i in tqdm.tqdm(self.filedetail.obj.columns, desc="Univariate Analysing"):
-            v = Variable(self.filedetail.obj[i])
+            v = Bivariate(self.filedetail.obj[i])
             if v.var_type == 'numeric':
                 self.IV.TotalNumeric += 1
                 var = NumericDetail(
@@ -104,22 +104,70 @@ class IndividualVariable():
             
             self.IV.Variables.append(var)
             self.IV.Length += 1
+
         assert self.IV.Length == len(self.data.columns), "Length counter value and total number of columns is different"
 
 
 
-if __name__ == "__main__":
-    df = pd.read_csv('static/dataset/car_testing.csv', delimiter=',')
-  
-    global fd
-    fd = FileDetail('cars.csv',
-                'csv', 
-                '500 bytes', 'cars.csv',
-                df
-                 )
-    
-    process = IndividualVariable(fd)
-    process.start()
-    print(process.IV.Variables[2].vmostcommon)
 
-    # print(process.IV.Variables[1].vnunique)
+class Bivariate:
+
+    def __init__(self, data):
+        self.data = data
+        self.var_type = self.variable_type()
+        self.statistics = self.summary()
+        self.num_unique = self.data.nunique()
+        self.unique = set(self.data.unique())
+        self.missing = self.missing_value()
+
+
+    def variable_type(self):
+        if is_numeric_dtype(self.data) and not is_bool_dtype(self.data):
+            # Only int and float types
+            return 'numeric'
+        else:
+            # Handle bool, string, datetime, etc as categorical
+            self.data = self.data.astype('category')
+            return 'categorical'
+
+    def summary(self):
+
+        if self.var_type == 'numeric':
+            return self.numerical_summary()
+        elif self.var_type == 'categorical':
+            return self.categorical_summary()
+
+    def numerical_summary(self):
+
+        summary = self.data.describe()
+        summary.index = [
+            'Number of observations', 'Average', 'Standard Deviation',
+            'Minimum', 'Lower Quartile', 'Median', 'Upper Quartile', 'Maximum'
+        ]
+        summary['Skewness'] = self.data.skew()
+        summary['Kurtosis'] = self.data.kurt()
+        return summary.round(7).to_frame()
+
+    def categorical_summary(self):
+
+        summary = self.data.describe()[['count', 'unique', 'top']]
+        summary.index = ['Number of observations', 'Unique values',
+                         'Mode (Highest occurring value)']
+
+        most_common_items = self.data.value_counts().head()
+        n = len(self.data)
+        var = most_common_items.index.to_list()
+        count = most_common_items.values.tolist()
+        percentage = most_common_items.apply(lambda x: f'{x / n:.2%}').values.tolist()
+        self.most_common_items = \
+            var, percentage, count
+
+        return summary.to_frame()
+
+    def missing_value(self):
+
+        missing_values = self.data.isna().sum()
+        if missing_values == 0:
+            return None
+        else:
+            return missing_values, round(missing_values / len(self.data), 3)
