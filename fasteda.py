@@ -1,12 +1,13 @@
-from essential import *
-import numpy as np
-import pandas as pd
+from operation import *
 
 class FastEda:
 
     def __init__(self, file: FileDetail) -> None:
         self.file = file
         self.obj = file.obj
+        self.process = IndividualVariable(self.file)
+        self.process.start()
+
 
     def file_columns(self) -> SampleData:
         obj = self.obj
@@ -36,20 +37,3 @@ class FastEda:
                            empty=0
                     )
 
-
-if __name__ == "__main__":
-    df = pd.read_csv('static/dataset/cardio_test.csv')
-    df = df[[' year', ' brand']]
-    fd = fd = FileDetail(filename ='cars.csv',
-                     filetype='csv', 
-                     filesize='500 bytes', 
-                     sysfilepath='cars.csv',
-                     obj=df,
-                     missing=df.isna().sum().values.sum())
-    
-    fasteda = FastEda(fd)
-    # print(fasteda.correlation().json())
-    print(fasteda.correlation())
-    # process = IndividualVariable(fd)
-    # process.start()
-    # print(process.full_variables.length)

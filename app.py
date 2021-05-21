@@ -1,27 +1,41 @@
 from fastapi import FastAPI, File, UploadFile, Request, BackgroundTasks, Form
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
-from essential import FileDetail
-from operation import IndividualVariable
+import uvicorn
 from fasteda import *
 import os
+
+
 app = FastAPI()
 
 app.mount("/static", StaticFiles(directory="static"), name='static')
 templates = Jinja2Templates(directory="template")
 
 
+
+def process_data(request: Request):
+    try:
+        fasteda = FastEda(filedetail)
+        process = fasteda.process
+        return templates.TemplateResponse('FastEda.html', 
+                context={'request': request, 'title': 'Workspace', 
+                        'fname': filedetail.filename,\
+                        'sample': fasteda.file_columns(),\
+                        'quick': fasteda.quick_stat(),\
+                        'corr': fasteda.correlation(),\
+                        'process': process})
+
+    except Exception as e:
+        
+        return templates.TemplateResponse('error_file.html', context={'request': request, 'error': str(e)})
+
+
 @app.get('/')
 async def home(requset: Request):
-    return templates.TemplateResponse('index.html', context={'request': requset, 'title': 'Home'})
+    return process_data(requset)
 
 
-@app.post('/edafileupload')
-async def upload(file: UploadFile = File(...), dm=Form(...)):
-    filename = f'static/dataset/{str(file.filename)}'
-    content = await file.read()
-    with open(filename, 'wb') as file: file.write(content)
-
+def start(filename: str, dm=','):
     try:
         df = pd.read_csv(filename, delimiter=dm)
 
@@ -33,79 +47,13 @@ async def upload(file: UploadFile = File(...), dm=Form(...)):
                             obj=df,
                             missing = df.isna().sum().values.sum(),
                             objcopy = df.copy())
-        os.remove(filename)
-        return {'filename': filedetail.filename, 'filesize': filedetail.filesize, 'filetype': filedetail.filetype, 'verify': "Validated"}
-    except Exception as e:
-        return {'filename': "Error", 'filesize': "Error", 'filetype': "Error", 'verify': "Validated"}
 
-
-@app.get('/workspace')
-async def eda(request: Request):
-    try:
-        fasteda = FastEda(filedetail)
-        process = IndividualVariable(filedetail)
-        process.start()
-        return templates.TemplateResponse('FullEda.html', 
-                context={'request': request, 'title': 'Workspace', 
-                        'fname': filedetail.filename,\
-                        'sample': fasteda.file_columns(),\
-                        'quick': fasteda.quick_stat(),\
-                        'corr': fasteda.correlation(),\
-                        'process': process})
-    except Exception as e:
         
-        return templates.TemplateResponse('Errorhandel.html', context={'request': request, 'error': str(e)})
+        uvicorn.run(app)
 
-
-@app.get('/testing')
-async def test(request: Request):
-    try:
-        df = pd.read_csv("static/dataset/diabetes.csv", delimiter=',')
-        fd = FileDetail(
-                    filename = 'diabetes.csv',
-                    filetype = 'csv',
-                    filesize = '500 bytes', 
-                    sysfilepath = 'static/dataset/diabetes.csv', 
-                    obj = df,
-                    missing = df.isna().sum().values.sum(),
-                    objcopy = df.copy())
-
-        fasteda = FastEda(fd)
-        process = IndividualVariable(fd)
-        process.start()
-        return templates.TemplateResponse('testing.html', 
-                context={'request': request, 'title': 'Workspace', 
-                        'fname': fd.filename,\
-                        'sample': fasteda.file_columns(),\
-                        'quick': fasteda.quick_stat(),\
-                        'corr': fasteda.correlation(),\
-                        'process': process})
     except Exception as e:
-        return templates.TemplateResponse('Errorhandel.html', context={'request': request, 'error': str(e)})
+        print(e)
 
-
-@app.get('/ts2')
-async def test(request: Request):
-    try:
-        df = pd.read_csv("static/dataset/diabetes.csv", delimiter=',')
-        fd = FileDetail(
-                    filename = 'diabetes.csv',
-                    filetype = 'csv',
-                    filesize = '500 bytes', 
-                    sysfilepath = 'static/dataset/diabetes.csv', 
-                    obj = df,
-                    missing = df.isna().sum().values.sum(),
-                    objcopy = df.copy())
-
-        fasteda = FastEda(fd)
-        process = IndividualVariable(fd)
-        process.start()
-        return templates.TemplateResponse('FullEda.html', 
-                context={'request': request, 'title': 'Workspace', 
-                        'fname': fd.filename,\
-                        'sample': fasteda.file_columns(),\
-                        'quick': fasteda.quick_stat(),\
-                        'corr': fasteda.correlation(),\
-                        'process': process})
-    except Exception as e:
-        return templates.TemplateResponse('Errorhandel.html', context={'request': request, 'error': str(e)})
+if __name__ == "__main__":
+    path = 'static/dataset/cars.csv'
+    start(path)
