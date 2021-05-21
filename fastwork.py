@@ -57,8 +57,32 @@ def start(filename: str, dm=',', port = 8000):
         print(e)
 
 
-def start_from_jupyter():
+def start_from_colab(filename: str, dm=',', port=8000):
+
+    from pyngrok import ngrok
+    try:
+        df = pd.read_csv(filename, delimiter=dm)
+
+        global filedetail
+        filedetail = FileDetail(filename = filename[15:],
+                            filetype = filename.split('.')[-1], 
+                            filesize=f"{os.stat(filename).st_size} bytes", 
+                            sysfilepath=filename, 
+                            obj=df,
+                            missing = df.isna().sum().values.sum(),
+                            objcopy = df.copy())
+        
+        ngrok_tunnel = ngrok.connect(port)
+        print('Public URL:', ngrok_tunnel.public_url)
+        uvicorn.run(app, port=port)
+    
+    except Exception as e:
+        
+        print(e)
+
+
+def run_from_notebook():
     '''if the server is starting from jupyter notebook, 
-        user must call start_from_jupyter() function befor calling start() function
+        user must call run_from_notebook() function befor calling start() | start_from_colab() function
     '''
     nest_asyncio.apply()
