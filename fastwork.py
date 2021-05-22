@@ -86,3 +86,9 @@ def run_from_notebook():
         user must call run_from_notebook() function befor calling start() | start_from_colab() function
     '''
     nest_asyncio.apply()
+
+
+@app.get('/testing')
+async def home(requset: Request):
+    return templates.TemplateResponse('testing.html', context={'request': requset})
+
