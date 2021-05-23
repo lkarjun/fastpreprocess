@@ -9,7 +9,14 @@ class FastEda:
         self.process.start()
 
 
-    def file_columns(self) -> SampleData:
+    def sample(self, new = False) -> SampleData:
+        if new:
+            return SampleData(5,
+                       self.file.objcopy.sample(5).values.tolist(),
+                       self.file.objcopy.columns,
+                       len(self.file.objcopy.columns),
+                       len(self.file.objcopy))
+            
         obj = self.obj
         sample_data = SampleData(5, obj.sample(5).values.tolist(), obj.columns, len(obj.columns), len(obj))
         return sample_data
