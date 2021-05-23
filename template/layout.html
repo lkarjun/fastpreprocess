@@ -10,6 +10,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Exo&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js@3.2.1/dist/chart.min.js"></script>
     <script src="{{ url_for('static', path='/js/main.js') }}"></script>
+    <script src="{{ url_for('static', path='/js/essential_chart.js') }}"></script>
     <script src="{{ url_for('static', path='/css/style.css') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
     <link rel="shortcut icon" href="{{ url_for('static', path='/Images/logo.svg') }}" type="image/x-icon">
@@ -18,75 +19,74 @@
 
     <style>
       
-    @media (max-width: 575px) { 
-      #overview{
-          padding-top: 20px;
-          min-height: 20rem;
-          min-width: 5rem;
-          padding-left: 10px;
-    }
-        #Sbadge{
-            margin-top: 30px;
-            padding-top: 30px;
-            margin-bottom: 30px;
-            padding-bottom: 30px;
-        }
-    }
-    @media (max-width: 767px) { 
-      #overview{
-          padding-top: 20px;
-          min-height: 28rem; 
-          min-width: 25rem;
-    }
-        #Sbadge{
-            margin-top: 20px;
-            padding-top: 30px;
-            margin-bottom: 30px;
-            padding-bottom: 30px;
-        }
-    }
-
-    @media (min-width: 992px) { 
+@media (max-width: 575px) { 
+    #overview{
+        padding-top: 20px;
+        min-height: 20rem;
+        min-width: 5rem;
+        padding-left: 10px;
+  }
       #Sbadge{
-          padding-top: 70px;
-          padding-bottom: 20px;
+          margin-top: 30px;
+          padding-top: 30px;
+          margin-bottom: 30px;
+          padding-bottom: 30px;
+      }
+  }
+  @media (max-width: 767px) { 
+    #overview{
+        padding-top: 20px;
+        min-height: 28rem; 
+        min-width: 25rem;
+  }
+      #Sbadge{
+          margin-top: 20px;
+          padding-top: 30px;
+          margin-bottom: 30px;
+          padding-bottom: 30px;
+      }
+  }
+
+  @media (min-width: 992px) { 
+    #Sbadge{
+        padding-top: 70px;
+        padding-bottom: 20px;
+  }
+    #overview{
+        height: 30rem; 
+        width: 30rem;
     }
-      #overview{
-          height: 30rem; 
-          width: 30rem;
+
+    #overview_s1{
+        padding-top: 60px;
       }
 
-      #overview_s1{
-          padding-top: 60px;
-        }
-
-      #card{
-          max-width: 20rem; max-height: 18rem;
-        }
-  }
-
-
-    @media (min-width: 1200px) { 
-      
-      #overview{
-          height: 30rem; 
-          width: 30rem;
+    #card{
+        max-width: 20rem; max-height: 18rem;
       }
-      #overview_s1{
-          padding-top: 60px;
-        }
+}
 
-      #card{
-          max-width: 20rem; max-height: 18rem;
-        }
-  }
 
+  @media (min-width: 1200px) { 
+    
+    #overview{
+        height: 30rem; 
+        width: 30rem;
+    }
+    #overview_s1{
+        padding-top: 60px;
+      }
+
+    #card{
+        max-width: 20rem; max-height: 18rem;
+      }
+}
     </style>
 </head>
 <body>
     
     <!-- Navbar -->
-<nav class="navbar navbar-expand-lg stick-top navbar-light bg-light">
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
     <!-- Container wrapper -->
     <div class="container">
       <!-- Navbar brand -->
@@ -111,14 +111,7 @@
         </ul>
         <!-- Left links -->
         
-        <div style="display: none;">
-            <div class="d-flex align-items-center">
-            <button type="button" class="btn btn-primary btn-theme font-weight-bold ">
-                Save File
-            </button>
-        </div>
-        
-        </div>
+      
       </div>
       <!-- Collapsible wrapper -->
     </div>
