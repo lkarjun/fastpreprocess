@@ -101,7 +101,7 @@ def start(filename: str, dm=',', port = 8000):
         print(e)
 
 
-def start_from_colab(filename: str, dm=',', port=8000):
+def start_from_cloud(filename: str, dm=',', port=8000):
 
     from pyngrok import ngrok
     try:
