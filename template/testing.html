@@ -1,47 +1,10 @@
 {% extends "layout.html" %}
 {% block content %}
 
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Testing</title>
-
-  </head>
-  <body>
     
     <div class="container">
-      <button class="btn text-center p-5 m-5">drop coloumn</button>
+      <button class="btn text-center p-5 m-5" onclick="call('hai patti')">drop coloumn</button>
     </div>
 
 
-    <script>
-
-    $(document).ready(function (e) {
-    $('#UploadForm').on('submit',(function(e) {
-        e.preventDefault();
-        $.ajax({
-            type:'POST',
-            url: '/edafileupload',
-            data:formData,
-            enctype: 'multipart/form-data',
-            cache:false,
-            contentType: false,
-            processData: false,
-            success:function(data){
-                console.log("success");
-            },
-            error: function(data){
-                console.log("error");
-            }
-          });
-    }));
-
-});
-
-    </script>
-  </body>
-</html>
 {% endblock %}
