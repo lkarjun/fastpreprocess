@@ -235,36 +235,54 @@
             <div class="col-md-6 col-sm-12 col-12 col-xl-6">
                 <div id="{{ values.vhtmlid[1]+'box' }}"></div>
             </div>
-        
-
-            <script>
-                console.log({{values.boxplot_json()|tojson}});
-                boxplot({{values.boxplot_json()|tojson}}, "{{ values.vhtmlid[0]+'box' }}");
-            </script>
         <!------------Box plot Visualising finish------------->
 
-        <!------------Distribution plot Visualising finish------------->
+        <!------------Distribution Visualising finish------------->
             <div class="col-md-6 col-12 col-sm-12 col-xl-6">
                 <div id="{{ values.vhtmlid[1]+'dis' }}"></div>
             </div>
-            <script> 
-            // console.log({{values.distribution_json()|tojson}});
-            distribution({{values.distribution_json()|tojson}}, "{{ values.vhtmlid[0]+'dis' }}", "{{ values.vname }}") </script>
+        <!------------Distribution plot Visualising finish------------->
+
+            <script>
+            boxplot({{values.boxplot_json()|tojson}}, "{{ values.vhtmlid[0]+'box' }}");                
+            distribution({{values.distribution_json()|tojson}}, "{{ values.vhtmlid[0]+'dis' }}", "{{ values.vname }}");
+            
+            // <!------------Badge Setting------------->
+
+            $("<a href='{{values.vhtmlid[0]}}' class='btn btn-round bg-secondary text-light m-2 p-2'>{{values.vname}}</a>").appendTo("#Badge");
+
+            // <!------------ Badge Seted ------------->
+            
+            </script>
+       
         </div>
 
-        <!------------Distribution Visualising finish------------->
+        <!--------------Action Center-------------->
+        <div class="jumbotron pt-1 pb-2">
+            <p class="h5 text-capitalize font-weight-bold" style="font-family: 'Exo', sans-serif;">Action Center</p>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xl-12 col-12">
+                <button class="btn btn-rounded btn-success" 
+                            onclick="drop('{{values.vname}}', '{{ values.vhtmlid[0]}}')" 
+                            id="{{ values.vhtmlid[1]+'drop'}}"> Drop Variable</button>
+                
+                <button class="btn btn-rounded btn-success" 
+                            >Standardize</button>
+            </div>
+            <div class="col-md-12 col-sm-12 col-xl-12 col-12 pt-4" id="{{ values.vhtmlid[1]+'view' }}" style="display: none;">
+                <div class="d-flex align-items-center">
+                    <a href="/view"><button class="btn btn-primary"> View Dataset</button></a>
+                </div>
+            </div>
+        </div>
+        <!--------------End Action Center-------------->
         <hr style="border: 1px solid rgb(0, 0, 0); border-radius: 5px; color: black;">
     
-        <!------------Badge Setting------------->
-        <script>
-            $("<a href='{{values.vhtmlid[0]}}' class='btn btn-round bg-secondary text-light m-2 p-2'>{{values.vname}}</a>").appendTo("#Badge");          
-        </script>
-
-        <!------------ Badge Seted ------------->
+        
         {% endif %}
         {% endfor %}
-
-        
 
     </div>
 </section>
@@ -329,22 +347,40 @@
         <!------------BarPlot Visualising here------------->
 
         <div class="col-md-6">
-            <div id="{{ values.vhtmlid[1]+'bar' }}"></div>
-                <script>
-                    chartbar({{ values.barplot_json()|tojson }}, "{{ values.vhtmlid[0]+'bar' }}")
-                </script>
+            <div id="{{ values.vhtmlid[1]+'bar' }}"></div>     
+        </div> <!------------BarPlot Visualising finish------------->
+        
+        <script>
+                $('<a href="{{values.vhtmlid[0]}}" class="btn btn-round bg-warning text-light m-2 p-2">{{values.vname}}</a>').appendTo("#Badge");
+                chartbar({{ values.barplot_json()|tojson }}, "{{ values.vhtmlid[0]+'bar' }}");
+        </script>
+       
+        <!--------------Action Center-------------->
+        <div class="jumbotron pt-1 pb-2">
+            <p class="h5 text-capitalize font-weight-bold" style="font-family: 'Exo', sans-serif;">Action Center</p>
         </div>
 
-        <!------------BarPlot Visualising finish------------->
-        
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xl-12 col-12">
+                <button class="btn btn-rounded btn-success" 
+                            onclick="drop('{{values.vname}}', '{{ values.vhtmlid[0]}}')" 
+                            id="{{ values.vhtmlid[1]+'drop'}}"> Drop Variable</button>
+                
+                <button class="btn btn-rounded btn-success" 
+                            onclick="get_dummy('{{values.vname}}', '{{ values.vhtmlid[0]}}')" 
+                            id="{{ values.vhtmlid[1]+'getdummy'}}">Get dummy</button>
+            </div>
+            <div class="col-md-12 col-sm-12 col-xl-12 col-12 pt-4" id="{{ values.vhtmlid[1]+'view' }}" style="display: none;">
+                <div class="d-flex align-items-center">
+                    <a href="/view"><button class="btn btn-primary"> View Dataset</button></a>
+                </div>
+            </div>
+        </div>
+        <!--------------End Action Center-------------->
+
         <hr style="border: 1px solid rgb(0, 0, 0); border-radius: 5px; color: black;">
         
 
-        <!------------Badge Setting------------->
-        <script>
-            $('<a href="{{values.vhtmlid[0]}}" class="btn btn-round bg-warning text-light m-2 p-2">{{values.vname}}</a>').appendTo("#Badge");
-        </script>
-        <!------------ Badge Seted ------------->
     
         {% endif %}
         {% endfor %}
