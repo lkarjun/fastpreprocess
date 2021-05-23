@@ -1,4 +1,4 @@
 # Fasteda
-## A new way to analysis data.
+## a new way to analyze data.
 
 > Building...
