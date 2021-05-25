@@ -4,7 +4,7 @@
 <div class="container">
     
 <div class="jumbotron p-1 m-1">
-    <p class="h2"style="font-family: 'Exo', sans-serif;">File name is {{ fname }}</p>
+    <p class="h2"style="font-family: 'Exo', sans-serif;">File name is {{ file.filename }}</p>
 
 </div>
 
@@ -49,7 +49,6 @@
         <div class="col-md-12">
             <div id='Badge'>
                 <a href="#sample" class="btn btn-round bg-success text-light m-2 p-2">Sample 5</a>
-                <a href="#quickreport" class="btn btn-round bg-success text-light m-2 p-2">Quick Statistics</a>   
             </div>
         </div>
     </div>
@@ -96,7 +95,7 @@
 
 <hr style="border: 4px solid rgb(71, 71, 71); border-radius: 5px;">
 <!--------Section Quick Report--------->
-
+{% if quick %}
 <section class="p-3 m-3" id='quickreport'>
     <div class="container">
         <div class="jumbotron pb-2 mb-2">
@@ -124,12 +123,16 @@
         </div>
 
     </div>
+    <script>
+        $('<a href="#quickreport" class="btn btn-round bg-success text-light m-2 p-2">Quick Statistics</a>').appendTo("#Badge");
+    </script>
 </section>
 
+<hr style="border: 4px solid rgb(71, 71, 71); border-radius: 5px;">
+{% endif %}
 
 <!---------End ----------->
 
-<hr style="border: 4px solid rgb(71, 71, 71); border-radius: 5px;">
 
 <!-------Section Correlation-------->
 {% if corr.empty %}
@@ -218,6 +221,11 @@
                             <tr>
                                 <th>Variable Type: </th> <td class="text-capitalize"> {{ values.vtype }}</td>
                             </tr>
+
+                            <tr>
+                                <th>Total Missing: </th> <td class="text-capitalize"> {{ values.vmissing[0] }}</td>
+                            </tr>
+
                             <tr>
                                 {% if values.vmissing is none %}
                                     <th>Missing Percentage</th> <td> 0 %</td>
@@ -263,17 +271,26 @@
         </div>
 
         <div class="row">
-            <div class="col-md-12 col-sm-12 col-xl-12 col-12">
-                <button class="btn btn-rounded btn-success" 
-                            onclick="drop('{{values.vname}}', '{{ values.vhtmlid[0]}}')" 
-                            id="{{ values.vhtmlid[1]+'drop'}}"> Drop Variable</button>
-                
-                <button class="btn btn-rounded btn-success" 
-                            >Standardize</button>
+            <div class="col-md-12">
+
+                <div class="row row-cols-lg-auto g-3 align-items-center">              
+                    <div class="col-12">
+                      <select class="select form-select" id="{{values.vname+'form'}}">
+                        <option value="none" selected> None </option>
+                        <option value="drop">Drop</option>
+                        <option value="standardize">Standardize</option>
+                      </select>
+                    </div>
+                  
+                    <div class="col-12">
+                        <button onclick='action_center("{{values.vname}}")' class="btn btn-danger btn-rounded">Okay</button>
+                    </div>
+                </div>
+
             </div>
-            <div class="col-md-12 col-sm-12 col-xl-12 col-12 pt-4" id="{{ values.vhtmlid[1]+'view' }}" style="display: none;">
+            <div class="col-md-12 col-sm-12 col-xl-12 col-12 pt-4">
                 <div class="d-flex align-items-center">
-                    <a href="/view"><button class="btn btn-primary"> View Dataset</button></a>
+                    <a href="/view"><button class="btn btn-primary btn-rounded"> View Dataset</button></a>
                 </div>
             </div>
         </div>
@@ -324,6 +341,7 @@
                     <tr>
                         <th class="font-weight-bold">Highest occuring values</th><td>{{ values.vsummary[1][2] }}</td>
                     </tr>
+
                 </table>
             </div>
 
@@ -361,18 +379,26 @@
         </div>
 
         <div class="row">
-            <div class="col-md-12 col-sm-12 col-xl-12 col-12">
-                <button class="btn btn-rounded btn-success" 
-                            onclick="drop('{{values.vname}}', '{{ values.vhtmlid[0]}}')" 
-                            id="{{ values.vhtmlid[1]+'drop'}}"> Drop Variable</button>
-                
-                <button class="btn btn-rounded btn-success" 
-                            onclick="get_dummy('{{values.vname}}', '{{ values.vhtmlid[0]}}')" 
-                            id="{{ values.vhtmlid[1]+'getdummy'}}">Get dummy</button>
+            <div class="col-md-12">
+
+                <div class="row row-cols-lg-auto g-3 align-items-center">              
+                    <div class="col-12">
+                      <select class="select form-select" id="{{values.vname+'form'}}">
+                        <option value="none" selected> None </option>
+                        <option value="drop">Drop</option>
+                        <option value="get_dummy">Get dummy</option>
+                      </select>
+                    </div>
+                  
+                    <div class="col-12">
+                        <button onclick='action_center("{{values.vname}}")' class="btn btn-danger btn-rounded">Okay</button>
+                    </div>
+                </div>
+
             </div>
-            <div class="col-md-12 col-sm-12 col-xl-12 col-12 pt-4" id="{{ values.vhtmlid[1]+'view' }}" style="display: none;">
+            <div class="col-md-12 col-sm-12 col-xl-12 col-12 pt-4">
                 <div class="d-flex align-items-center">
-                    <a href="/view"><button class="btn btn-primary"> View Dataset</button></a>
+                    <a href="/view"><button class="btn btn-primary btn-rounded"> View Dataset</button></a>
                 </div>
             </div>
         </div>
