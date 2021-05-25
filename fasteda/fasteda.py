@@ -1,4 +1,4 @@
-from operation import *
+from Fasteda.operation import *
 
 class FastEda:
 
@@ -22,10 +22,13 @@ class FastEda:
         return sample_data
     
     def quick_stat(self) -> QuickStat:
-        stat = np.round(self.file.obj.describe().values.tolist(), 3).tolist()
-        numerical_col = self.file.obj.select_dtypes(exclude = ['object']).columns.to_list()
-        zipping = [(variable, data) for variable, data in zip(QuickStat().variables, stat)]
-        return QuickStat(stat, numerical_col, zipping)
+        try:
+            stat = np.round(self.file.obj.describe().values.tolist(), 3).tolist()
+            numerical_col = self.file.obj.select_dtypes(exclude = ['object']).columns.to_list()
+            zipping = [(variable, data) for variable, data in zip(QuickStat().variables, stat)]
+            return QuickStat(stat, numerical_col, zipping)
+        except:
+            return 0
 
     def correlation(self) -> Correlation:
         
