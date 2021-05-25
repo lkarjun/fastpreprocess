@@ -5,45 +5,41 @@ import uvicorn
 import nest_asyncio
 import os
 
-from fasteda import *
+from Fasteda.fasteda import *
 
 
 app = FastAPI()
 
-app.mount("/static", StaticFiles(directory="static"), name='static')
-templates = Jinja2Templates(directory="template")
+app.mount("/static", StaticFiles(directory="Fasteda/static"), name='static')
+templates = Jinja2Templates(directory="Fasteda/template")
 
 
 
 @app.get('/')
 async def home(requset: Request):
-    testing()
     return process_data(requset)
-
-
-@app.get('/drop')
-def drop_column(column):
-    filedetail.objcopy = filedetail.objcopy.drop(column, axis=1)
-    return "okay"
 
 @app.get('/view')
 def view_new_ds(request: Request):
     return templates.TemplateResponse('ViewNewDataset.html', 
-                        context={'request': request, 'sample': fasteda.sample(new=True)})
-
-@app.get('/get_dummy')
-def get_dummy(column):
-    filedetail.objcopy = pd.get_dummies(filedetail.obj, columns=[column])
-    return "Okay"
-
+                        context={'request': request, 
+                                 'sample': fasteda.sample(new=True)})
 
 @app.get('/testing')
 async def home(requset: Request):
-    return templates.TemplateResponse('testing.html', context={'request': requset})
+    testing()
+    return process_data(requset)
 
+
+@app.get('/action')
+def tester(column, action):
+    print(column, action)
+    if action == 'drop': return drop_column(column)
+    elif action == 'get_dummy': return get_dummy(column)
+    else: return "he he"
 
 def testing():
-    filename = 'static/dataset/sample.csv'
+    filename = 'Fasteda/static/dataset/sample1.csv'
     dm = ','
     df = pd.read_csv(filename, delimiter=dm)
 
@@ -65,7 +61,7 @@ def process_data(request: Request):
         process = fasteda.process
         return templates.TemplateResponse('FastEda.html', 
                 context={'request': request, 'title': 'Workspace', 
-                        'fname': filedetail.filename,\
+                        'file': filedetail,\
                         'sample': fasteda.sample(),\
                         'quick': fasteda.quick_stat(),\
                         'corr': fasteda.correlation(),\
@@ -77,6 +73,21 @@ def process_data(request: Request):
 
 
 
+def get_dummy(column):
+    try:
+        filedetail.objcopy = pd.get_dummies(filedetail.obj, columns=[column])
+        return f"get dummy for {column} is done."
+    except Exception as e:
+        return f"get dummy for {column} is failed. due to {e}"
+
+
+def drop_column(column):
+    try:
+        filedetail.objcopy = filedetail.objcopy.drop(column, axis=1)
+        return f"drop column {column} is done."
+    except Exception as e:
+        return f"drop colum {column} is failed. due to {e}"
+
 #-----------------------------------------------------------------------------------------------------------------------
 
 
@@ -86,7 +97,7 @@ def start(filename: str, dm=',', port = 8000):
         df = pd.read_csv(filename, delimiter=dm)
 
         global filedetail
-        filedetail = FileDetail(filename = filename[15:],
+        filedetail = FileDetail(filename = filename,
                             filetype = filename.split('.')[-1], 
                             filesize=f"{os.stat(filename).st_size} bytes", 
                             sysfilepath=filename, 
