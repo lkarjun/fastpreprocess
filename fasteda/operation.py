@@ -2,7 +2,8 @@ import tqdm
 import pandas as pd
 import numpy as np
 from pandas.api.types import is_bool_dtype, is_numeric_dtype
-from essential import *
+# from essential import *
+from Fasteda.essential import *
 
 class NumericDetail(BaseModel):
     data: TypeVar('pandas.core.series.Series')
@@ -146,7 +147,7 @@ class Bivariate:
         ]
         summary['Skewness'] = self.data.skew()
         summary['Kurtosis'] = self.data.kurt()
-        return summary.round(7).to_frame()
+        return summary.round(3).to_frame()
 
     def categorical_summary(self):
 
