@@ -17,15 +17,15 @@ function action_center(value){
 });
 }
 
-function drop(value, id){
-  $(id+'drop').css("display", "none");
+function dropna(){
   $.ajax({
       type: 'get',
       url: '/drop',
-      data: {'column': value},
+      data: {'data': 'value'},
       contentType: "application/json",
       success: function(data){
-        alert("okay");
+        window.location.reload();
+        alert(data);
         console.log(data);
       }
   });
