@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/3.3.0/mdb.min.css" rel="stylesheet"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="{{ url_for('static', path='/css/style.css') }}">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Exo&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.2.1/dist/chart.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    
+    <title>{{ title }}</title>
+    <script>
+
+        function preloaderFadeOutInit(){
+                $('.preloader').fadeOut('slow');
+                $('body').attr('id','');
+            }
+        
+        // Window load function
+        jQuery(window).on('load', function () {
+            (function ($) {
+                preloaderFadeOutInit();
+            })(jQuery);
+            });
+
+    </script>
+
+    <style>
+        .preloader {
+                position: absolute;
+                top: 0;
+                left: 0;
+                bottom:0;
+                right:0;
+                width: 100%;
+                height: 100vh;
+                z-index: 99999999;
+                background-image: url('static/Images/1479.gif'); /* your icon gif file path */
+                background-repeat: no-repeat;
+                background-color: #FFF;
+                background-position: center;
+}
+    </style>
+</head>
+<body id="stop-scrolling">
+
+    <!-- preloader -->
+    <div class="preloader"></div>
+    <!-- preloader ending -->
+    
+
+<!-- ------------Landing page ------------ -->
+   <section class="banner">
+    
+        <div class="jumbotron text-center content">
+            <div class="content">
+                <h1 class="display-3" style="font-family: 'Exo', sans-serif;"> FAST EDA</h1>
+                <p style="line-height: 20px;  font-family: 'Major Mono Display', monospace;" class="lead">One-Click Exploratory Data Analysis</p>
+                <a href="#upload"><button class="btn-rounded btn btn-success">Get Started</button></a>
+            </div>
+        </div>
+    </section>
+<!-- ------------Landing page ending ------------ -->
+
+<!-- ------------File Uploading------------ -->
+
+    <section class="m-4 p-4 table-success" style="display: block;" id="upload-sec">
+        <div class="container text-center">
+
+            <div class="jumbotron p-3 m-3">
+                <h2 class="display-6 pb-3 font-weight-bold" style="line-height: 20px;  font-family: 'Exo', sans-serif;"> Upload Your File</h1>
+                <p>(Format supported: csv, txt, xlsx, xls)</p>
+            </div>
+            
+
+
+            <form enctype="multipart/form-data" id="UploadForm" action="/edafileupload" method="POST">
+                <div class="form-group">
+                    <input type="file" accept=".xls,.xlsx,.csv, .txt" required id='fileData' class="btn">
+                </div>
+
+                <div class="form-group pt-4">
+                    Delimiter: <input type="text" id="delimiter" required>
+                </div>
+                
+                <div class="form-group pt-3">
+                    <button type="submit" class="btn btn-rounded btn-primary" id="upload">Get Ready</button>
+                </div>
+            </form>
+
+        </div>
+        
+    </section>    
+
+<!---------------Upload ending--------------------->
+<section id = 'pro' style="display: none;">
+    <div class="container">
+        <div class="pt-4 pb-4">
+            <p class="h3" id='up_'>Uploading</p>
+            <div class="progress" style="height: 15px;">
+                <div class="progress-bar bg-danger" role="progressbar" style="width: 20%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+        </div>
+    </div>
+</section>
+<!--------------- Previewing file deteails --------------------->
+<section class="m-4 p-4 table-primary" style=" display: none;" id="show-details">
+
+    <div class="container">
+        <div class="jumbotron">
+            <h2 class="text-center text-dark font-weight-bold" style="font-family: 'Exo', sans-serif;">Detail of this file</h1>
+        </div>
+
+        <div class="table-responsive">
+            <table class="table">
+                <tr class="table-light">
+                    <td class="font-weight-bold">File Name: </td>
+                    <td id='filename'></td>
+                </tr>
+
+                <tr class="table-secondary">
+                    <td class="font-weight-bold">File Size: </td>
+                    <td id='filesize'></td>
+                </tr>
+
+                <tr class="table-success">
+                    <td class="font-weight-bold">File Type: </td>
+                    <td id='filetype'></td>
+                </tr>
+
+                <tr class="table-danger">
+                    <td class="font-weight-bold">Verify: </td>
+                    <td id='verify'></td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="text-center" id='analysis'>
+            <a href="/"><button type="submit" class="btn btn-rounded btn-primary">Let's Analyis</button></a>
+        </div>
+    </div>
+
+</section>
+
+<!--------------- Previewing Ending--------------------->
+
+
+<!-- ---------------Footer------------ -->
+<footer class="ftco-footer ftco-bg-dark ftco-section" style="background-color:rgb(65, 65, 65); color: white;">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 text-center">
+                <p class="m-2 p-2">
+                    Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | Made with ❤ by <a>Lal</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- ---------------Footer------------ -->
+
+
+<script type="text/javascript"  src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/3.3.0/mdb.min.js"></script>
+
+<script>
+    
+$(document).ready(function (e) {
+    $('#UploadForm').on('submit',(function(e) {
+        e.preventDefault();
+        var formData = new FormData();
+        var delimiter = $("#delimiter").val();
+  
+        formData.append('file', $('#fileData')[0].files[0]);
+        formData.append('dm', delimiter);
+        console.log(delimiter);
+        $('#pro').css('display', 'block');
+        $("#upload-sec").css('display', 'none');
+        $.ajax({
+          xhr: function() {
+            var xhr = new window.XMLHttpRequest();
+            xhr.upload.addEventListener("progress", function(evt) {
+                if (evt.lengthComputable) {
+                    var percentComplete = Math.round((evt.loaded / evt.total) * 100);
+                    $(".progress-bar").width(percentComplete + '%');
+                    $(".progress-bar").html(percentComplete+'%');
+                    if (percentComplete >= 100){
+                        $('#up_').html("Uploaded")
+                    }
+                }
+            }, false);
+            return xhr;
+            },
+            type:'POST',
+            url: '/edafileupload',
+            data:formData,
+            enctype: 'multipart/form-data',
+            cache:false,
+            contentType: false,
+            processData: false,
+            success:function(data){
+                console.log("success");
+                console.log(data);
+                $("#upload-sec").css('display', 'none');
+                if (data.filename == "Error"){
+                    $("#analysis").css('display', 'none')
+                }
+                $("#show-details").css('display', 'block');
+                $('#filename').html(data.filename);
+                $('#filesize').html(data.filesize);
+                $('#filetype').html(data.filetype);
+                $('#verify').html(data.verify)
+            },
+            error: function(data){
+                console.log("error");
+                console.log(data);
+            }
+        });
+    }));
+
+});
+</script>
+</body>
+</html>
