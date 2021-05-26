@@ -27,6 +27,12 @@
                                 <tr>
                                     <th class="font-weight-bold">Rows & Columns</th> <td class="text-capitalize font-weight-bold">{{sample.length}} X {{sample.number_of_columns}}</td>
                                 </tr>
+                                <tr>
+                                    <th class="font-weight-bold">Drop Missing Values</th>
+                                    <td class="align-items-center">
+                                        <button class="btn btn-rounded btn-primary" onclick="dropna()">click</button>
+                                    </td>
+                                </tr>
                             </table>
                         </div>
                     </div>
@@ -37,6 +43,7 @@
                 <div id='overview'></div>
             </div>
             <script>plot_piechart({{ process.filedetail.missing }}, {{ sample.length}});</script>
+
         </div>
     </div>
 </section>
