@@ -145,7 +145,9 @@ def drop_column(column):
 def start(filename: Union[str, None] = None, dm=',', port = 8000):
     try:
         if filename is None: print('Visit: http://127.0.0.1:8000/index')
-        else: set_global_filedetail(filename=filename, dm=dm)
+        else: 
+            print('Visit: http://127.0.0.1:8000')
+            set_global_filedetail(filename=filename, dm=dm)
 
         uvicorn.run(app, port=port)
     
