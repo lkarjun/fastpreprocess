@@ -24,6 +24,7 @@ function dropna(){
       data: {'data': 'value'},
       contentType: "application/json",
       success: function(data){
+        alert(data);
         window.location.reload();
         alert(data);
         console.log(data);
@@ -46,6 +47,5 @@ function get_dummy(value, id){
       }
   })
 }
-
 
 
