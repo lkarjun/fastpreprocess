@@ -142,10 +142,11 @@ def drop_column(column):
 #-----------------------------------------------------------------------------------------------------------------------
 
 
-def start(filename: str, dm=',', port = 8000):
-    
+def start(filename: Union[str, None] = None, dm=',', port = 8000):
     try:
-        set_global_filedetail(filename=filename, dm=dm)
+        if filename is None: print('Visit: http://127.0.0.1:8000/index')
+        else: set_global_filedetail(filename=filename, dm=dm)
+
         uvicorn.run(app, port=port)
     
     except Exception as e:
@@ -153,13 +154,17 @@ def start(filename: str, dm=',', port = 8000):
         print(e)
 
 
-def start_from_cloud(filename: str, dm=',', port=8000):
+def start_from_cloud(filename: Union[str, None] = None, dm=',', port=8000):
 
     from pyngrok import ngrok
     try:
-        set_global_filedetail(filename=filename, dm=dm)
         ngrok_tunnel = ngrok.connect(port)
-        print('Public URL:', ngrok_tunnel.public_url)
+        
+        if filename is None: print(f'Visit: {ngrok_tunnel.public_url}/index')
+        else: 
+            set_global_filedetail(filename=filename, dm=dm)
+            print(f'Visit: {ngrok_tunnel.public_url}')
+
         uvicorn.run(app, port=port)
     
     except Exception as e:
