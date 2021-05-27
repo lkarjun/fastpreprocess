@@ -139,40 +139,13 @@ def drop_column(column):
         return f"drop colum {column} is failed. due to {e}"
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 #-----------------------------------------------------------------------------------------------------------------------
 
 
 def start(filename: str, dm=',', port = 8000):
     
     try:
-        df = pd.read_csv(filename, delimiter=dm)
-
-        global filedetail
-        filedetail = FileDetail(filename = filename,
-                            filetype = filename.split('.')[-1], 
-                            filesize=f"{os.stat(filename).st_size} bytes", 
-                            sysfilepath=filename, 
-                            obj=df,
-                            missing = df.isna().sum().values.sum(),
-                            objcopy = df.copy())
-        
+        set_global_filedetail(filename=filename, dm=dm)
         uvicorn.run(app, port=port)
     
     except Exception as e:
@@ -184,17 +157,7 @@ def start_from_cloud(filename: str, dm=',', port=8000):
 
     from pyngrok import ngrok
     try:
-        df = pd.read_csv(filename, delimiter=dm)
-
-        global filedetail
-        filedetail = FileDetail(filename = filename[15:],
-                            filetype = filename.split('.')[-1], 
-                            filesize=f"{os.stat(filename).st_size} bytes", 
-                            sysfilepath=filename, 
-                            obj=df,
-                            missing = df.isna().sum().values.sum(),
-                            objcopy = df.copy())
-        
+        set_global_filedetail(filename=filename, dm=dm)
         ngrok_tunnel = ngrok.connect(port)
         print('Public URL:', ngrok_tunnel.public_url)
         uvicorn.run(app, port=port)
