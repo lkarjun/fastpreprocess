@@ -12,9 +12,19 @@
         <div class="jumbotron pb-2 mb-2">
             <h2 class="display-6" style="font-family: 'Exo', sans-serif;">Sample {{sample.samplesize}}</h2>
         </div>
+        <a href="/save">
+            <button class="btn btn-rounded btn-success">
+                Save Dataset
+            </button>
+        </a>
 
+        <a href="/objcopyAnalysis">
+            <button class="btn btn-rounded btn-success">
+                Analyse
+            </button>
+        </a>
     
-        <div class="table-responsive">
+        <div class="table-responsive pt-4">
             <table class="table table-striped table-hover">
                 <tr class="bg-primary text-light">
                     {% for n in sample.columns %}
@@ -36,11 +46,7 @@
             </table>
         </div>
 
-        <a href="/save">
-            <button class="btn btn-rounded btn-primary">
-                Save Dataset
-            </button>
-        </a>
+        
     </div>
 
 </section>
