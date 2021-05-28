@@ -283,13 +283,17 @@
                 <div class="row row-cols-lg-auto g-3 align-items-center">              
                     <div class="col-12">
                       <select class="select form-select" id="{{values.vname+'form'}}">
-                        <option value="none" selected> None </option>
-                        <option value="drop">Drop</option>
-                        <option value="standardize">Standardize</option>
+                        <option value="none" selected class="font-weight-bold"> None </option>
+                        <option value="drop" class="font-weight-bold">Drop</option>
+                        <option value="fillmissing_median" class="font-weight-bold">FillMissing(Median)</option>
+                        <option value="fillmissing_mean" class="font-weight-bold">FillMissing(Mean)</option>
+                        <option value="fillmissing_0" class="font-weight-bold">FillMissing(0)</option>
+                        <option value="set_numeric" class="font-weight-bold">SetColumn(Numeric)</option>
+                        <option value="set_categorical" class="font-weight-bold">SetColumn(Categorical)</option>
                       </select>
                     </div>
                   
-                    <div class="col-12">
+                    <div class="col-12" id="{{values.vname+'button'}}">
                         <button onclick='action_center("{{values.vname}}")' class="btn btn-danger btn-rounded">Okay</button>
                     </div>
                 </div>
@@ -391,13 +395,20 @@
                 <div class="row row-cols-lg-auto g-3 align-items-center">              
                     <div class="col-12">
                       <select class="select form-select" id="{{values.vname+'form'}}">
-                        <option value="none" selected> None </option>
-                        <option value="drop">Drop</option>
-                        <option value="get_dummy">Get dummy</option>
+                        <option value="none" selected class="font-weight-bold"> None </option>
+                        <option value="drop" class="font-weight-bold">Drop</option>
+                        <option value="get_dummy" class="font-weight-bold">Get dummy(Drop 1st column)</option>
+                        <option value="set_numeric" class="font-weight-bold">SetColumn(Numeric)</option>
+                        <option value="set_categorical" class="font-weight-bold">SetColumn(Categorical)</option>
+                        <option value="fillmissing_mode" class="font-weight-bold">FillMissing(Mode)</option>
+                        <option value="label_encode" class="text-primary font-weight-bold">Label Encode</option>
+                        <option value="fillmissing_median" class="font-weight-bold">FillMissing(Median)</option>
+                        <option value="fillmissing_mean" class="font-weight-bold">FillMissing(Mean)</option>
+                        <option value="fillmissing_0" class="font-weight-bold">FillMissing(0)</option>
                       </select>
                     </div>
                   
-                    <div class="col-12">
+                    <div class="col-12" id="{{values.vname+'button'}}" style="display: block;">
                         <button onclick='action_center("{{values.vname}}")' class="btn btn-danger btn-rounded">Okay</button>
                     </div>
                 </div>
