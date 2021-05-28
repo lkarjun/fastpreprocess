@@ -1,16 +1,19 @@
 function action_center(value){
   select = '#'+value+'form'
+  button = '#'+value+'button'
   values = $(select).val()
   console.log(values)
   console.log(select);
   console.log(value);
-
+  $(button).css('display', 'none');
+  console.log(button);
   $.ajax({
     type: 'get',
     url: '/action',
     data: {'column': value, 'action': values},
     contentType: "application/json",
     success: function(data){
+      $(button).css('display', 'block');
       alert(data);
       console.log(data);
     }
