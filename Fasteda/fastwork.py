@@ -143,11 +143,11 @@ def save_file():
 
 def set_global_filedetail(filename, dm):
     df = pd.read_csv(filename, delimiter=dm)
-    print("Global Filedetail seting")
+    print("Global Filedetail Processing")
     global filedetail
     filedetail = FileDetail(filename = filename, filetype = filename.split('.')[-1], filesize=f"{os.stat(filename).st_size} bytes", 
                             sysfilepath=filename, obj=df, missing = df.isna().sum().values.sum(), objcopy = df.copy())
-    print("Global Filedetail seted")
+    print("Global Filedetail Fixed")
 
 
 def get_dummy(column):
