@@ -91,7 +91,7 @@ def process_data(request: Request):
 
 @app.get('/index')
 async def index(request: Request):
-    return templates.TemplateResponse('index.html', context={'request': request, 'title': 'Home'})
+    return templates.TemplateResponse('Index.html', context={'request': request, 'title': 'Home'})
 
 @app.get('/objcopyAnalysis')
 async def copy_analysis(request: Request):
