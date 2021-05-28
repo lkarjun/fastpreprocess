@@ -2,7 +2,6 @@ from fastapi import FastAPI, Request, UploadFile, Form, File
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 import uvicorn
-import nest_asyncio
 import os
 
 from Fasteda.fasteda import *
@@ -25,14 +24,18 @@ async def home(requset: Request):
 
 @app.get('/view')
 def view_new_ds(request: Request):
-    return templates.TemplateResponse('ViewNewDataset.html', 
+    try:
+        return templates.TemplateResponse('ViewNewDataset.html', 
                         context={'request': request,
                                  'sample': fasteda_.sample(new=True)})
+    except Exception as e:
+        return templates.TemplateResponse('error_file.html', context={'request': request, 'error': str(e)})
+
 
 #----------------------------------------------------------------------------------------------
 @app.get('/testing')
 async def home(requset: Request):
-    filename = 'Fasteda/static/dataset/sample.csv'
+    filename = 'Fasteda/static/dataset/car_sample.csv'
     dm = ','
     set_global_filedetail(filename, dm)
     return process_data(requset)
@@ -44,7 +47,10 @@ def tester(column, action):
     print(column, action)
     if action == 'drop': return drop_column(column)
     elif action == 'get_dummy': return get_dummy(column)
-    else: return "he he"
+    elif action[:11] == 'fillmissing': return missing(column, action[12:])
+    elif action in ['set_numeric', 'set_categorical']: return convert(column, action[4:])
+    elif action == 'label_encode': return label_encode(column)
+    else: return "Cool"
 
 @app.get('/drop')
 def dropna(data):
@@ -86,6 +92,27 @@ def process_data(request: Request):
 @app.get('/index')
 async def index(request: Request):
     return templates.TemplateResponse('index.html', context={'request': request, 'title': 'Home'})
+
+@app.get('/objcopyAnalysis')
+async def copy_analysis(request: Request):
+    fd_obj = filedetail.copy()
+    fd_obj.filename = fd_obj.filename+'(Processed)'
+    fd_obj.obj = filedetail.objcopy
+    fd_obj.missing = fd_obj.obj.isna().sum().values.sum()
+
+    try:
+        fasteda_copy = FastEda(fd_obj)
+        process_copy = fasteda_copy.process
+
+        return templates.TemplateResponse('FastEda.html', 
+                context={'request': request, 'title': 'Workspace', 'file': fd_obj, 'sample': fasteda_copy.sample(),\
+                        'quick': fasteda_copy.quick_stat(), 'corr': fasteda_copy.correlation(),\
+                        'process': process_copy})
+
+    except Exception as e:
+        
+        return templates.TemplateResponse('error_file.html', context={'request': request, 'error': str(e)})
+
 
 @app.post('/edafileupload')
 async def upload(file: UploadFile = File(...), dm=Form(...)):
@@ -139,6 +166,36 @@ def drop_column(column):
         return f"drop colum {column} is failed. due to {e}"
 
 
+def missing(columns, method):
+    if method == 'median':
+        filedetail.objcopy[columns] = filedetail.objcopy[columns].fillna(filedetail.objcopy[columns].median())
+        return f"Filled Missing value with {method}"
+    elif method == 'mean':
+        filedetail.objcopy[columns] = filedetail.objcopy[columns].fillna(filedetail.objcopy[columns].mean())
+        return f"Filled Missing value with {method}"
+    elif method == '0':
+        filedetail.objcopy[columns] = filedetail.objcopy[columns].fillna(0)
+        return f"Filled Missing value with {method}"
+    else:
+        filedetail.objcopy[columns] = filedetail.objcopy[columns].fillna(filedetail.objcopy[columns].mode()[0])
+        return f"Filled Missing value with {method}"
+
+
+def convert(column, method):
+    if method == "categorical":
+        filedetail.objcopy[column] = filedetail.objcopy[column].astype("category")
+        return f"Converted column {column} astype to category"
+    else:
+        filedetail.objcopy[column] = pd.to_numeric(filedetail.objcopy[column], errors='coerce')
+        return f"\nConverted column {column} to_numeric\n\
+                 Note: we handled errors = 'coerce'.\n\
+                 So, we're requested to perform 'Fillmissing' Action."
+
+def label_encode(column):
+    from sklearn.preprocessing import LabelEncoder
+    encode = LabelEncoder()
+    filedetail.objcopy[column] = encode.fit_transform(filedetail.objcopy[column])
+    return f"Label Encoded: {encode.classes_}"
 #-----------------------------------------------------------------------------------------------------------------------
 
 
@@ -178,6 +235,7 @@ def run_from_notebook():
     '''if the server is starting from jupyter notebook, 
         user must call run_from_notebook() function befor calling start() | start_from_colab() function
     '''
+    import nest_asyncio
     nest_asyncio.apply()
 
 
