@@ -29,7 +29,6 @@ function dropna(){
       success: function(data){
         alert(data);
         window.location.reload();
-        alert(data);
         console.log(data);
       }
   });
