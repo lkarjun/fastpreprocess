@@ -74,7 +74,7 @@ class IndividualVariable():
         return (outlier.astype(int)).tolist()
         
     def start(self):
-        for i in tqdm.tqdm(self.filedetail.obj.columns, desc="Univariate Analysing"):
+        for i in tqdm.tqdm(self.filedetail.obj.columns, desc="Analysing"):
             v = Bivariate(self.filedetail.obj[i])
             if v.var_type == 'numeric':
                 self.IV.TotalNumeric += 1
