@@ -3,7 +3,7 @@ import pandas as pd
 import numpy as np
 from pandas.api.types import is_bool_dtype, is_numeric_dtype
 # from essential import *
-from Fasteda.essential import *
+from fastprocess.essential import *
 
 class NumericDetail(BaseModel):
     data: TypeVar('pandas.core.series.Series')

@@ -1,6 +1,6 @@
-from Fasteda.operation import *
+from fastprocess.operation import *
 
-class FastEda:
+class FastPreProcess:
 
     def __init__(self, file: FileDetail) -> None:
         self.file = file

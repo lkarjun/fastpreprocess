@@ -4,17 +4,17 @@ from fastapi.templating import Jinja2Templates
 import uvicorn
 import os
 
-from Fasteda.fasteda import *
+from fastprocess.process import *
 
 
 filedetail = None
-fasteda_ = None
+fastprocess = None
 process = None
 
 app = FastAPI()
 
-app.mount("/static", StaticFiles(directory="Fasteda/static"), name='static')
-templates = Jinja2Templates(directory="Fasteda/template")
+app.mount("/static", StaticFiles(directory="fastprocess/static"), name='static')
+templates = Jinja2Templates(directory="fastprocess/template")
 
 
 
@@ -27,7 +27,7 @@ def view_new_ds(request: Request):
     try:
         return templates.TemplateResponse('ViewNewDataset.html', 
                         context={'request': request,
-                                 'sample': fasteda_.sample(new=True)})
+                                 'sample': fastprocess.sample(new=True)})
     except Exception as e:
         return templates.TemplateResponse('error_file.html', context={'request': request, 'error': str(e)})
 
@@ -35,7 +35,7 @@ def view_new_ds(request: Request):
 #----------------------------------------------------------------------------------------------
 @app.get('/testing')
 async def home(requset: Request):
-    filename = 'Fasteda/static/dataset/car_sample.csv'
+    filename = 'fastprocess/static/dataset/car_sample.csv'
     dm = ','
     set_global_filedetail(filename, dm)
     return process_data(requset)
@@ -58,9 +58,9 @@ def dropna(data):
     filedetail.objcopy = filedetail.objcopy.dropna()
     filedetail.obj = filedetail.obj.dropna()
     filedetail.missing = filedetail.obj.isna().sum().values.sum()
-    fasteda_ = FastEda(filedetail)
+    fastprocess = FastPreProcess(filedetail)
     global process
-    process = fasteda_.process
+    process = fastprocess.process
 
     print('finished')
     return "droped missing values from all columns"
@@ -70,18 +70,18 @@ def dropna(data):
 
 def process_data(request: Request):
     try:
-        global fasteda_
-        fasteda_ = FastEda(filedetail)
+        global fastprocess
+        fastprocess = FastPreProcess(filedetail)
 
         global process
-        process = fasteda_.process
+        process = fastprocess.process
 
         return templates.TemplateResponse('FastEda.html', 
                 context={'request': request, 'title': 'Workspace', 
                         'file': filedetail,\
-                        'sample': fasteda_.sample(),\
-                        'quick': fasteda_.quick_stat(),\
-                        'corr': fasteda_.correlation(),\
+                        'sample': fastprocess.sample(),\
+                        'quick': fastprocess.quick_stat(),\
+                        'corr': fastprocess.correlation(),\
                         'process': process})
 
     except Exception as e:
@@ -101,12 +101,12 @@ async def copy_analysis(request: Request):
     fd_obj.missing = fd_obj.obj.isna().sum().values.sum()
 
     try:
-        fasteda_copy = FastEda(fd_obj)
-        process_copy = fasteda_copy.process
+        fastprocess_copy = FastPreProcess(fd_obj)
+        process_copy = fastprocess_copy.process
 
         return templates.TemplateResponse('FastEda.html', 
-                context={'request': request, 'title': 'Workspace', 'file': fd_obj, 'sample': fasteda_copy.sample(),\
-                        'quick': fasteda_copy.quick_stat(), 'corr': fasteda_copy.correlation(),\
+                context={'request': request, 'title': 'Workspace', 'file': fd_obj, 'sample': fastprocess_copy.sample(),\
+                        'quick': fastprocess_copy.quick_stat(), 'corr': fastprocess_copy.correlation(),\
                         'process': process_copy})
 
     except Exception as e:
