@@ -9,7 +9,7 @@ Untitled.ipynb
 workout.ipynb
 .ipynb_checkpoints/workout-checkpoint.ipynb
 processed.csv
-setup.txt
+setup.py
 build
 dist
 fastprocess.egg-info
