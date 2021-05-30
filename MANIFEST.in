@@ -1,2 +1,2 @@
-graft Fasteda/static
-graft Fasteda/templates
+include fastprocess/static/*
+include fastprocess/templates/*

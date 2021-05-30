@@ -136,8 +136,8 @@ def save_file():
 #helper function
 
 
-def set_global_filedetail(filename, dm):
-    df = pd.read_csv(filename, delimiter=dm, low_memory=False)
+def set_global_filedetail(filename, dm, lowmem):
+    df = pd.read_csv(filename, delimiter=dm, low_memory=lowmem)
     print("Global Filedetail Processing")
     global filedetail
     filedetail = FileDetail(filename = filename, filetype = filename.split('.')[-1], filesize=f"{os.stat(filename).st_size} bytes", 
@@ -199,13 +199,18 @@ def label_encode(column):
     return f"Label Encoded: {d}"
 #-----------------------------------------------------------------------------------------------------------------------
 
+def run_from_local():
+    arg = process_arg()
+    low_memory = True if arg.lowmemory.lower() in ('True', 'true', 't') else False
+    port = int(arg.port)
+    start(arg.filename, arg.delimiter, port, low_memory)
 
-def start(filename: Union[str, None] = None, dm=',', port = 8000):
+def start(filename: Union[str, None] = None, dm=',', port = 8000, lowmem=True):
     try:
-        if filename is None: print('Visit: http://127.0.0.1:8000/index')
+        if filename is None: print(f"\n\033[93mVisit: http://127.0.0.1:{port}/index\033[0m\n")
         else: 
-            print('Visit: http://127.0.0.1:8000')
-            set_global_filedetail(filename=filename, dm=dm)
+            print(f'\n\033[93mVisit: http://127.0.0.1:{port}\033[0m\n')
+            set_global_filedetail(filename=filename, dm=dm, lowmem = lowmem)
 
         uvicorn.run(app, port=port)
     
@@ -238,5 +243,6 @@ def run_from_notebook():
     '''
     import nest_asyncio
     nest_asyncio.apply()
+
 
 
