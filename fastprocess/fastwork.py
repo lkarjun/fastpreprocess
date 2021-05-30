@@ -76,7 +76,7 @@ def process_data(request: Request):
         global process
         process = fastprocess.process
 
-        return templates.TemplateResponse('FastEda.html', 
+        return templates.TemplateResponse('Fastprocess.html', 
                 context={'request': request, 'title': 'Workspace', 
                         'file': filedetail,\
                         'sample': fastprocess.sample(),\
@@ -104,7 +104,7 @@ async def copy_analysis(request: Request):
         fastprocess_copy = FastPreProcess(fd_obj)
         process_copy = fastprocess_copy.process
 
-        return templates.TemplateResponse('FastEda.html', 
+        return templates.TemplateResponse('Fastprocess.html', 
                 context={'request': request, 'title': 'Workspace', 'file': fd_obj, 'sample': fastprocess_copy.sample(),\
                         'quick': fastprocess_copy.quick_stat(), 'corr': fastprocess_copy.correlation(),\
                         'process': process_copy})
@@ -192,10 +192,10 @@ def convert(column, method):
                  So, we're requested to perform 'Fillmissing' Action."
 
 def label_encode(column):
-    from sklearn.preprocessing import LabelEncoder
-    encode = LabelEncoder()
-    filedetail.objcopy[column] = encode.fit_transform(filedetail.objcopy[column])
-    return f"Label Encoded: {encode.classes_}"
+    convert(column, 'categorical')
+    d = dict(enumerate(filedetail.objcopy[column].cat.categories))
+    filedetail.objcopy[column] = filedetail.objcopy[column].cat.codes
+    return f"Label Encoded: {d}"
 #-----------------------------------------------------------------------------------------------------------------------
 
 
