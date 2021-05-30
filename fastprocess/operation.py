@@ -17,11 +17,11 @@ class NumericDetail(BaseModel):
     
     def boxplot_json(self):
         stat = (self.vstat.iloc[[3, 4, 5, 6,7]].values).flatten().astype(int).tolist()
-        if self.voutlier_track is None:
-            json = [{'name': self.vname, 'type': 'boxPlot', 'data': [{'x': self.vname, 'y': int(stat)}]}]
-            return json
-        json = [{'name': self.vname, 'type': 'boxPlot', 'data': [{'x': self.vname, 'y': stat}]}, self.outlier_json()]
+        # if self.voutlier_track is None:
+        json = [{'name': self.vname, 'type': 'boxPlot', 'data': [{'x': self.vname, 'y': stat}]}]
         return json
+        # json = [{'name': self.vname, 'type': 'boxPlot', 'data': [{'x': self.vname, 'y': stat}]}, self.outlier_json()]
+        # return json
     
     def outlier_json(self):
         json = {'name': 'outliers', 
