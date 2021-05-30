@@ -18,7 +18,7 @@ templates = Jinja2Templates(directory="fastprocess/template")
 
 
 
-@app.get('/')
+@app.get('/workspace')
 async def home(requset: Request):
     return process_data(requset)
 
@@ -89,7 +89,7 @@ def process_data(request: Request):
         return templates.TemplateResponse('error_file.html', context={'request': request, 'error': str(e)})
 
 
-@app.get('/index')
+@app.get('/')
 async def index(request: Request):
     return templates.TemplateResponse('Index.html', context={'request': request, 'title': 'Home'})
 
