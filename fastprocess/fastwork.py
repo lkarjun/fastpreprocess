@@ -70,12 +70,7 @@ def dropna(data):
 
 def process_data(request: Request):
     try:
-        global fastprocess
-        fastprocess = FastPreProcess(filedetail)
-
-        global process
-        process = fastprocess.process
-
+    
         return templates.TemplateResponse('Fastprocess.html', 
                 context={'request': request, 'title': 'Workspace', 
                         'file': filedetail,\
@@ -142,11 +137,17 @@ def save_file():
 
 
 def set_global_filedetail(filename, dm):
-    df = pd.read_csv(filename, delimiter=dm)
+    df = pd.read_csv(filename, delimiter=dm, low_memory=False)
     print("Global Filedetail Processing")
     global filedetail
     filedetail = FileDetail(filename = filename, filetype = filename.split('.')[-1], filesize=f"{os.stat(filename).st_size} bytes", 
                             sysfilepath=filename, obj=df, missing = df.isna().sum().values.sum(), objcopy = df.copy())
+    
+    global fastprocess
+    fastprocess = FastPreProcess(filedetail)
+
+    global process
+    process = fastprocess.process
     print("Global Filedetail Fixed")
 
 
