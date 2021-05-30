@@ -1,7 +1,7 @@
 .banner{
     width: 100%;
     height: 100vh;
-    background-image: linear-gradient(rgba(0,0,0,0.50), rgba(0,0,0,0.50)), url("../Images/cover.png");
+    background-image: linear-gradient(rgba(0,0,0,0.50), rgba(0,0,0,0.50)), url("cover.png");
     background-size: cover;
     background-position: center;
 }
