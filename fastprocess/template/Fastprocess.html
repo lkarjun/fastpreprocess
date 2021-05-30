@@ -113,14 +113,14 @@
             <table class="table table-striped table-hover">
 
                 <tr>
-                    <th> </th>
+                    <th class="bg-success"> </th>
                     {% for n in quick.numerical_col %}
-                        <th class="font-weight-bold text-capitalize">{{n}}</th>
+                        <th class="font-weight-bold text-capitalize bg-success">{{n}}</th>
                     {% endfor %}
                 </tr>
                 {% for variable, data in quick.zipped%}
                 <tr>
-                    <th class="font-weight-bold bg-info text-capitalize">{{ variable }}</th>
+                    <th class="font-weight-bold bg-primary text-light text-capitalize">{{ variable }}</th>
                     {% for values in data %}
                     <td>{{values}}</td>
                     {% endfor %}
@@ -401,7 +401,7 @@
                         <option value="set_numeric" class="font-weight-bold">SetColumn(Numeric)</option>
                         <option value="set_categorical" class="font-weight-bold">SetColumn(Categorical)</option>
                         <option value="fillmissing_mode" class="font-weight-bold">FillMissing(Mode)</option>
-                        <option value="label_encode" class="text-primary font-weight-bold">Label Encode</option>
+                        <option value="label_encode" class="font-weight-bold">Label Encode</option>
                         <option value="fillmissing_median" class="font-weight-bold">FillMissing(Median)</option>
                         <option value="fillmissing_mean" class="font-weight-bold">FillMissing(Mean)</option>
                         <option value="fillmissing_0" class="font-weight-bold">FillMissing(0)</option>
