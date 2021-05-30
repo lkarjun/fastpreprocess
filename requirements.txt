@@ -12,3 +12,5 @@ nest-asyncio==1.5.1
 
 aiofiles==0.7.0
 httptools==0.2.0
+gunicorn
+uvloop
