@@ -3,7 +3,7 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 import uvicorn
 import os
-
+import pkgutil
 from fastprocess.process import *
 
 
@@ -13,8 +13,12 @@ process = None
 
 app = FastAPI()
 
-app.mount("/static", StaticFiles(directory="fastprocess/static"), name='static')
-templates = Jinja2Templates(directory="fastprocess/template")
+# a = str(__file__)
+#     print(a[:-11]+'static')
+path = str(__file__)
+
+app.mount("/static", StaticFiles(directory=path[:-11]+'static'), name='static')
+templates = Jinja2Templates(directory=path[:-11]+'template')
 
 
 
