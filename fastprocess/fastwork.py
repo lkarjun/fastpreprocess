@@ -13,8 +13,6 @@ process = None
 
 app = FastAPI()
 
-# a = str(__file__)
-#     print(a[:-11]+'static')
 path = str(__file__)
 
 app.mount("/static", StaticFiles(directory=path[:-11]+'static'), name='static')
@@ -39,9 +37,9 @@ def view_new_ds(request: Request):
 #----------------------------------------------------------------------------------------------
 @app.get('/testing')
 async def home(requset: Request):
-    filename = 'fastprocess/static/dataset/car_sample.csv'
+    filename = path[:-11]+'static/car_sample.csv'
     dm = ','
-    set_global_filedetail(filename, dm)
+    set_global_filedetail(filename, dm, lowmem=False)
     return process_data(requset)
 
 #----------------------------------------------------------------------------------------------
@@ -121,7 +119,7 @@ async def upload(file: UploadFile = File(...), dm=Form(...)):
     with open(filename, 'wb') as file: file.write(content)
 
     try:
-        set_global_filedetail(filename=filename, dm=dm)
+        set_global_filedetail(filename=filename, dm=dm, lowmem=True)
     
         os.remove(filename)
 
