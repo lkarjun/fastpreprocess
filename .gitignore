@@ -1,6 +1,6 @@
 *.vscode
 *__pycache__
-
+*.ipynb_checkpoints
 static/Images/WYOe.gif
 static/js/bin.py
 Untitled.ipynb
@@ -8,3 +8,5 @@ Untitled.ipynb
 .ipynb_checkpoints/Untitled-checkpoint.ipynb
 workout.ipynb
 .ipynb_checkpoints/workout-checkpoint.ipynb
+processed.csv
+setup.txt

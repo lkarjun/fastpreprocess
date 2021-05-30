@@ -1,0 +1,19 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<div class="container">
+    <section style="height: 78vh;" class="pt-5 mt-5">
+        <p class="h1">Something Went Wrong</p>
+        <div class="text-center p-4 m-4 bg-danger text-white">
+            <p class="h2">{{error}}</p>
+        </div>
+
+        <div class="p-4 m-4">
+            <a href="/testing">
+                <button class="btn btn-primary btn-rounded">Check Testing</button>
+            </a>
+        </div>
+    </section>
+</div>
+
+{% endblock %}

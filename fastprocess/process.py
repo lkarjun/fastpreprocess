@@ -1,6 +1,6 @@
-from operation import *
+from fastprocess.operation import *
 
-class FastEda:
+class FastPreProcess:
 
     def __init__(self, file: FileDetail) -> None:
         self.file = file
@@ -9,16 +9,26 @@ class FastEda:
         self.process.start()
 
 
-    def file_columns(self) -> SampleData:
+    def sample(self, new = False) -> SampleData:
+        if new:
+            return SampleData(5,
+                       self.file.objcopy.sample(5).values.tolist(),
+                       self.file.objcopy.columns,
+                       len(self.file.objcopy.columns),
+                       len(self.file.objcopy))
+            
         obj = self.obj
         sample_data = SampleData(5, obj.sample(5).values.tolist(), obj.columns, len(obj.columns), len(obj))
         return sample_data
     
     def quick_stat(self) -> QuickStat:
-        stat = np.round(self.file.obj.describe().values.tolist(), 3).tolist()
-        numerical_col = self.file.obj.select_dtypes(exclude = ['object']).columns.to_list()
-        zipping = [(variable, data) for variable, data in zip(QuickStat().variables, stat)]
-        return QuickStat(stat, numerical_col, zipping)
+        try:
+            stat = np.round(self.file.obj.describe().values.tolist(), 3).tolist()
+            numerical_col = self.file.obj.select_dtypes(exclude = ['object']).columns.to_list()
+            zipping = [(variable, data) for variable, data in zip(QuickStat().variables, stat)]
+            return QuickStat(stat, numerical_col, zipping)
+        except:
+            return 0
 
     def correlation(self) -> Correlation:
         
@@ -36,3 +46,4 @@ class FastEda:
                            correlation = None,
                            empty=0
                     )
+

@@ -2,7 +2,8 @@ import tqdm
 import pandas as pd
 import numpy as np
 from pandas.api.types import is_bool_dtype, is_numeric_dtype
-from essential import *
+# from essential import *
+from fastprocess.essential import *
 
 class NumericDetail(BaseModel):
     data: TypeVar('pandas.core.series.Series')
@@ -16,11 +17,11 @@ class NumericDetail(BaseModel):
     
     def boxplot_json(self):
         stat = (self.vstat.iloc[[3, 4, 5, 6,7]].values).flatten().astype(int).tolist()
-        if self.voutlier_track is None:
-            json = [{'name': self.vname, 'type': 'boxPlot', 'data': [{'x': self.vname, 'y': int(stat)}]}]
-            return json
-        json = [{'name': self.vname, 'type': 'boxPlot', 'data': [{'x': self.vname, 'y': stat}]}, self.outlier_json()]
+        # if self.voutlier_track is None:
+        json = [{'name': self.vname, 'type': 'boxPlot', 'data': [{'x': self.vname, 'y': stat}]}]
         return json
+        # json = [{'name': self.vname, 'type': 'boxPlot', 'data': [{'x': self.vname, 'y': stat}]}, self.outlier_json()]
+        # return json
     
     def outlier_json(self):
         json = {'name': 'outliers', 
@@ -73,7 +74,7 @@ class IndividualVariable():
         return (outlier.astype(int)).tolist()
         
     def start(self):
-        for i in tqdm.tqdm(self.filedetail.obj.columns, desc="Univariate Analysing"):
+        for i in tqdm.tqdm(self.filedetail.obj.columns, desc="Analysing"):
             v = Bivariate(self.filedetail.obj[i])
             if v.var_type == 'numeric':
                 self.IV.TotalNumeric += 1
@@ -146,7 +147,7 @@ class Bivariate:
         ]
         summary['Skewness'] = self.data.skew()
         summary['Kurtosis'] = self.data.kurt()
-        return summary.round(7).to_frame()
+        return summary.round(3).to_frame()
 
     def categorical_summary(self):
 
@@ -171,3 +172,5 @@ class Bivariate:
             return None
         else:
             return missing_values, round(missing_values / len(self.data), 3)
+
+    
