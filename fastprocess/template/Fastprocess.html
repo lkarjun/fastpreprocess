@@ -234,11 +234,7 @@
                             </tr>
 
                             <tr>
-                                {% if values.vmissing is none %}
-                                    <th>Missing Percentage</th> <td> 0 %</td>
-                                {% else %}
-                                    <th>Missing Percentage</th> <td> {{ values.vmissing[1]}} %</td>
-                                {% endif %}
+                                <th>Missing Percentage</th> <td> {{ values.vmissing[1]}}</td>   
                             </tr>
                         </table>
                     </div>
@@ -285,11 +281,12 @@
                       <select class="select form-select" id="{{values.vname+'form'}}">
                         <option value="none" selected class="font-weight-bold"> None </option>
                         <option value="drop" class="font-weight-bold">Drop</option>
+                        <option value="set_numeric" class="font-weight-bold">SetColumn(Numeric)</option>
+                        <option value="set_categorical" class="font-weight-bold">SetColumn(Categorical)</option>
+                        <option value="fillmissing_mode" class="font-weight-bold">FillMissing(Mode)</option>
                         <option value="fillmissing_median" class="font-weight-bold">FillMissing(Median)</option>
                         <option value="fillmissing_mean" class="font-weight-bold">FillMissing(Mean)</option>
                         <option value="fillmissing_0" class="font-weight-bold">FillMissing(0)</option>
-                        <option value="set_numeric" class="font-weight-bold">SetColumn(Numeric)</option>
-                        <option value="set_categorical" class="font-weight-bold">SetColumn(Categorical)</option>
                       </select>
                     </div>
                   
@@ -353,6 +350,10 @@
                         <th class="font-weight-bold">Highest occuring values</th><td>{{ values.vsummary[1][2] }}</td>
                     </tr>
 
+                    <tr class="bg-danger text-light">
+                        <th class="font-weight-bold">Total Missing {{ values.vmissing[1]}}%</th><td>{{ values.vmissing[0]}}</td>
+                    </tr>
+
                 </table>
             </div>
 
@@ -400,8 +401,8 @@
                         <option value="get_dummy" class="font-weight-bold">Get dummy(Drop 1st column)</option>
                         <option value="set_numeric" class="font-weight-bold">SetColumn(Numeric)</option>
                         <option value="set_categorical" class="font-weight-bold">SetColumn(Categorical)</option>
-                        <option value="fillmissing_mode" class="font-weight-bold">FillMissing(Mode)</option>
                         <option value="label_encode" class="font-weight-bold">Label Encode</option>
+                        <option value="fillmissing_mode" class="font-weight-bold">FillMissing(Mode)</option>
                         <option value="fillmissing_median" class="font-weight-bold">FillMissing(Median)</option>
                         <option value="fillmissing_mean" class="font-weight-bold">FillMissing(Mean)</option>
                         <option value="fillmissing_0" class="font-weight-bold">FillMissing(0)</option>
