@@ -25,7 +25,7 @@ setuptools.setup(
         "Operating System :: OS Independent",
     ],
     packages=setuptools.find_packages(),
-    python_requires=">=3.8",
+    python_requires=">=3.7",
     install_requires=[
         "uvicorn==0.13.4",
         "pydantic==1.8.2",
