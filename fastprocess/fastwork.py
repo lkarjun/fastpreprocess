@@ -120,8 +120,6 @@ async def upload(file: UploadFile = File(...), dm=Form(...)):
 
     try:
         set_global_filedetail(filename=filename, dm=dm, lowmem=True)
-    
-        os.remove(filename)
 
         return {'filename': filedetail.filename, 'filesize': filedetail.filesize, 'filetype': filedetail.filetype, 'verify': "Validated"}
 
@@ -142,8 +140,8 @@ def set_global_filedetail(filename, dm, lowmem):
     df = pd.read_csv(filename, delimiter=dm, low_memory=lowmem)
     print("Global Filedetail Processing")
     global filedetail
-    filedetail = FileDetail(filename = filename, filetype = filename.split('.')[-1], filesize=f"{os.stat(filename).st_size} bytes", 
-                            sysfilepath=filename, obj=df, missing = df.isna().sum().values.sum(), objcopy = df.copy())
+    filedetail = FileDetail(filename = filename, filetype = 'None', filesize="None", 
+                            sysfilepath="None", obj=df, missing = df.isna().sum().values.sum(), objcopy = df.copy())
     
     global fastprocess
     fastprocess = FastPreProcess(filedetail)
