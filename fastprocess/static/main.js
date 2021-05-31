@@ -1,3 +1,30 @@
+function action_main(action, value){
+  column = $('#'+value).val();
+  action_ = $('#'+action).val();
+  console.log("Column", column);
+  console.log("Action", action_);
+  $('#action_btn').css('display', 'none');
+  
+  $.ajax({
+    type: 'get',
+    url: '/action',
+    data: {'column': column, 'action': action_},
+    contentType: "application/json",
+    success: function(data){
+      $('#action_btn').css('display', 'block');
+      alert(data);
+      console.log(data);
+    },
+    error: function(data){
+      $('#action_btn').css('display', 'block');
+      alert(data);
+    }
+});
+}
+
+
+
+
 function action_center(value){
   select = '#'+value+'form'
   button = '#'+value+'button'

@@ -5,7 +5,6 @@
     
 <div class="jumbotron p-1 m-1">
     <p class="h2"style="font-family: 'Exo', sans-serif;">File name is {{ file.filename }}</p>
-
 </div>
 
 <!-------Section Overview--------->
@@ -50,9 +49,10 @@
 <!-------End---------->
 <hr style="border: 1px solid rgb(0, 0, 0); border-radius: 5px; color: black;">
 <!-------Section Badge-------->
-<section id='Sbadge'>
+<section id='Sbadge' class="pe-3 me-3 ms-3 ps-3">
     <div class="container">
     <div class="row">
+        <p class="h2"style="font-family: 'Exo', sans-serif;">Badge</p>
         <div class="col-md-12">
             <div id='Badge'>
                 <a href="#sample" class="btn btn-round bg-success text-light m-2 p-2">Sample 5</a>
@@ -64,6 +64,46 @@
 </section>
 
 <!-------End------------------>
+
+<!--Action Center-->
+
+<section class="pe-3 me-3 ms-3 ps-3 pt-1 pb-3 mt-1 mb-3">
+    <div class="container">
+        <div class="row">
+            <p class="h2"style="font-family: 'Exo', sans-serif;">Action Center</p>    
+        
+                <div class="col-md-4 col-xl-4 col-sm-12 col-12 pt-2">
+                    <select class="select form-select" id="actionSec1">
+                        <option value="none" selected class="font-weight-bold"> None </option>
+                        <option value="drop" class="font-weight-bold">Drop</option>
+                        <option value="set_numeric" class="font-weight-bold">SetColumn(Numeric)</option>
+                        <option value="set_categorical" class="font-weight-bold">SetColumn(Categorical)</option>
+                        <option value="fillmissing_mode" class="font-weight-bold">FillMissing(Mode)</option>
+                        <option value="fillmissing_median" class="font-weight-bold">FillMissing(Median)</option>
+                        <option value="fillmissing_mean" class="font-weight-bold">FillMissing(Mean)</option>
+                        <option value="fillmissing_0" class="font-weight-bold">FillMissing(0)</option>
+                        <option value="get_dummy" class="font-weight-bold">Get dummy(Drop 1st column)</option>
+                        <option value="label_encode" class="font-weight-bold">Label Encode</option>
+                    </select>
+                  </div>
+                  
+                  <div class="col-md-4 col-xl-4 col-sm-12 col-12 pt-2">
+                    <select class="select form-select" id="actionSec2">
+                        <option value="none" selected class="font-weight-bold"> None </option>
+                      </select>
+                  </div>
+
+                  <div class="col-md-4 col-xl-4 col-sm-12 col-12 pt-2" id="action_btn" style="display: block;">
+                      <button onclick='action_main("actionSec1", "actionSec2")' class="btn btn-danger btn-rounded">Okay</button>
+                      <a href="/view"><button class="btn btn-primary btn-rounded"> View Dataset</button></a>
+                  </div>
+            
+            </div>
+        </div>
+    </div>
+</section>
+<hr style="border: 4px solid rgb(71, 71, 71); border-radius: 5px;">
+<!--End-->
 
 <!-- Section Sample Data display-->
 <section id="sample" class="p-3 m-3">
@@ -79,6 +119,9 @@
                 <tr class="bg-primary text-light">
                     {% for n in sample.columns %}
                         <th class="font-weight-bold text-capitalize h6">{{n}}</th>
+                        <script>
+                            $('<option value="{{ n }}" class="font-weight-bold">{{ n }}</option>').appendTo("#actionSec2");
+                        </script>
                     {% endfor %}
                 </tr>
                 {% for n in sample.sampledata %}
