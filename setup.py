@@ -8,7 +8,8 @@ setuptools.setup(
     version="0.1.3",
     entry_points = {
         'console_scripts': [
-            'fastprocess = fastprocess.fastwork:run_from_local'
+            'fastprocess = fastprocess.fastwork:run_from_local',
+            'fp = fastprocess.fastwork:run_from_local'
         ],
     },
     author="LalKrishna Arjun",
