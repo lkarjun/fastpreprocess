@@ -219,16 +219,16 @@ def start(filename: Union[str, None] = None, dm=',', port = 8000, lowmem=True):
         print(e)
 
 
-def start_from_cloud(filename: Union[str, None] = None, dm=',', port=8000):
+def start_from_cloud(filename: Union[str, None] = None, dm=',', port=8000, lowmem=True):
 
     from pyngrok import ngrok
     try:
         ngrok_tunnel = ngrok.connect(port)
         
-        if filename is None: print(f'Visit: {ngrok_tunnel.public_url}/index')
+        if filename is None: print(f'\n\033[93mVisit: {ngrok_tunnel.public_url}/index\033[0m\n')
         else: 
-            set_global_filedetail(filename=filename, dm=dm)
-            print(f'Visit: {ngrok_tunnel.public_url}')
+            set_global_filedetail(filename=filename, dm=dm, lowmem=lowmem)
+            print(f'\n\033[93mVisit: {ngrok_tunnel.public_url}\033[0m\n')
 
         uvicorn.run(app, port=port)
     
