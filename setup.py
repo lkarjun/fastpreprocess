@@ -12,7 +12,7 @@ setuptools.setup(
             'fp = fastpreprocess.fastwork:run_from_local'
         ],
     },
-    author="LalKrishna Arjun",
+    author="Lal Krishna Arjun",
     author_email="lk.arjun@hotmail.com",
     description="A new way to preprocess data for ML.",
     long_description=long_description,
@@ -21,9 +21,10 @@ setuptools.setup(
         "Source Code": "https://github.com/lkarjun/fastpreprocess",
     },
     classifiers=[
-        "Programming Language :: Python :: 3",
+        "Programming Language :: Python :: 3.7",
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
+        "Development Status :: 0.1.6 - Beta"
     ],
     packages=setuptools.find_packages(),
     python_requires=">=3.7",
