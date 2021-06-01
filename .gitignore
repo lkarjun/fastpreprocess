@@ -12,4 +12,4 @@ processed.csv
 # setup.py
 build
 dist
-fastprocess.egg-info
+fastpreprocess.egg-info
