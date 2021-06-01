@@ -140,7 +140,7 @@ def set_global_filedetail(filename, dm, lowmem):
     df = pd.read_csv(filename, delimiter=dm, low_memory=lowmem)
     print("Global Filedetail Processing")
     global filedetail
-    filedetail = FileDetail(filename = filename, filetype = 'None', filesize="None", 
+    filedetail = FileDetail(filename = filename, filetype = 'csv', filesize="None", 
                             sysfilepath="None", obj=df, missing = df.isna().sum().values.sum(), objcopy = df.copy())
     
     global fastprocess
@@ -200,10 +200,19 @@ def label_encode(column):
 #-----------------------------------------------------------------------------------------------------------------------
 
 def run_from_local():
+    '''Entry point for console script
+        args: -fn = Filename, -dm = delimiter, -p = Port, -c = Cloud console.
+    '''
     arg = process_arg()
     low_memory = True if arg.lowmemory.lower() in ('True', 'true', 't') else False
+    cloud_console = True if arg.cloudconsole.lower() in ('True', 'true', 't') else False
     port = int(arg.port)
-    start(arg.filename, arg.delimiter, port, low_memory)
+
+    if cloud_console:
+        start_from_cloud(arg.filename, arg.delimiter, port, low_memory)
+    else:
+        start(arg.filename, arg.delimiter, port, low_memory)
+
 
 def start(filename: Union[str, None] = None, dm=',', port = 8000, lowmem=True):
     try:

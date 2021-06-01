@@ -66,4 +66,11 @@ def process_arg():
             help = "pandas low_memory argument: default = false, you can set true or false"
     )
 
+    parser.add_argument(
+            "-cl",
+            "--cloudconsole",
+            default='false',
+            help = "pandas low_memory argument: default = false, you can set true or false"
+    )
+
     return parser.parse_args()

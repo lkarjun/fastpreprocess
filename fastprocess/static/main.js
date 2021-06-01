@@ -43,6 +43,10 @@ function action_center(value){
       $(button).css('display', 'block');
       alert(data);
       console.log(data);
+    },
+    error: function(data){
+      $(button).css('display', 'block');
+      alert(data);
     }
 });
 }
@@ -57,7 +61,10 @@ function dropna(){
         alert(data);
         window.location.reload();
         console.log(data);
-      }
+      },
+      error: function(data){
+      alert(data);
+    }
   });
 }
 
@@ -73,7 +80,10 @@ function get_dummy(value, id){
       success: function(data){
         alert("Okay");
         console.log(data);
-      }
+      },
+      error: function(data){
+      alert(data);
+    }
   })
 }
 
