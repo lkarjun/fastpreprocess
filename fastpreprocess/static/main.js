@@ -11,6 +11,9 @@ function action_main(action, value){
     data: {'column': column, 'action': action_},
     contentType: "application/json",
     success: function(data){
+      if(action_ == 'drop' || action_ == 'get_dummy'){
+        $('#'+column).css('display', 'none');
+      }
       $('#action_btn').css('display', 'block');
       alert(data);
       console.log(data);

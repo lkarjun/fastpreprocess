@@ -128,7 +128,7 @@
                     {% for n in sample.columns %}
                         <th class="font-weight-bold text-capitalize h6">{{n}}</th>
                         <script>
-                            $('<option value="{{ n }}" class="font-weight-bold">{{ n }}</option>').appendTo("#actionSec2");
+                            $('<option value="{{ n }}" class="font-weight-bold" id = "{{n}}" >{{ n }}</option>').appendTo("#actionSec2");
                         </script>
                     {% endfor %}
                 </tr>
