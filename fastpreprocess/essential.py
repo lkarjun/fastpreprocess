@@ -70,7 +70,7 @@ def process_arg():
             "-cl",
             "--cloudconsole",
             default='false',
-            help = "pandas low_memory argument: default = false, you can set true or false"
+            help = "User must pass -cl = true (only if the package is running in the cloud), to get the public URL: default = false."
     )
 
     return parser.parse_args()
