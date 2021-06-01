@@ -112,14 +112,15 @@ async def copy_analysis(request: Request):
 
 
 @app.post('/edafileupload')
-async def upload(file: UploadFile = File(...), dm=Form(...)):
-    
+async def upload(file: UploadFile = File(...), dm=Form(...), lowmem=Form(...)):
+    lowmem = True if lowmem == 'True' else False
+
     filename = file.filename
     content = await file.read()
     with open(filename, 'wb') as file: file.write(content)
 
     try:
-        set_global_filedetail(filename=filename, dm=dm, lowmem=True)
+        set_global_filedetail(filename=filename, dm=dm, lowmem=lowmem)
 
         return {'filename': filedetail.filename, 'filesize': filedetail.filesize, 'filetype': filedetail.filetype, 'verify': "Validated"}
 

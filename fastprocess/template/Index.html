@@ -11,7 +11,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Exo&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js@3.2.1/dist/chart.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
-    <link rel="shortcut icon" href="{{ url_for('static', path='logo.png') }}" type="image/x-icon">
+    <link rel="shortcut icon" href="static/logo.png" type="image/x-icon">
     
     <title>{{ title }}</title>
     <script>
@@ -73,19 +73,27 @@
         <div class="container text-center">
 
             <div class="jumbotron p-3 m-3">
-                <h2 class="display-6 pb-3 font-weight-bold" style="line-height: 20px;  font-family: 'Exo', sans-serif;"> Upload Your File</h1>
-                <p>(Format supported: csv, txt, xlsx, xls)</p>
+                <h2 class="display-6 pb-3 font-weight-bold" style="line-height: 20px;  font-family: 'Exo', sans-serif;"> Upload File</h1>
+                <p>(Format supported: csv)</p>
             </div>
             
 
 
-            <form enctype="multipart/form-data" id="UploadForm" action="/edafileupload" method="POST">
+            <form enctype="multipart/form-data" id="UploadForm" action="/edafileupload" method="POST" class="form-outline">
                 <div class="form-group">
                     <input type="file" accept=".xls,.xlsx,.csv, .txt" required id='fileData' class="btn">
                 </div>
 
                 <div class="form-group pt-4">
                     Delimiter: <input type="text" id="delimiter" required>
+                </div>
+
+                <div class="form-group pt-4">
+                    Pandas Low Memory:
+                    <select id='lowmem' class="select form-select mx-auto" style="width: auto">
+                        <option value="False" selected>False</option>
+                        <option value="True">True</option>
+                    </select>
                 </div>
                 
                 <div class="form-group pt-3">
@@ -111,11 +119,6 @@
                 <tr class="table-light">
                     <td class="font-weight-bold">File Name: </td>
                     <td id='filename'></td>
-                </tr>
-
-                <tr class="table-secondary">
-                    <td class="font-weight-bold">File Size: </td>
-                    <td id='filesize'></td>
                 </tr>
 
                 <tr class="table-success">
@@ -176,12 +179,14 @@ $(document).ready(function (e) {
         e.preventDefault();
         var formData = new FormData();
         var delimiter = $("#delimiter").val();
-  
+        var lowmem = $('#lowmem').val();
         formData.append('file', $('#fileData')[0].files[0]);
         formData.append('dm', delimiter);
-        console.log(delimiter);
+        formData.append('lowmem', lowmem);
+
         $('#pro').css('display', 'block');
         $("#upload-sec").css('display', 'none');
+
         $.ajax({
           xhr: function() {
             var xhr = new window.XMLHttpRequest();
@@ -213,7 +218,6 @@ $(document).ready(function (e) {
                 }
                 $("#show-details").css('display', 'block');
                 $('#filename').html(data.filename);
-                $('#filesize').html(data.filesize);
                 $('#filetype').html(data.filetype);
                 $('#verify').html(data.verify);
                 $('#up_').html("Processed")
