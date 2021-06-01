@@ -4,7 +4,7 @@ from fastapi.templating import Jinja2Templates
 import uvicorn
 import os
 import pkgutil
-from fastprocess.process import *
+from fastpreprocess.process import *
 
 
 filedetail = None

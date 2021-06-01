@@ -4,12 +4,12 @@ with open("README.md", "r", encoding="utf-8") as fh:
     long_description = fh.read()
 
 setuptools.setup(
-    name="fastprocess",
+    name="fastpreprocess",
     version="0.1.4",
     entry_points = {
         'console_scripts': [
-            'fastprocess = fastprocess.fastwork:run_from_local',
-            'fp = fastprocess.fastwork:run_from_local'
+            'fastpreprocess = fastpreprocess.fastwork:run_from_local',
+            'fp = fastpreprocess.fastwork:run_from_local'
         ],
     },
     author="LalKrishna Arjun",
@@ -41,7 +41,7 @@ setuptools.setup(
         "aiofiles==0.7.0",
         "httptools==0.2.0",
     ],
-    package_data={"fastprocess": ["template/*", "static/*"]},
+    package_data={"fastpreprocess": ["template/*", "static/*"]},
     include_package_data = True
 )
 
