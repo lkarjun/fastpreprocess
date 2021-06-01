@@ -45,7 +45,7 @@ def process_arg():
     parser.add_argument(
             "-fn",
             "--filename",
-            help = "local filename or raw url")
+            help = "local csv filename or raw url, default: None")
 
     parser.add_argument(
             "-dm",

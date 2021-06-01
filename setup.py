@@ -5,7 +5,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setuptools.setup(
     name="fastpreprocess",
-    version="0.1.5",
+    version="0.1.6",
     entry_points = {
         'console_scripts': [
             'fastpreprocess = fastpreprocess.fastwork:run_from_local',
@@ -24,7 +24,7 @@ setuptools.setup(
         "Programming Language :: Python :: 3.7",
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
-        "Development Status :: 0.1.6 - Beta"
+        "Development Status :: 4 - Beta"
     ],
     packages=setuptools.find_packages(),
     python_requires=">=3.7",
