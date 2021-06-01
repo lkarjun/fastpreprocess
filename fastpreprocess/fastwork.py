@@ -2,8 +2,6 @@ from fastapi import FastAPI, Request, UploadFile, Form, File
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 import uvicorn
-import os
-import pkgutil
 from fastpreprocess.process import *
 
 
@@ -52,6 +50,7 @@ def tester(column, action):
     elif action[:11] == 'fillmissing': return missing(column, action[12:])
     elif action in ['set_numeric', 'set_categorical']: return convert(column, action[4:])
     elif action == 'label_encode': return label_encode(column)
+    elif action[:6] == 'scalar': return scaler(column, action[7:])
     else: return "Cool"
 
 @app.get('/drop')
@@ -130,7 +129,7 @@ async def upload(file: UploadFile = File(...), dm=Form(...), lowmem=Form(...)):
 @app.get('/save')
 def save_file():
     from fastapi.responses import FileResponse
-    filedetail.objcopy.to_csv('processed.csv')
+    filedetail.objcopy.to_csv('processed.csv', index = False)
     return FileResponse('processed.csv', filename='processed.csv')
 
 #---------------------------------------------------------------------------------------------------------------------
@@ -198,6 +197,28 @@ def label_encode(column):
     d = dict(enumerate(filedetail.objcopy[column].cat.categories))
     filedetail.objcopy[column] = filedetail.objcopy[column].cat.codes
     return f"Label Encoded: {d}"
+
+
+def scaler(column, method):
+    from sklearn.preprocessing import StandardScaler, MinMaxScaler, Normalizer
+    if method == 'standard':
+        try:
+            scalar = StandardScaler()
+            values = scalar.fit_transform(filedetail.objcopy[column].values.reshape(-1, 1))
+            filedetail.objcopy[column] = pd.Series(np.squeeze(values, 1))
+            return f"{column} Standardized: mean {scalar.mean_}, scale {scalar.scale_}, variance {scalar.var_}"
+        except Exception as e:
+            return f"Error When Standardize {column}: {e}"
+    
+    else:
+        try:
+            scalar = MinMaxScaler()
+            values = scalar.fit_transform(filedetail.objcopy[column].values.reshape(-1, 1))
+            filedetail.objcopy[column] = pd.Series(np.squeeze(values, 1))
+            return f"{column} MinMaxScaling Finished: data_min {scalar.data_min_} data_max {scalar.data_max_} data_range {scalar.data_range_}"
+        except Exception as e:
+            return f"Error When Min Max scaling {column}: {e}"
+
 #-----------------------------------------------------------------------------------------------------------------------
 
 def run_from_local():
