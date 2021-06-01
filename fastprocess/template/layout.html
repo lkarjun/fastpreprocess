@@ -93,23 +93,38 @@
     <div class="container">
       <!-- Navbar brand -->
       <a href="/index">
-        <p style="font-family:'Pattaya', sans-serif;" class="h1 text-success me-5 ms-2">fastprocess</p>
+        <p style="font-family:'Pattaya', sans-serif;" class="h2 text-success me-5 ms-2">fastprocess</p>
       </a>
         
-  
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-mdb-toggle="collapse"
+        data-mdb-target="#navbarNavAltMarkup"
+        aria-controls="navbarNavAltMarkup"
+        aria-expanded="false"
+        aria-label="Toggle navigation">
+    
+        <img src="{{ url_for('static', path='menu-outline.svg') }}">
+
+    </button>
       <!-- Collapsible wrapper -->
-      <div class="collapse navbar-collapse" id="navbarButtonsExample">
+      <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <!-- Left links -->
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           
           <li class="nav-item">
-            <a class="nav-link" href="/"><button class="btn btn-primary">Workspace</button></a>
+            <a class="nav-link font-weight-bold" href="/">Workspace</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/view"><button class="btn btn-primary">View</button></a>
+            <a class="nav-link font-weight-bold" href="/view">View</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/index"><button class="btn btn-primary">New</button></a>
+            <a class="nav-link font-weight-bold" href="/index">New</a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link font-weight-bold" href="/testing">Check testing</a>
           </li>
         </ul>
         <!-- Left links -->

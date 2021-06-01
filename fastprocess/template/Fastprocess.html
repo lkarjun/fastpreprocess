@@ -71,8 +71,14 @@
     <div class="container">
         <div class="row">
             <p class="h2"style="font-family: 'Exo', sans-serif;">Action Center</p>    
-        
-                <div class="col-md-4 col-xl-4 col-sm-12 col-12 pt-2">
+
+                  <div class="col-md-4 col-xl-4 col-sm-12 col-12 pt-2">
+                    <select class="select form-select" id="actionSec2">
+                        <option value="none" selected class="font-weight-bold"> None </option>
+                    </select>
+                  </div>
+            
+                  <div class="col-md-4 col-xl-4 col-sm-12 col-12 pt-2">
                     <select class="select form-select" id="actionSec1">
                         <option value="none" selected class="font-weight-bold"> None </option>
                         <option value="drop" class="font-weight-bold">Drop</option>
@@ -87,17 +93,14 @@
                     </select>
                   </div>
                   
-                  <div class="col-md-4 col-xl-4 col-sm-12 col-12 pt-2">
-                    <select class="select form-select" id="actionSec2">
-                        <option value="none" selected class="font-weight-bold"> None </option>
-                      </select>
-                  </div>
-
                   <div class="col-md-4 col-xl-4 col-sm-12 col-12 pt-2" id="action_btn" style="display: block;">
                       <button onclick='action_main("actionSec1", "actionSec2")' class="btn btn-danger btn-rounded">Okay</button>
                       <a href="/view"><button class="btn btn-primary btn-rounded"> View Dataset</button></a>
                   </div>
-            
+
+                  <div class="pt-2">
+                    <a href="/objcopyAnalysis"><button class="btn btn-primary btn-rounded">Analyse</button></a>
+                  </div>
             </div>
         </div>
     </div>
