@@ -41,6 +41,9 @@ async def home(requset: Request):
     return process_data(requset)
 
 #----------------------------------------------------------------------------------------------
+@app.get('/advance')
+def FullAction(request: Request):
+    return templates.TemplateResponse('action_center.html', context={'request':request})
 
 @app.get('/action')
 def tester(column, action):
@@ -59,6 +62,7 @@ def dropna(data):
     filedetail.objcopy = filedetail.objcopy.dropna()
     filedetail.obj = filedetail.obj.dropna()
     filedetail.missing = filedetail.obj.isna().sum().values.sum()
+    global fastprocess
     fastprocess = FastPreProcess(filedetail)
     global process
     process = fastprocess.process
