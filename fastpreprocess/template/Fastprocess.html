@@ -29,7 +29,7 @@
                                 <tr>
                                     <th class="font-weight-bold">Drop Missing Values</th>
                                     <td class="align-items-center">
-                                        <button class="btn btn-rounded btn-primary" onclick="dropna()">click</button>
+                                        <button class="btn btn-rounded btn-primary" onclick="dropna()" id='dropingall'>click</button>
                                     </td>
                                 </tr>
                             </table>
@@ -104,7 +104,8 @@
                   </div>
 
                   <div class="pt-2">
-                    <a href="/objcopyAnalysis"><button class="btn btn-primary btn-rounded">Analyse</button></a>
+                    <a href="/objcopyAnalysis"><button class="btn btn-primary">Analyse</button></a>
+                    <a href="/advance"><button class="btn btn-light"><img src="{{ url_for('static', path='menu-outline.svg') }}"></button></a>
                   </div>
             </div>
         </div>
@@ -309,9 +310,8 @@
             boxplot({{values.boxplot_json()|tojson}}, "{{ values.vhtmlid[0]+'box' }}");                
             distribution({{values.distribution_json()|tojson}}, "{{ values.vhtmlid[0]+'dis' }}", "{{ values.vname }}");
             
-            // <!------------Badge Setting------------->
-
-            $("<a href='{{values.vhtmlid[0]}}' class='btn btn-round bg-secondary text-light m-2 p-2'>{{values.vname}}</a>").appendTo("#Badge");
+            // <!------------Badge Setting------------->        
+            $("<a href='{{values.vhtmlid[0]}}' class='btn btn-round bg-secondary text-light m-2 p-2'>{{values.vname}}<span class='badge bg-danger ms-2'>{{ values.vmissing[0] }}</span></a>").appendTo("#Badge");
 
             // <!------------ Badge Seted ------------->
             
@@ -437,7 +437,7 @@
         </div> <!------------BarPlot Visualising finish------------->
         
         <script>
-                $('<a href="{{values.vhtmlid[0]}}" class="btn btn-round bg-warning text-light m-2 p-2">{{values.vname}}</a>').appendTo("#Badge");
+                $('<a href="{{values.vhtmlid[0]}}" class="btn btn-round bg-warning text-light m-2 p-2">{{values.vname}}<span class="badge bg-danger ms-2">{{ values.vmissing[0] }}</span></a>').appendTo("#Badge");
                 chartbar({{ values.barplot_json()|tojson }}, "{{ values.vhtmlid[0]+'bar' }}");
         </script>
        
