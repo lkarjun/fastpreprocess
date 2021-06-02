@@ -5,6 +5,7 @@ class FastPreProcess:
     def __init__(self, file: FileDetail) -> None:
         self.file = file
         self.obj = file.obj
+        self.copy = file.objcopy
         self.process = IndividualVariable(self.file)
         self.process.start()
 
@@ -46,4 +47,9 @@ class FastPreProcess:
                            correlation = None,
                            empty=0
                     )
+
+
+    def get_info(self, column):
+        temp = self.copy[column]
+        return {'dtype': f'{temp.dtype}', 'count': str(temp.count()), 'unique': str(temp.nunique())}
 
