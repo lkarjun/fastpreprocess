@@ -55,6 +55,7 @@ function action_center(value){
 }
 
 function dropna(){
+  $('#dropingall').css('display', 'none');
   $.ajax({
       type: 'get',
       url: '/drop',
@@ -64,9 +65,11 @@ function dropna(){
         alert(data);
         window.location.reload();
         console.log(data);
+        $('#dropingall').css('display', 'block');
       },
       error: function(data){
       alert(data);
+      $('#dropingall').css('display', 'block');
     }
   });
 }
