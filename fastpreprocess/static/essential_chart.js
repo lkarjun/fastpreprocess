@@ -8,8 +8,8 @@ function corr(data){
           heatmap: {
             radius: 8,
             colorScale: {
-              ranges: [{from: 0, to: 1, color: '#0000ff'},
-                       {from: -1, to: 0, color: '#ff0000'}
+              ranges: [{from: 0, to: 1, color: '#01579B'},
+                       {from: -1, to: 0, color: '#004D40'}
                        ],
             },
             }
