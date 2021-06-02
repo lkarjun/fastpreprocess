@@ -94,3 +94,38 @@ function get_dummy(value, id){
 }
 
 
+
+
+// Advance section scripts.....
+
+function var_change() {
+  $('#select_var').css("display", "none");
+  value = $('#select_var').val();
+
+  $('#var_name').html(value);
+  $('#select_var').css("display", "block");
+
+  if(value != 'None'){
+      $.ajax({
+      type: 'get',
+      async: true,
+      url: '/info',
+      data: {'column': value},
+      contentType: "application/json",
+      success: function(data){
+          console.log(data);
+          $('#dtype').html(data.dtype);
+          $('#count').html(data.count);
+          $('#unique').html(data.unique);   
+      },
+      error: function(data){
+          alert(data);
+     }
+  });
+}
+else{
+      $('#dtype').html('None');
+      $('#count').html('None');
+      $('#unique').html('None');
+}
+} 

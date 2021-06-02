@@ -2,9 +2,66 @@
 {% block content %}
 
 <div class="container">
-    <section style="height: 78vh;" class="pt-5 mt-5">
-        <p class="h1">Developing...</p>
-    </section>
+
+<div class="jumbotron text-center p-3 m-3">
+    <p class="h1" style="font-family: 'Exo', sans-serif;">Action Center</p>
+</div>
+
+<div class="p-3 m-3">
+    <div class="row">
+        <div class="col-md-6 col-sm-12 mt-md-5 mt-sm-0">
+            <p class="h3 d-flex justify-content-center" style="font-family: 'Exo', sans-serif;">Choose Variable: </p>
+             <div class="d-flex justify-content-center">
+                <select class="select  form-select w-25" id='select_var' onchange="var_change()">
+                    <option value="None">None</option> 
+                    {% for n in sample.columns %}
+                    <option value="{{n}}" id="{{n}}" class="">{{n}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <table class="table">
+
+                <tr>
+                    <th class="font-weight-bold">Dtype</th><td id='dtype'>None</td>
+                </tr>
+
+                <tr>
+                    <th class="font-weight-bold">Non-Null Count</th><td id='count'>None</td>
+                </tr>
+
+                <tr>
+                    <th class="font-weight-bold">Total Unique</th><td id='unique'>None</td>
+                </tr>
+                
+            </table>
+        </div>
+    </div>
+
+</div>
+
+
+
+<section class="p-3 m-3" style="background-color: #00897B; height: 90vh;">
+    <div class="container">
+        <p class="h3 text-light text-center pt-3" style="font-family: 'Exo', sans-serif;" id='var_name'></p>
+        <div class="row">
+            
+            <div class="col-md-6">
+                
+                
+            </div>
+
+            <div class="col-md-6">
+
+            </div>
+
+        </div>
+    </div>
+</section>
+
 </div>
 
 {% endblock %}

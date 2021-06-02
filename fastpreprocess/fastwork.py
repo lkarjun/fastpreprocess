@@ -43,7 +43,15 @@ async def home(requset: Request):
 #----------------------------------------------------------------------------------------------
 @app.get('/advance')
 def FullAction(request: Request):
-    return templates.TemplateResponse('action_center.html', context={'request':request})
+    try:
+        return templates.TemplateResponse('action_center.html', 
+                            context={'request':request, 'sample': fastprocess.sample(new=True)})
+    except Exception as e:
+        return templates.TemplateResponse('error_file.html', context={'request': request, 'error': str(e)})
+
+@app.get('/info')
+async def info(column):
+    return fastprocess.get_info(column)
 
 @app.get('/action')
 def tester(column, action):
