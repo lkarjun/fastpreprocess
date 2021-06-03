@@ -53,3 +53,5 @@ class FastPreProcess:
         temp = self.copy[column]
         return {'dtype': f'{temp.dtype}', 'count': str(temp.count()), 'unique': str(temp.nunique())}
 
+    def get_head_tail(self):
+        return self.file.objcopy.head(5).values.tolist(), self.file.objcopy.tail(5).values.tolist()
