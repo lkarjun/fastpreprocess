@@ -9,20 +9,23 @@
 <section id="sample" class="p-3 m-3">
     
     <div class="container">
+        <div class="pb-4">
+            <a href="/save">
+                <button class="btn btn-rounded btn-success">
+                    Save Dataset
+                </button>
+            </a>
+    
+            <a href="/objcopyAnalysis">
+                <button class="btn btn-rounded btn-success">
+                    Analyse
+                </button>
+            </a>
+        </div>
+
         <div class="jumbotron pb-2 mb-2">
             <h2 class="display-6" style="font-family: 'Exo', sans-serif;">Sample {{sample.samplesize}}</h2>
         </div>
-        <a href="/save">
-            <button class="btn btn-rounded btn-success">
-                Save Dataset
-            </button>
-        </a>
-
-        <a href="/objcopyAnalysis">
-            <button class="btn btn-rounded btn-success">
-                Analyse
-            </button>
-        </a>
     
         <div class="table-responsive pt-4">
             <table class="table table-striped table-hover">
@@ -47,6 +50,57 @@
         </div>
 
         
+
+        <div class="jumbotron pt-2 mt- 2pb-2 mb-2">
+            <h2 class="display-6" style="font-family: 'Exo', sans-serif;">Head 5</h2>
+        </div>
+
+        <table class="table table-striped table-hover">
+            <tr class="bg-primary text-light">
+                {% for n in sample.columns %}
+                    <th class="font-weight-bold text-capitalize h6">{{n}}</th>
+                {% endfor %}
+            </tr>
+            {% for n in head_tail[1] %}
+            <tr>
+               {% for i in n %}
+                    <td class="font-weight-bold">{{i}}</td>
+                {% endfor %} 
+            </tr>
+                {% endfor %}
+            <tr>
+                <td colspan="{{sample.number_of_columns}}" class="text-center font-weight-bold bg-success"> 
+                    Total {{sample.length}} X {{sample.number_of_columns}}
+                </td>
+            </tr>
+        </table>
+
+
+
+        <div class="jumbotron pt-2 mt- 2pb-2 mb-2">
+            <h2 class="display-6" style="font-family: 'Exo', sans-serif;">Tail 5</h2>
+        </div>
+
+        <table class="table table-striped table-hover">
+            <tr class="bg-primary text-light">
+                {% for n in sample.columns %}
+                    <th class="font-weight-bold text-capitalize h6">{{n}}</th>
+                {% endfor %}
+            </tr>
+            {% for h in head_tail[0] %}
+            <tr>
+               {% for i in h %}
+                    <td class="font-weight-bold">{{i}}</td>
+                {% endfor %} 
+            </tr>
+                {% endfor %}
+            <tr>
+                <td colspan="{{sample.number_of_columns}}" class="text-center font-weight-bold bg-success"> 
+                    Total {{sample.length}} X {{sample.number_of_columns}}
+                </td>
+            </tr>
+        </table>
+
     </div>
 
 </section>

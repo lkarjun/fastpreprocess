@@ -3,7 +3,7 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 import uvicorn
 from fastpreprocess.process import *
-
+import os
 
 filedetail = None
 fastprocess = None
@@ -27,7 +27,8 @@ def view_new_ds(request: Request):
     try:
         return templates.TemplateResponse('ViewNewDataset.html', 
                         context={'request': request,
-                                 'sample': fastprocess.sample(new=True)})
+                                 'sample': fastprocess.sample(new=True),
+                                 'head_tail': fastprocess.get_head_tail()})
     except Exception as e:
         return templates.TemplateResponse('error_file.html', context={'request': request, 'error': str(e)})
 
@@ -132,7 +133,11 @@ async def upload(file: UploadFile = File(...), dm=Form(...), lowmem=Form(...)):
 
     try:
         set_global_filedetail(filename=filename, dm=dm, lowmem=lowmem)
-
+        try:
+            os.remove(filename)
+        except:
+            print("Can't delete, file is in current directory...")
+        
         return {'filename': filedetail.filename, 'filesize': filedetail.filesize, 'filetype': filedetail.filetype, 'verify': "Validated"}
 
     except Exception as e:
