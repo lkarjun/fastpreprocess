@@ -16,7 +16,7 @@
 <!-- Section Sample Data display-->
 <section id="sample" class="p-3 m-3">
         <div class="jumbotron pb-2 mb-2">
-            <h2 class="display-6" style="font-family: 'Exo', sans-serif;">Sample {{sample.samplesize}}</h2>
+            <h2 class="display-6" style="font-family: 'Exo', sans-serif;">Sample 5</h2>
             <a href="/objcopyAnalysis"> <button class="btn btn-primary">Analyse</button></a>
         </div>
     
@@ -41,7 +41,6 @@
                 </tr>
             </table>
         </div>
-    </div>
 </section>
 <!---------End------------>
 
@@ -49,48 +48,20 @@
 
 
 <!-- Section Head Data display-->
-<section class="p-3 m-3">
-    <div class="container">
-        <div class="jumbotron pt-4  pb-4 mb-2">
-            <h2 class="display-6" style="font-family: 'Exo', sans-serif;">Head 5</h2>
-            <a href="/objcopyAnalysis"> <button class="btn btn-primary">Analyse</button></a>
-        </div>
+<section id="sample" class="p-3 m-3">
+    <div class="jumbotron pb-2 mb-2">
+        <h2 class="display-6" style="font-family: 'Exo', sans-serif;">Head 5</h2>
+        <a href="/objcopyAnalysis"> <button class="btn btn-primary">Analyse</button></a>
+    </div>
 
-
-        <div class="table-responsive pt-4">
-            <table class="table table-striped table-hover">
-                <tr class="bg-primary text-light">
-                    {% for n in sample.columns %}
-                        <th class="font-weight-bold text-capitalize h6">{{n}}</th>
-                    {% endfor %}
-                </tr>
-                {% for n in head_tail[0] %}
-                <tr>
-                   {% for i in n %}
-                        <td class="font-weight-bold">{{i}}</td>
-                    {% endfor %} 
-                </tr>
-                    {% endfor %}
-                <tr>
-                    <td colspan="{{sample.number_of_columns}}" class="text-center font-weight-bold bg-success"> 
-                        Total {{sample.length}} X {{sample.number_of_columns}}
-                    </td>
-                </tr>
-            </table>
-        </div>
-        
-
-        <div class="jumbotron pt-2 mt- 2pb-2 mb-2">
-            <h2 class="display-6" style="font-family: 'Exo', sans-serif;">Head 5</h2>
-        </div>
-
+    <div class="table-responsive pt-4">
         <table class="table table-striped table-hover">
             <tr class="bg-primary text-light">
                 {% for n in sample.columns %}
                     <th class="font-weight-bold text-capitalize h6">{{n}}</th>
                 {% endfor %}
             </tr>
-            {% for n in head_tail[1] %}
+            {% for n in head_tail[0] %}
             <tr>
                {% for i in n %}
                     <td class="font-weight-bold">{{i}}</td>
@@ -103,46 +74,17 @@
                 </td>
             </tr>
         </table>
-
-
-
-        <div class="jumbotron pt-2 mt- 2pb-2 mb-2">
-            <h2 class="display-6" style="font-family: 'Exo', sans-serif;">Tail 5</h2>
-        </div>
-
-        <table class="table table-striped table-hover">
-            <tr class="bg-primary text-light">
-                {% for n in sample.columns %}
-                    <th class="font-weight-bold text-capitalize h6">{{n}}</th>
-                {% endfor %}
-            </tr>
-            {% for h in head_tail[0] %}
-            <tr>
-               {% for i in h %}
-                    <td class="font-weight-bold">{{i}}</td>
-                {% endfor %} 
-            </tr>
-                {% endfor %}
-            <tr>
-                <td colspan="{{sample.number_of_columns}}" class="text-center font-weight-bold bg-success"> 
-                    Total {{sample.length}} X {{sample.number_of_columns}}
-                </td>
-            </tr>
-        </table>
-
     </div>
 </section>
 <!---------End------------>
 
 
 <!-- Section Tail Data display-->
-
-<section class="p-3 m-3">
-    <div class="jumbotron pt-4  pb-4 mb-2">
+<section id="sample" class="p-3 m-3">
+    <div class="jumbotron pb-2 mb-2">
         <h2 class="display-6" style="font-family: 'Exo', sans-serif;">Tail 5</h2>
         <a href="/objcopyAnalysis"> <button class="btn btn-primary">Analyse</button></a>
     </div>
-    
 
     <div class="table-responsive pt-4">
         <table class="table table-striped table-hover">
@@ -165,7 +107,6 @@
             </tr>
         </table>
     </div>
-    
 </section>
 <!---------End------------>
 
