@@ -5,10 +5,8 @@ import argparse
 class FileDetail(BaseModel):
     filename: str
     filetype: str
-    filesize: str
     sysfilepath: str
     obj: TypeVar('pandas.core.frame.DataFrame')
-    missing: int
     objcopy: TypeVar('pandas.core.frame.DataFrame')
 
 class SampleData(NamedTuple):
