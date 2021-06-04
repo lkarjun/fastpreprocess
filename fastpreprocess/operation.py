@@ -56,15 +56,18 @@ class IndividualVariables(BaseModel):
     TotalNumeric: int = 0
     TotalCategorical: int = 0
     Length: int = 0
+    Missing: int = 0
+    Shape: Tuple[int, int] = (0, 0)
     Variables: List[Union[NumericDetail, CategoricalDetail]] = []
+    VariableName: List[str] = []
 
 
 class IndividualVariable():
 
-    def __init__(self, filedetail: FileDetail):
-        self.filedetail = filedetail
-        self.data = filedetail.obj
-        self.IV = IndividualVariables()
+    def __init__(self, data: TypeVar('pandas.core.frame.DataFrame')):
+        self.data = data
+        self.IV = IndividualVariables(Missing = self.data.isna().sum().values.sum()
+                            , Shape = self.data.shape)
     
     def outlier(self, v, i):
         df = self.data
@@ -74,12 +77,12 @@ class IndividualVariable():
         return (outlier.astype(int)).tolist()
         
     def start(self):
-        for i in tqdm.tqdm(self.filedetail.obj.columns, desc="Analysing"):
-            v = Bivariate(self.filedetail.obj[i])
+        for i in tqdm.tqdm(self.data.columns, desc="Analysing"):
+            v = Bivariate(self.data[i])
             if v.var_type == 'numeric':
                 self.IV.TotalNumeric += 1
                 var = NumericDetail(
-                            data = self.filedetail.obj[i],
+                            data = self.data[i],
                             vname=i,
                             vmissing=v.missing,
                             vtype=v.var_type,
@@ -105,6 +108,7 @@ class IndividualVariable():
             
             self.IV.Variables.append(var)
             self.IV.Length += 1
+            self.IV.VariableName.append(i)
 
         assert self.IV.Length == len(self.data.columns), "Length counter value and total number of columns is different"
 
