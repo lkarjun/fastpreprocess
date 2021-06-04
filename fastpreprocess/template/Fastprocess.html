@@ -24,7 +24,7 @@
                                     <th class="font-weight-bold">Categorical Columns</th><td class="text-capitalize font-weight-bold">{{ process.IV.TotalCategorical }}</td>
                                 </tr>
                                 <tr>
-                                    <th class="font-weight-bold">Rows & Columns</th> <td class="text-capitalize font-weight-bold">{{sample.length}} X {{sample.number_of_columns}}</td>
+                                    <th class="font-weight-bold">Rows & Columns</th> <td class="text-capitalize font-weight-bold">{{process.IV.Shape[0]}} X {{process.IV.Shape[1]}}</td>
                                 </tr>
                                 <tr>
                                     <th class="font-weight-bold">Drop Missing Values</th>
@@ -41,7 +41,7 @@
             <div class="col-md-6 d-flex justify-content-center">
                 <div id='overview'></div>
             </div>
-            <script>plot_piechart({{ process.filedetail.missing }}, {{ sample.length}});</script>
+            <script>plot_piechart({{ process.IV.Missing }}, {{ process.IV.Shape[0]}});</script>
 
         </div>
     </div>

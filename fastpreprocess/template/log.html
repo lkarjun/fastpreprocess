@@ -1,0 +1,17 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<div class="container">
+    <section style="min-height: 78vh;" class="pt-5 mt-5">
+        <p class="h1">Log of Performed Actions</p>
+        <div class="text-center p-4 m-4 bg-dark text-white">
+            <table class="table">
+                {% for log in values %}
+                <tr><td class="font-weight-bold text-light">{{ log }}</td></tr>
+                {% endfor %}
+            </table>
+        </div>
+    </section>
+</div>
+
+{% endblock %}
