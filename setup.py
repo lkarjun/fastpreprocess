@@ -5,7 +5,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setuptools.setup(
     name="fastpreprocess",
-    version="0.1.9",
+    version="0.1.10",
     entry_points = {
         'console_scripts': [
             'fastpreprocess = fastpreprocess.fastwork:run_from_local',
