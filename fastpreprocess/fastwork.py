@@ -72,10 +72,10 @@ def dropna(data):
     return "droped missing values from all columns"
 
 @app.get('/replace')
-def replace(rep, value, to, reg):
+def replace(rep, column, to, reg):
     reg = True if reg == 'true' else False
-    print(rep, value, to, reg)
-    return 'Okay'
+    print(rep, column, str(to), reg)
+    return fastprocess.replace(rep, column, to, reg)
 
 @app.get('/action')
 def tester(column, action):

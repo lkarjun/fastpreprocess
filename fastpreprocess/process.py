@@ -7,6 +7,15 @@ class PreProcess:
         self.params = []
         self.log = []
 
+    def replace(self, rep, column, to, reg):
+        try:
+            self.copy[column] = self.copy[column].replace(to_replace = rep, value = to, regex=reg)
+            self.log.append(f"Performed replace for column: {column}")
+            return f"Replaced Value {to}"
+        except Exception as e:
+            self.log.append(f"Performed replace for column: {column} is FAILED, due to {e}")
+            return f"Failed to replace value {to}"
+    
     def get_info_(self, column):
         temp = self.copy[column]
         self.log.append(f"Performed get_info for column: {column}")
