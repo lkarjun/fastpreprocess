@@ -98,34 +98,72 @@ function get_dummy(value, id){
 
 // Advance section scripts.....
 
-function var_change() {
-  $('#select_var').css("display", "none");
-  value = $('#select_var').val();
 
-  $('#var_name').html(value);
-  $('#select_var').css("display", "block");
+// $('#form_replace').on('submit',(function(e) {
+//   e.preventDefault();
+//   $('#replace_button').css('display', 'none');
+//   replacer_ = $('#replacer').val()
+//   value = $('#select_var').val();
+//   to = $('#replace_to').val();
+//   reg = $('#reg_check').is(":checked");
+//   $.ajax({
 
-  if(value != 'None'){
-      $.ajax({
-      type: 'get',
-      async: true,
-      url: '/info',
-      data: {'column': value},
-      contentType: "application/json",
-      success: function(data){
-          console.log(data);
-          $('#dtype').html(data.dtype);
-          $('#count').html(data.count);
-          $('#unique').html(data.unique);   
-      },
-      error: function(data){
-          alert(data);
-     }
-  });
-}
-else{
-      $('#dtype').html('None');
-      $('#count').html('None');
-      $('#unique').html('None');
-}
-} 
+//       type:'GET',
+//       url: '/replace',
+//       data:{'rep': replacer_,'column': value, 'to': to, 'reg': String(reg)},
+//       contentType: "application/json",
+//       success: function(data){
+//           alert(data);
+//           console.log(data);
+//           $('#replace_button').css('display', 'block');
+//           var_change();
+//       },
+//       error: function(data){
+//           alert(data);
+//           $('#replace_button').css('display', 'block');
+//       }
+
+//   });
+// }));
+
+
+
+// function var_change() {
+//   $('#select_var').css("display", "none");
+//   value = $('#select_var').val();
+
+//   $('#var_name').html(value);
+//   $('#select_var').css("display", "block");
+
+//   if(value != 'None'){
+//       $.ajax({
+//           type: 'get',
+//           async: true,
+//           url: '/info',
+//           data: {'column': value},
+//           contentType: "application/json",
+//           success: function(data){
+//               console.log(data);
+//               $('#dtype').html(data.dtype);
+//               $('#count').html(data.count);
+//               $('#unique').html(data.unique);
+//               $('#replacer').empty();
+//               // $("#replacer").append("<option id='ALL' value='ALL*' class='font-weight-bold'>###Replace ALL###</option>")
+//           //     data.unique_values.forEach(element => {
+//           //             var v = '<option id='+element+' value='+ element+'>'+element+'</option>';
+//           //     $("#replacer").append(v)
+//               $("#IndAdv").css('display', 'block')
+//           // });
+    
+//       },
+//           error: function(data){
+//               alert(data);
+//       }
+//   });
+//   }
+//   else{
+//       $('#dtype').html('None');
+//       $('#count').html('None');
+//       $('#unique').html('None');
+//   }
+//   }
