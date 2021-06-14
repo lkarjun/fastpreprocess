@@ -45,11 +45,11 @@ def view_new_ds(request: Request):
 
 
 @app.get('/testing')
-async def home(requset: Request):
+async def home(requset: Request, testing:str):
     filename = path[:-11]+'static/car_sample.csv'
     # filename = 'fastpreprocess/static/car_sample.csv'
     set_global_filedetail(filename, dm = ',', lowmem=False)
-    return process_data(requset)
+    return "Okay"
 
 
 @app.get('/log')
@@ -80,16 +80,17 @@ def replace(rep, column, to, reg):
 @app.get('/action')
 def tester(column: str, action:str):
     finished = []
-    column = column.split(',')
+    column, action = column.split(','), action.split(',')
     print(column, action)
-    for i in column:
-        if action == 'drop': finished.append(fastprocess.drop_column_(i))
-        elif action == 'get_dummy': finished.append(fastprocess.get_dummy_(i))
-        elif action[:11] == 'fillmissing': finished.append(fastprocess.missing_(i, action[12:]))
-        elif action in ['set_numeric', 'set_categorical']: finished.append(fastprocess.convert_(i, action[4:]))
-        elif action == 'label_encode': finished.append(fastprocess.label_encode_(i)) 
-        elif action[:6] == 'scalar': finished.append(fastprocess.scaler_(i, action[7:]))
-        else: finished.append("cool")
+    for act in action:
+        for i in column:
+            if act == 'drop': finished.append(fastprocess.drop_column_(i))
+            elif act == 'get_dummy': finished.append(fastprocess.get_dummy_(i))
+            elif act[:11] == 'fillmissing': finished.append(fastprocess.missing_(i, act[12:]))
+            elif act in ['set_numeric', 'set_categorical']: finished.append(fastprocess.convert_(i, act[4:]))
+            elif act == 'label_encode': finished.append(fastprocess.label_encode_(i)) 
+            elif act[:6] == 'scalar': finished.append(fastprocess.scaler_(i, act[7:]))
+            else: finished.append("cool")
     return str(finished)
 
 
