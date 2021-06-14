@@ -102,6 +102,7 @@ function testing(){
       contentType: "application/json",
       success: function(data){
         console.log('Testing...')
+        location.reload();
       },
       error: function(data){
       alert(data);
