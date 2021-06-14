@@ -8,7 +8,7 @@ function action_main(action, value){
   $.ajax({
     type: 'get',
     url: '/action',
-    data: {'column': column, 'action': action_},
+    data: {'column': String(column), 'action': action_},
     contentType: "application/json",
     success: function(data){
       if(action_ == 'drop' || action_ == 'get_dummy'){
