@@ -66,51 +66,60 @@
 <!-------End------------------>
 
 <!--Action Center-->
-
 <section class="pe-3 me-3 ms-3 ps-3 pt-1 pb-3 mt-1 mb-3">
     <div class="container">
-        <div class="row">
+        <div class="row pb-5">
             <p class="h2"style="font-family: 'Exo', sans-serif;">Action Center</p>    
+        </div>
 
-                  <div class="col-md-4 col-xl-4 col-sm-12 col-12 pt-2">
-                    <select class="select form-select" id="actionSec2">
-                        <option value="none" selected class="font-weight-bold"> None </option>
-                    </select>
-                  </div>
-            
-                  <div class="col-md-4 col-xl-4 col-sm-12 col-12 pt-2">
-                    <select class="select form-select" id="actionSec1">
-                        <option value="none" selected class="font-weight-bold"> None </option>
-                        <option value="drop" class="font-weight-bold">Drop</option>
-                        <option value="set_numeric" class="font-weight-bold">SetColumn(Numeric)</option>
-                        <option value="set_categorical" class="font-weight-bold">SetColumn(Categorical)</option>
-
-                        <option value="scalar_standard" class="font-weight-bold">StandardScaler</option>
-                        
-                        <option value="scalar_minmax" class="font-weight-bold">MinMaxScaler</option>
-
-                        <option value="fillmissing_mode" class="font-weight-bold">FillMissing(Mode)</option>
-                        <option value="fillmissing_median" class="font-weight-bold">FillMissing(Median)</option>
-                        <option value="fillmissing_mean" class="font-weight-bold">FillMissing(Mean)</option>
-                        <option value="fillmissing_0" class="font-weight-bold">FillMissing(0)</option>
-                        <option value="get_dummy" class="font-weight-bold">Get dummy(Drop 1st column)</option>
-                        <option value="label_encode" class="font-weight-bold">Label Encode</option>
-                    </select>
-                  </div>
-                  
-                  <div class="col-md-4 col-xl-4 col-sm-12 col-12 pt-2" id="action_btn" style="display: block;">
-                      <button onclick='action_main("actionSec1", "actionSec2")' class="btn btn-danger btn-rounded">Okay</button>
-                      <a href="/view"><button class="btn btn-primary btn-rounded"> View Dataset</button></a>
-                  </div>
-
-                  <div class="pt-2">
+        <div class="row">
+            <div class="col-md-6">
+                <div id="action_btn" style="display: block;" class="d-flex justify-content-center pt-md-5">
                     <a href="/objcopyAnalysis"><button class="btn btn-primary">Analyse</button></a>
                     <a href="/advance"><button class="btn btn-light"><img src="{{ url_for('static', path='menu-outline.svg') }}"></button></a>
-                  </div>
+                </div>    
+            </div>
+            
+            <div class="col-md-6">
+                <div>
+                    <select multiple="" class="ui search dropdown" id="actionSec2">
+                        <option value="none" selected class="font-weight-bold"> None </option>
+                    </select>
+                    <br>
+                    <div class="pt-md-4">
+                        
+                        <select  class="ui search dropdown " id="actionSec1">
+                            <option value="none" selected class="font-weight-bold"> None </option>
+                            <option value="drop" class="font-weight-bold">Drop</option>
+                            <option value="set_numeric" class="font-weight-bold">SetColumn(Numeric)</option>
+                            <option value="set_categorical" class="font-weight-bold">SetColumn(Categorical)</option>
+
+                            <option value="scalar_standard" class="font-weight-bold">StandardScaler</option>
+                        
+                            <option value="scalar_minmax" class="font-weight-bold">MinMaxScaler</option>
+
+                            <option value="fillmissing_mode" class="font-weight-bold">FillMissing(Mode)</option>
+                            <option value="fillmissing_median" class="font-weight-bold">FillMissing(Median)</option>
+                            <option value="fillmissing_mean" class="font-weight-bold">FillMissing(Mean)</option>
+                            <option value="fillmissing_0" class="font-weight-bold">FillMissing(0)</option>
+                            <option value="get_dummy" class="font-weight-bold">Get dummy(Drop 1st column)</option>
+                            <option value="label_encode" class="font-weight-bold">Label Encode</option>
+                        </select>
+                    
+                    </div>
+                    <br>
+                    <div class="pt-md-4">
+                        <button onclick='action_main("actionSec1", "actionSec2")' class="btn btn-danger">Okay</button>
+                        <a href="/view"><button class="btn btn-primary"> View Dataset</button></a>
+                    </div>
+                    
+                </div>
             </div>
         </div>
     </div>
 </section>
+<script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
+<script>$('select.dropdown').dropdown();</script>
 <hr style="border: 4px solid rgb(71, 71, 71); border-radius: 5px;">
 <!--End-->
 

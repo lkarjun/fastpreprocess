@@ -78,15 +78,19 @@ def replace(rep, column, to, reg):
     return fastprocess.replace(rep, column, to, reg)
 
 @app.get('/action')
-def tester(column, action):
+def tester(column: str, action:str):
+    finished = []
+    column = column.split(',')
     print(column, action)
-    if action == 'drop': return fastprocess.drop_column_(column)
-    elif action == 'get_dummy': return fastprocess.get_dummy_(column)
-    elif action[:11] == 'fillmissing': return fastprocess.missing_(column, action[12:])
-    elif action in ['set_numeric', 'set_categorical']: return fastprocess.convert_(column, action[4:])
-    elif action == 'label_encode': return fastprocess.label_encode_(column)
-    elif action[:6] == 'scalar': return fastprocess.scaler_(column, action[7:])
-    else: return "Cool"
+    for i in column:
+        if action == 'drop': finished.append(fastprocess.drop_column_(i))
+        elif action == 'get_dummy': finished.append(fastprocess.get_dummy_(i))
+        elif action[:11] == 'fillmissing': finished.append(fastprocess.missing_(i, action[12:]))
+        elif action in ['set_numeric', 'set_categorical']: finished.append(fastprocess.convert_(i, action[4:]))
+        elif action == 'label_encode': finished.append(fastprocess.label_encode_(i)) 
+        elif action[:6] == 'scalar': finished.append(fastprocess.scaler_(i, action[7:]))
+        else: finished.append("cool")
+    return str(finished)
 
 
 @app.get('/save')
@@ -158,7 +162,7 @@ def set_global_filedetail(filename, dm, lowmem):
     print("Global Filedetail Processing")
     global filedetail
     filedetail = FileDetail(filename = filename, filetype = filename.split('.')[-1], 
-                            sysfilepath=filename, obj=df, objcopy = df.copy())
+                            sysfilepath=filename, obj=df, objcopy = df)
     
     global fastprocess
     fastprocess = FastPreProcess(filedetail)
