@@ -162,7 +162,7 @@ def set_global_filedetail(filename, dm, lowmem):
     print("Global Filedetail Processing")
     global filedetail
     filedetail = FileDetail(filename = filename, filetype = filename.split('.')[-1], 
-                            sysfilepath=filename, obj=df, objcopy = df.copy())
+                            sysfilepath=filename, obj=df, objcopy = df)
     
     global fastprocess
     fastprocess = FastPreProcess(filedetail)
