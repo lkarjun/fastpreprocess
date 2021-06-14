@@ -69,9 +69,7 @@ class PreProcess:
             return f"Converted column {column} astype to category"
         else:
             self.copy[column] = pd.to_numeric(self.copy[column], errors='coerce')
-            return f"\nConverted column {column} to_numeric\n\
-                 Note: we handled errors = 'coerce'.\n\
-                 So, we're requested to perform 'Fillmissing' Action."
+            return f"Converted column {column} to_numeric. Note: we handled errors = 'coerce'. So, we're requested to perform 'Fillmissing' Action."
 
 
 
