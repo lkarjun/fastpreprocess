@@ -76,19 +76,29 @@
             <div class="col-md-6">
                 <div id="action_btn" style="display: block;" class="d-flex justify-content-center pt-md-5">
                     <a href="/objcopyAnalysis"><button class="btn btn-primary">Analyse</button></a>
-                    <a href="/advance"><button class="btn btn-light"><img src="{{ url_for('static', path='menu-outline.svg') }}"></button></a>
+                    <a href="/advance"><button class="btn btn-light"><i class="ellipsis horizontal icon"></i></button></a>
                 </div>    
             </div>
             
             <div class="col-md-6">
                 <div>
+                    <div class="ui teal label">
+                        <p>Columns</p>
+                    </div>
+
                     <select multiple="" class="ui search dropdown" id="actionSec2">
                         <option value="none" selected class="font-weight-bold"> None </option>
                     </select>
+
                     <br>
-                    <div class="pt-md-4">
+                    
+                    <div class="pt-md-3">
                         
-                        <select  class="ui search dropdown " id="actionSec1">
+                        <div class="ui teal  label">
+                            <p>Actions</p>
+                        </div>
+                        
+                        <select multiple="" class="ui search dropdown " id="actionSec1">
                             <option value="none" selected class="font-weight-bold"> None </option>
                             <option value="drop" class="font-weight-bold">Drop</option>
                             <option value="set_numeric" class="font-weight-bold">SetColumn(Numeric)</option>
@@ -108,7 +118,7 @@
                     
                     </div>
                     <br>
-                    <div class="pt-md-4">
+                    <div class="pt-md-2" id='action_btn' style="display: block;">
                         <button onclick='action_main("actionSec1", "actionSec2")' class="btn btn-danger">Okay</button>
                         <a href="/view"><button class="btn btn-primary"> View Dataset</button></a>
                     </div>

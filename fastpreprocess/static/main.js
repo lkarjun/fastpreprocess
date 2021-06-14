@@ -8,7 +8,7 @@ function action_main(action, value){
   $.ajax({
     type: 'get',
     url: '/action',
-    data: {'column': String(column), 'action': action_},
+    data: {'column': String(column), 'action': String(action_)},
     contentType: "application/json",
     success: function(data){
       if(action_ == 'drop' || action_ == 'get_dummy'){
@@ -93,6 +93,21 @@ function get_dummy(value, id){
   })
 }
 
+function testing(){ 
+
+  $.ajax({
+      type: 'get',
+      url: '/testing',
+      data: {'testing': 'testing'},
+      contentType: "application/json",
+      success: function(data){
+        console.log('Testing...')
+      },
+      error: function(data){
+      alert(data);
+    }
+  })
+}
 
 
 
