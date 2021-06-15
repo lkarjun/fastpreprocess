@@ -121,14 +121,10 @@ def process_data(request: Request):
 
 
 @app.get('/objcopyAnalysis')
-async def copy_analysis(request: Request):
+async def copy_analysis(request: Request, mode: str):
+    print("Obj copy anlayising")
     try:
         fastprocess.get_new()
-
-        return templates.TemplateResponse('Fastprocess.html', 
-                context={'request': request, 'title': 'Workspace', 'file': filedetail, 'sample': fastprocess.sample(),\
-                        'quick': fastprocess.quick_stat(), 'corr': fastprocess.correlation(new=True),\
-                        'process': fastprocess.process})
 
     except Exception as e:
         

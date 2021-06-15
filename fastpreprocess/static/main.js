@@ -110,6 +110,30 @@ function testing(){
   })
 }
 
+function objcopy(tomain=false){ 
+
+  $.ajax({
+      type: 'get',
+      url: '/objcopyAnalysis',
+      data: {'mode': 'true'},
+      contentType: "application/json",
+      success: function(data){
+        console.log('Testing...')
+        if (tomain == true){
+          console.log(tomain)
+          window.location.href = '/'
+        }
+        else{
+          location.reload();
+        }
+      },
+      error: function(data){
+      alert(data);
+    }
+  })
+}
+
+
 
 
 // Advance section scripts.....

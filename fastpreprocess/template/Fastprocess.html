@@ -66,7 +66,7 @@
 <!-------End------------------>
 
 <!--Action Center-->
-<section class="pe-3 me-3 ms-3 ps-3 pt-1 pb-3 mt-1 mb-3">
+<section class="pe-3 me-3 ms-3 ps-3 pt-1 pb-3 mt-1 mb-3 pt-md-5 mt-md-5 pb-md-5 mb-md-5">
     <div class="container">
         <div class="row pb-5">
             <p class="h2"style="font-family: 'Exo', sans-serif;">Action Center</p>    
@@ -75,7 +75,7 @@
         <div class="row">
             <div class="col-md-6">
                 <div style="display: block;" class="d-flex justify-content-center pt-md-5">
-                    <a href="/objcopyAnalysis"><button class="btn btn-primary">Analyse</button></a>
+                    <button onclick="objcopy()" class="btn btn-primary">Analyse</button>
                     <a href="/advance"><button class="btn btn-light"><i class="ellipsis horizontal icon"></i></button></a>
                 </div>    
             </div>
@@ -191,7 +191,7 @@
                 </tr>
                 {% for variable, data in quick.zipped%}
                 <tr>
-                    <th class="font-weight-bold bg-primary text-light text-capitalize">{{ variable }}</th>
+                    <th class="font-weight-bold bg-dark text-light text-capitalize">{{ variable }}</th>
                     {% for values in data %}
                     <td>{{values}}</td>
                     {% endfor %}
@@ -241,146 +241,24 @@
 
 <!------------Individual Numeric Variable Analysis-------------->
 {% if process.IV.TotalNumeric %}
-<section class="pt-3 mt-3 mb-3 pb-3" id="INVA">
+<section class="pt-3 mt-3 mb-3 pb-3 pt-md-3 pb-md-3 mt-md-4" id="INVA">
     <script>
         $('<a href="#INVA" class="btn btn-round bg-success text-light m-2 p-2">Numerical Variables</a>').appendTo("#Badge");
     </script>
 
     <div class="container">
         <div class="jumbotron pb-2 mb-2">
-            <h2 class="display-6 text-center" style="font-family: 'Exo', sans-serif; text-decoration: underline;">Individual Numerical Variable Analysis</h2>
+            <h2 class="display-6" style="font-family: 'Exo', sans-serif;">Individual Numerical Variable Analysis</h2>
         </div>
 
         {% for values in process.IV.Variables%}
         {% if values.vtype == 'numeric'%}
-
-        <div class="jumbotron p-3 m-3" id={{values.vhtmlid[1]}}>
-            <p class="h4 text-capitalize font-weight-bold" style="font-family: 'Exo', sans-serif;">{{values.vname}}</p>
-        </div>
-
-    
-        <div class="row pt-4 mt-4 mb-4 pb-4">
-            <div class="col-md-6 col-sm-12 col-12 col-xl-6">
-                <div class="table-responsive">
-                    <table class="table table-hover">
-                        <tr>
-                            <th class="font-weight-bold">Number of observations</th> <td>{{values.vsummary[1][0]}}</td>
-                            <th class="font-weight-bold">Median</th><td>{{values.vsummary[1][5]}}</td>
-                        </tr>
-                        <tr>
-                            <th class="font-weight-bold">Mean</th><td>{{values.vsummary[1][1]}}</td>
-                            <th class="font-weight-bold">Quartile 2</th><td>{{values.vsummary[1][6]}}</td>
-                        </tr>
-                        <tr>
-                            <th class="font-weight-bold">Standard Deviation</th><td>{{values.vsummary[1][2]}}</td>
-                            <th class="font-weight-bold">Maximum</th><td>{{values.vsummary[1][7]}}</td>
-                        </tr>
-                        <tr>
-                            <th class="font-weight-bold">Minimum</th><td>{{values.vsummary[1][3]}}</td>
-                            <th class="font-weight-bold">Skewness</th><td>{{values.vsummary[1][8]}}</td>
-                        </tr>
-                        <tr>
-                            <th class="font-weight-bold">Quartile 1</th><td>{{values.vsummary[1][4]}}</td>
-                            <th class="font-weight-bold">Kurtosis</th><td>{{values.vsummary[1][9]}}</td>
-                        </tr>
-                    </table>
-                </div>
-                
-            </div>
-
-            <div class="col-md-6 col-sm-12 col-12 col-xl-6 d-flex justify-content-center pt-3">
-                <div class="card bg-danger" id="card">
-                    <div class="card-header text-white">Note</div>
-                    <div class="card-body table-responsive">
-                        <table class="table text-white">
-                            <tr>
-                                <th>Variable Name: </th> <td class="text-capitalize">{{ values.vname }}</td>
-                            </tr>
-                            <tr>
-                                <th>Variable Type: </th> <td class="text-capitalize"> {{ values.vtype }}</td>
-                            </tr>
-
-                            <tr>
-                                <th>Total Missing: </th> <td class="text-capitalize"> {{ values.vmissing[0] }}</td>
-                            </tr>
-
-                            <tr>
-                                <th>Missing Percentage</th> <td> {{ values.vmissing[1]}}</td>   
-                            </tr>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!------------Box plot Visualising here------------->
-        <div class="row pt-4 mt-4 mb-3 pb-4">
-            <div class="col-md-6 col-sm-12 col-12 col-xl-6">
-                <div id="{{ values.vhtmlid[1]+'box' }}"></div>
-            </div>
-        <!------------Box plot Visualising finish------------->
-
-        <!------------Distribution Visualising finish------------->
-            <div class="col-md-6 col-12 col-sm-12 col-xl-6">
-                <div id="{{ values.vhtmlid[1]+'dis' }}"></div>
-            </div>
-        <!------------Distribution plot Visualising finish------------->
-
-            <script>
-            boxplot({{values.boxplot_json()|tojson}}, "{{ values.vhtmlid[0]+'box' }}");                
-            distribution({{values.distribution_json()|tojson}}, "{{ values.vhtmlid[0]+'dis' }}", "{{ values.vname }}");
-            
-            // <!------------Badge Setting------------->        
-            $("<a href='{{values.vhtmlid[0]}}' class='btn btn-round bg-secondary text-light m-2 p-2'>{{values.vname}}<span class='badge bg-danger ms-2'>{{ values.vmissing[0] }}</span></a>").appendTo("#Badge");
-
-            // <!------------ Badge Seted ------------->
-            
-            </script>
-       
-        </div>
-
-        <!--------------Action Center-------------->
-        <div class="jumbotron pt-1 pb-2">
-            <p class="h5 text-capitalize font-weight-bold" style="font-family: 'Exo', sans-serif;">Action Center</p>
-        </div>
-
-        <div class="row">
-            <div class="col-md-12">
-
-                <div class="row row-cols-lg-auto g-3 align-items-center">              
-                    <div class="col-12">
-                      <select class="select form-select" id="{{values.vname+'form'}}">
-                        <option value="none" selected class="font-weight-bold"> None </option>
-                        <option value="drop" class="font-weight-bold">Drop</option>
-                        <option value="set_numeric" class="font-weight-bold">SetColumn(Numeric)</option>
-                        <option value="set_categorical" class="font-weight-bold">SetColumn(Categorical)</option>
-
-                        <option value="scalar_standard" class="font-weight-bold">StandardScaler</option>
-                        
-                        <option value="scalar_minmax" class="font-weight-bold">MinMaxScaler</option>
-
-                        <option value="fillmissing_mode" class="font-weight-bold">FillMissing(Mode)</option>
-                        <option value="fillmissing_median" class="font-weight-bold">FillMissing(Median)</option>
-                        <option value="fillmissing_mean" class="font-weight-bold">FillMissing(Mean)</option>
-                        <option value="fillmissing_0" class="font-weight-bold">FillMissing(0)</option>
-                      </select>
-                    </div>
-                  
-                    <div class="col-12" id="{{values.vname+'button'}}">
-                        <button onclick='action_center("{{values.vname}}")' class="btn btn-danger btn-rounded">Okay</button>
-                    </div>
-                </div>
-
-            </div>
-            <div class="col-md-12 col-sm-12 col-xl-12 col-12 pt-4">
-                <div class="d-flex align-items-center">
-                    <a href="/view"><button class="btn btn-primary btn-rounded"> View Dataset</button></a>
-                </div>
-            </div>
-        </div>
-        <!--------------End Action Center-------------->
-        <hr style="border: 1px solid rgb(0, 0, 0); border-radius: 5px; color: black;">
-    
         
+        <a class='btn btn-round bg-secondary text-light m-2 p-2'>{{values.vname}}<span class='badge bg-danger ms-2'>{{ values.vmissing[0] }}</span></a>
+        <script>$("<a href='#INVA' class='btn btn-round bg-secondary text-light m-2 p-2'>{{values.vname}}<span class='badge bg-danger ms-2'>{{ values.vmissing[0] }}</span></a>").appendTo("#Badge");</script>
+
+            
+    
         {% endif %}
         {% endfor %}
 
@@ -393,110 +271,21 @@
 
 <!------------Individual Categorical Variable Analysis-------------->
 {% if process.IV.TotalCategorical %}
-<section class="pt-3 mt-4 mb-3 pb-3" id="ICVA">
+<section class="pt-3 mt-4 mb-3 pb-3 pb-md-3 mt-md-4" id="ICVA">
     <script>
         $('<a href="#ICVA" class="btn btn-round bg-success text-light m-2 p-2">Categorical Variables</a>').appendTo("#Badge");
     </script>
     <div class="container">
         <div class="jumbotron pb-2 mb-2">
-            <h2 class="display-6 text-center" style="font-family: 'Exo', sans-serif; text-decoration: underline;">Individual Categorical Variable Analysis</h2>
+            <h2 class="display-6 " style="font-family: 'Exo', sans-serif;">Individual Categorical Variable Analysis</h2>
         </div>
 
         {% for values in process.IV.Variables%}
         {% if values.vtype == 'categorical'%}
-
-        <div class="jumbotron p-3 m-3" id={{values.vhtmlid[1]}}>
-            <p class="h4 text-capitalize font-weight-bold" style="font-family: 'Exo', sans-serif;">{{ values.vname }}</p>
-        </div>
         
+        <a class="btn btn-round bg-warning text-light m-2 p-2">{{values.vname}}<span class="badge bg-danger ms-2">{{ values.vmissing[0] }}</span></a>
+        <script>$('<a href="#ICVA" class="btn btn-round bg-warning text-light m-2 p-2">{{values.vname}}<span class="badge bg-danger ms-2">{{ values.vmissing[0] }}</span></a>').appendTo("#Badge");</script>
 
-        <div class="row pt-4 mt-4 pb-4 mb-4">
-            <div class="col-md-6 col-sm-12 col-12 col-xl-6 table-responsive">
-                <table class="table table-hover">
-                    <tr>
-                        <th class="font-weight-bold">Number of observations</th> <td>{{ values.vsummary[1][0] }}</td>
-                    </tr>
-
-                    <tr>
-                        <th class="font-weight-bold">Number of unique values</th><td>{{ values.vsummary[1][1] }}</td>
-                    </tr>
-
-                    <tr>
-                        <th class="font-weight-bold">Highest occuring values</th><td>{{ values.vsummary[1][2] }}</td>
-                    </tr>
-
-                    <tr class="bg-danger text-light">
-                        <th class="font-weight-bold">Total Missing {{ values.vmissing[1]}}%</th><td>{{ values.vmissing[0]}}</td>
-                    </tr>
-
-                </table>
-            </div>
-
-            <div class="col-md-6 col-sm-12 col-12 col-xl-6 d-flex justify-content-center">
-                <div class="card bg-success" style="max-width: 20rem; max-height: 17rem;">
-                    <div class="card-header text-white font-weight-bold">Most Common observations</div>
-                    <div class="card-body">
-                        <table class="table text-white">
-                            <tr>
-                                <th>{{ values.vmostcommon[0][0] }}</th> <td class="text-capitalize">{{ values.vmostcommon[1][0] }}</td>
-                            </tr>
-                            <tr>
-                                <th>{{ values.vmostcommon[0][1] }}</th> <td class="text-capitalize">{{ values.vmostcommon[1][1] }}</td>
-                            </tr>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!------------BarPlot Visualising here------------->
-
-        <div class="col-md-6">
-            <div id="{{ values.vhtmlid[1]+'bar' }}"></div>     
-        </div> <!------------BarPlot Visualising finish------------->
-        
-        <script>
-                $('<a href="{{values.vhtmlid[0]}}" class="btn btn-round bg-warning text-light m-2 p-2">{{values.vname}}<span class="badge bg-danger ms-2">{{ values.vmissing[0] }}</span></a>').appendTo("#Badge");
-                chartbar({{ values.barplot_json()|tojson }}, "{{ values.vhtmlid[0]+'bar' }}");
-        </script>
-       
-        <!--------------Action Center-------------->
-        <div class="jumbotron pt-1 pb-2">
-            <p class="h5 text-capitalize font-weight-bold" style="font-family: 'Exo', sans-serif;">Action Center</p>
-        </div>
-
-        <div class="row">
-            <div class="col-md-12">
-
-                <div class="row row-cols-lg-auto g-3 align-items-center">              
-                    <div class="col-12">
-                      <select class="select form-select" id="{{values.vname+'form'}}">
-                        <option value="none" selected class="font-weight-bold"> None </option>
-                        <option value="drop" class="font-weight-bold">Drop</option>
-                        <option value="get_dummy" class="font-weight-bold">Get dummy(Drop 1st column)</option>
-                        <option value="set_numeric" class="font-weight-bold">SetColumn(Numeric)</option>
-                        <option value="set_categorical" class="font-weight-bold">SetColumn(Categorical)</option>
-                        <option value="label_encode" class="font-weight-bold">Label Encode</option>
-                        <option value="fillmissing_mode" class="font-weight-bold">FillMissing(Mode)</option>
-                      </select>
-                    </div>
-                  
-                    <div class="col-12" id="{{values.vname+'button'}}" style="display: block;">
-                        <button onclick='action_center("{{values.vname}}")' class="btn btn-danger btn-rounded">Okay</button>
-                    </div>
-                </div>
-
-            </div>
-            <div class="col-md-12 col-sm-12 col-xl-12 col-12 pt-4">
-                <div class="d-flex align-items-center">
-                    <a href="/view"><button class="btn btn-primary btn-rounded"> View Dataset</button></a>
-                </div>
-            </div>
-        </div>
-        <!--------------End Action Center-------------->
-
-        <hr style="border: 1px solid rgb(0, 0, 0); border-radius: 5px; color: black;">
-        
 
     
         {% endif %}
