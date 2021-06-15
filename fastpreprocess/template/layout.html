@@ -16,134 +16,169 @@
     <link rel="shortcut icon" href="{{ url_for('static', path='logo.png') }}" type="image/x-icon">
     
     <title>{{ title }}</title>
+    
+    <script>
 
+      function preloaderFadeOutInit(){
+              $('.preloader').fadeOut('slow');
+              $('body').attr('id','');
+          }
+      
+      jQuery(window).on('load', function () {
+              (function ($) {
+                 preloaderFadeOutInit();
+              })(jQuery);
+          });
+
+    </script>
+ 
     <style>
+
+      .preloader {
+                position: absolute;
+                top: 0;
+                left: 0;
+                bottom:0;
+                right:0;
+                width: 100%;
+                height: 100vh;
+                z-index: 99999999;
+                background-image: url('static/1479.gif'); /* your icon gif file path */
+                background-repeat: no-repeat;
+                background-color: #FFF;
+                background-position: center;
+          }
       
-@media (max-width: 575px) { 
-    #overview{
-        padding-top: 20px;
-        min-height: 20rem;
-        min-width: 5rem;
-        padding-left: 10px;
-  }
-      #Sbadge{
-          margin-top: 30px;
-          padding-top: 30px;
-          margin-bottom: 30px;
-          padding-bottom: 30px;
-      }
-  }
-  @media (max-width: 767px) { 
-    #overview{
-        padding-top: 20px;
-        min-height: 28rem; 
-        min-width: 25rem;
-  }
-      #Sbadge{
-          margin-top: 20px;
-          padding-top: 30px;
-          margin-bottom: 30px;
-          padding-bottom: 30px;
-      }
-  }
+      @media (max-width: 575px) { 
+            #overview{
+                padding-top: 20px;
+                min-height: 20rem;
+                min-width: 5rem;
+                padding-left: 10px;
+              }
+            #Sbadge{
+                margin-top: 30px;
+                padding-top: 30px;
+                margin-bottom: 30px;
+                padding-bottom: 30px;
+              }
+          }
+      @media (max-width: 767px) { 
+            #overview{
+                padding-top: 20px;
+                min-height: 28rem; 
+                min-width: 25rem;
+              }
+            #Sbadge{
+                margin-top: 20px;
+                padding-top: 30px;
+                margin-bottom: 30px;
+                padding-bottom: 30px;
+              }
+          }
 
-  @media (min-width: 992px) { 
-    #Sbadge{
-        padding-top: 70px;
-        padding-bottom: 20px;
-  }
-    #overview{
-        height: 30rem; 
-        width: 30rem;
-        padding-top: 40px;
-    }
+     @media (min-width: 992px) { 
+            #Sbadge{
+                padding-top: 70px;
+                padding-bottom: 20px;
+              }
+            #overview{
+                height: 30rem; 
+                width: 30rem;
+                padding-top: 40px;
+              }
 
-    #overview_s1{
-        padding-top: 60px;
-      }
+            #overview_s1{
+                padding-top: 60px;
+            }
 
-    #card{
-        max-width: 20rem; max-height: 22rem;
-      }
-}
+            #card{
+                max-width: 20rem; max-height: 22rem;
+            }
+          }
 
 
-  @media (min-width: 1200px) { 
+      @media (min-width: 1200px) { 
     
-    #overview{
-        height: 30rem; 
-        width: 30rem;
-        padding-top: 40px;
-    }
-    #overview_s1{
-        padding-top: 60px;
-      }
+          #overview{
+              height: 30rem; 
+              width: 30rem;
+              padding-top: 40px;
+            }
+          #overview_s1{
+              padding-top: 60px;
+          }
 
-    #card{
-        max-width: 20rem; max-height: 22rem;
-      }
-}
-    </style>
+          #card{
+              max-width: 20rem; max-height: 22rem;
+            }
+        }
+  </style>
+
 </head>
-<body>
-    
+
+<body id="stop-scrolling">
+
+    <!-- preloader -->
+    <div class="preloader"></div>
+    <!-- preloader ending -->
+
+
     <!-- Navbar -->
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <!-- Container wrapper -->
-    <div class="container">
-      <!-- Navbar brand -->
-      <a href="/index">
-        <p style="font-family:'Pattaya', sans-serif;" class="h2 text-success me-5 ms-2">fastpreprocess</p>
-      </a>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <!-- Container wrapper -->
+        <div class="container">
+          <!-- Navbar brand -->
+          <a href="/index">
+            <p style="font-family:'Pattaya', sans-serif;" class="h2 text-success me-5 ms-2">fastpreprocess</p>
+          </a>
         
-      <button
-        class="navbar-toggler"
-        type="button"
-        data-mdb-toggle="collapse"
-        data-mdb-target="#navbarNavAltMarkup"
-        aria-controls="navbarNavAltMarkup"
-        aria-expanded="false"
-        aria-label="Toggle navigation">
-        <i class="align justify icon"></i>
-
-    </button>
-      <!-- Collapsible wrapper -->
-      <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-        <!-- Left links -->
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-          
-          <li class="nav-item">
-            <a class="nav-link font-weight-bold" href="/">Workspace</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link font-weight-bold" href="/view">View</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link font-weight-bold" href="/index">New</a>
-          </li>
-
-          <li class="nav-item">
-            <a class="nav-link font-weight-bold" href="/advance">Advance</a>
-          </li>
-          
-          <li class="nav-item">
-            <a class="nav-link font-weight-bold" href="/log">Log</a>
-          </li>
-
-          <li class="nav-item">
-            <p class="nav-link font-weight-bold" onclick="testing()" style="cursor: pointer;">Check testing</p>
-          </li>
-
-        </ul>
-        <!-- Left links -->
-        
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-mdb-toggle="collapse"
+            data-mdb-target="#navbarNavAltMarkup"
+            aria-controls="navbarNavAltMarkup"
+            aria-expanded="false"
+            aria-label="Toggle navigation">
+            <i class="align justify icon"></i>
+          </button>
       
-      </div>
-      <!-- Collapsible wrapper -->
-    </div>
-    <!-- Container wrapper -->
-  </nav>
-  <!-- Navbar -->
+        <!-- Collapsible wrapper -->
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+          <!-- Left links -->
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          
+            <li class="nav-item">
+              <a class="nav-link font-weight-bold" href="/">Workspace</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link font-weight-bold" href="/view">View</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link font-weight-bold" href="/index">New</a>
+            </li>
+
+            <li class="nav-item">
+              <a class="nav-link font-weight-bold" href="/advance">Advance</a>
+            </li>
+          
+            <li class="nav-item">
+              <a class="nav-link font-weight-bold" href="/log">Log</a>
+            </li>
+
+            <li class="nav-item">
+              <p class="nav-link font-weight-bold" onclick="testing()" style="cursor: pointer;">Check testing</p>
+            </li>
+
+          </ul>
+          <!-- Left links -->
+        </div>
+          <!-- Collapsible wrapper -->
+        </div>
+          <!-- Container wrapper -->
+    </nav>
+    <!-- Navbar -->
 
   
   {% block content %}{% endblock %}

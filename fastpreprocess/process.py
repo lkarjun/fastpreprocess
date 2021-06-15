@@ -62,14 +62,14 @@ class PreProcess:
             return f"Filled Missing value with {method}"
 
 
-    def convert_(self, column, method):
+    def convert_(self, column, method, downcast="float"):
         self.log.append(f"Performed type_conversion for column: {column}, ToType: {method}")
         if method == "categorical":
             self.copy[column] = self.copy[column].astype("category")
             return f"Converted column {column} astype to category"
         else:
-            self.copy[column] = pd.to_numeric(self.copy[column], errors='coerce')
-            return f"Converted column {column} to_numeric. Note: we handled errors = 'coerce'. So, we're requested to perform 'Fillmissing' Action."
+            self.copy[column] = pd.to_numeric(self.copy[column], errors='coerce', downcast=downcast)
+            return f"Converted column {column} to_numeric({downcast}). Note: we handled errors = 'coerce'. So, we're requested to perform 'Fillmissing' Action."
 
 
 
@@ -90,7 +90,7 @@ class PreProcess:
                 scalar = StandardScaler()
                 values = scalar.fit_transform(self.copy[column].values.reshape(-1, 1))
                 self.copy[column] = pd.Series(np.squeeze(values, 1))
-                params_ = {'Scaler': 'StandardScaler','column': column, 'method': method, 'mean': scalar.mean_[0], 'scale': scalar.scale_[0], 'variance': scalar.var_[0]}
+                params_ = {'Scaler': 'StandardScaler','column': column, 'mean': scalar.mean_[0], 'scale': scalar.scale_[0], 'variance': scalar.var_[0]}
                 self.params.append(params_)
                 self.log.append(f"Performed Scaling for column: {column}, Scalar: StandardScaler")
                 return f"{column} Standardized: {params_}"
@@ -103,7 +103,7 @@ class PreProcess:
                 scalar = MinMaxScaler()
                 values = scalar.fit_transform(self.copy[column].values.reshape(-1, 1))
                 self.copy[column] = pd.Series(np.squeeze(values, 1))
-                params_ = {'Scaler': 'MinMaxScaler','column': column, 'method': method, 'data_min': scalar.data_min_[0], 'data_max': scalar.data_max_[0], 'data_range': scalar.data_range_[0]}
+                params_ = {'Scaler': 'MinMaxScaler','column': column, 'data_min': scalar.data_min_[0], 'data_max': scalar.data_max_[0], 'data_range': scalar.data_range_[0]}
                 self.params.append(params_)
                 self.log.append(f"Performed Scaling for column: {column}, Scalar: MinMaxScaler")
                 return f"{column} MinMaxScaling Finished: {params_}"

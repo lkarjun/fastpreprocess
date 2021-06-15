@@ -78,19 +78,24 @@ def replace(rep, column, to, reg):
     return fastprocess.replace(rep, column, to, reg)
 
 @app.get('/action')
-def tester(column: str, action:str):
+def tester(column: str, action:str, res: bool):
+    def do_it(act, i):
+        if act == 'drop': finished.append(fastprocess.drop_column_(i))
+        elif act == 'get_dummy': finished.append(fastprocess.get_dummy_(i))
+        elif act[:11] == 'fillmissing': finished.append(fastprocess.missing_(i, act[12:]))
+        elif act in ['set_numeric', 'set_categorical']: finished.append(fastprocess.convert_(i, act[4:]))
+        elif act[:5] == "dtype" : finished.append(fastprocess.convert_(i, act[4:], downcast=act[6:]))
+        elif act == 'label_encode': finished.append(fastprocess.label_encode_(i)) 
+        elif act[:6] == 'scalar': finished.append(fastprocess.scaler_(i, act[7:]))
+        else: finished.append("cool")
+
     finished = []
     column, action = column.split(','), action.split(',')
     print(column, action)
+    
     for act in action:
-        for i in column:
-            if act == 'drop': finished.append(fastprocess.drop_column_(i))
-            elif act == 'get_dummy': finished.append(fastprocess.get_dummy_(i))
-            elif act[:11] == 'fillmissing': finished.append(fastprocess.missing_(i, act[12:]))
-            elif act in ['set_numeric', 'set_categorical']: finished.append(fastprocess.convert_(i, act[4:]))
-            elif act == 'label_encode': finished.append(fastprocess.label_encode_(i)) 
-            elif act[:6] == 'scalar': finished.append(fastprocess.scaler_(i, act[7:]))
-            else: finished.append("cool")
+        for i in column: do_it(act, i)
+
     return str(finished)
 
 
