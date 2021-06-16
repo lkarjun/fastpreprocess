@@ -11,9 +11,6 @@ function action_main(action, value){
     data: {'column': String(column), 'action': String(action_)},
     contentType: "application/json",
     success: function(data){
-      if(action_ == 'drop' || action_ == 'get_dummy'){
-        $('#'+column).css('display', 'none');
-      }
       $('#action_btn').css('display', 'block');
       alert(data);
       console.log(data);
@@ -138,6 +135,75 @@ function objcopy(tomain=false){
 
 // Advance section scripts.....
 
+$('#form_replace').on('submit',(function(e) {
+  e.preventDefault();
+  $('#replace_button').css('display', 'none');
+  replacer_ = $('#replacer').val()
+  value = $('#select_var').val();
+  to = $('#replace_to').val();
+  reg = $('#reg_check').is(":checked");
+  $.ajax({
+
+      type:'GET',
+      url: '/replace',
+      data:{'rep': replacer_,'column': value, 'to': to, 'reg': String(reg)},
+      contentType: "application/json",
+      success: function(data){
+          alert(data);
+          console.log(data);
+          $('#replace_button').css('display', 'block');
+          var_change();
+      },
+      error: function(data){
+          alert(data);
+          $('#replace_button').css('display', 'block');
+      }
+
+  });
+}));
+
+
+
+function var_change() {
+  $('#select_var').css("display", "none");
+  value = $('#select_var').val();
+
+  $('#var_name').html(value);
+  $('#select_var').css("display", "block");
+  console.log(value)
+  if(value != 'None'){
+      $.ajax({
+          type: 'get',
+          async: true,
+          url: '/info',
+          data: {'column': value},
+          contentType: "application/json",
+          success: function(data){
+              console.log(data);
+              $('#dtype').html(data.dtype);
+              $('#count').html(data.count);
+              $('#unique').html(data.unique);
+              $('#replacer').empty();
+              // $("#replacer").append("<option id='ALL' value='ALL*' class='font-weight-bold'>###Replace ALL###</option>")
+          //     data.unique_values.forEach(element => {
+          //             var v = '<option id='+element+' value='+ element+'>'+element+'</option>';
+          //     $("#replacer").append(v)
+              $("#IndAdv").css('display', 'block')
+          // });
+    
+      },
+          error: function(data){
+              alert(data);
+      }
+  });
+  }
+  else{
+      $('#IndAdv').css('display', 'none');
+      $('#dtype').html('None');
+      $('#count').html('None');
+      $('#unique').html('None');
+  }
+  } 
 
 // $('#form_replace').on('submit',(function(e) {
 //   e.preventDefault();

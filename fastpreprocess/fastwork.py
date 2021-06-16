@@ -78,21 +78,27 @@ def replace(rep, column, to, reg):
     return fastprocess.replace(rep, column, to, reg)
 
 @app.get('/action')
-def tester(column: str, action:str, res: bool):
+def tester(column: str, action:str, res: bool = True):
     def do_it(act, i):
         if act == 'drop': finished.append(fastprocess.drop_column_(i))
         elif act == 'get_dummy': finished.append(fastprocess.get_dummy_(i))
         elif act[:11] == 'fillmissing': finished.append(fastprocess.missing_(i, act[12:]))
         elif act in ['set_numeric', 'set_categorical']: finished.append(fastprocess.convert_(i, act[4:]))
-        elif act[:5] == "dtype" : finished.append(fastprocess.convert_(i, act[4:], downcast=act[6:]))
+        elif act[:5] == "dtype" : finished.append(fastprocess.convert_(i, "dtype", downcast=act[6:]))
         elif act == 'label_encode': finished.append(fastprocess.label_encode_(i)) 
         elif act[:6] == 'scalar': finished.append(fastprocess.scaler_(i, act[7:]))
+        elif act[:4] == 'date': finished.append(fastprocess.add_date(action=act[5:], column=i))
         else: finished.append("cool")
 
     finished = []
     column, action = column.split(','), action.split(',')
-    print(column, action)
     
+    if "ALL###" in column:
+        if len(column) == 1: column = fastprocess.copy.columns
+        elif (column.index("ALL###") == 0) and (len(column) > 1):
+            column = [i for i in fastprocess.copy.columns if i not in column[1:]]
+        else: return "Can't Process!"
+    print(column, action)
     for act in action:
         for i in column: do_it(act, i)
 

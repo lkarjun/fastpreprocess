@@ -13,7 +13,7 @@ class NumericDetail(BaseModel):
     vsummary: Tuple[List, List]
     vstat: TypeVar('pandas.core.frame.DataFrame')
     voutlier_track: Union[List, None]
-    vhtmlid: Tuple[str, str]
+    vhtmlid: Tuple[int, int]
     
     def boxplot_json(self):
         stat = (self.vstat.iloc[[3, 4, 5, 6,7]].values).flatten().astype(int).tolist()
@@ -43,7 +43,7 @@ class CategoricalDetail(BaseModel):
     vtype: str
     vsummary: Tuple[List, List]
     vstat: TypeVar('pandas.core.frame.DataFrame')
-    vhtmlid: Tuple[str, str]
+    vhtmlid: Tuple[int, int]
     vnunique: int
     vnuniquevalues: Set[str]
     vmostcommon: Tuple[List, List, List]
@@ -89,7 +89,7 @@ class IndividualVariable():
                             vsummary=(v.statistics.index.to_list(), v.statistics.values.flatten().tolist()),
                             vstat=v.statistics,
                             voutlier_track=self.outlier(v, i),
-                            vhtmlid=(f'#var{self.IV.Length}', f'var{self.IV.Length}')
+                            vhtmlid=(self.IV.Length, self.IV.Length)
                     )
                 
             if v.var_type == 'categorical':
@@ -100,7 +100,7 @@ class IndividualVariable():
                             vtype=v.var_type,
                             vsummary=(v.statistics.index.to_list(),  v.statistics.values.flatten().tolist()),
                             vstat=v.statistics,
-                            vhtmlid=(f'#var{self.IV.Length}', f'var{self.IV.Length}'),
+                            vhtmlid=(self.IV.Length, self.IV.Length),
                             vnunique = v.num_unique,
                             vnuniquevalues = v.unique,
                             vmostcommon = v.most_common_items

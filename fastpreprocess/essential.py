@@ -1,6 +1,7 @@
-from typing import Iterable, List, NamedTuple, Tuple, Type, TypeVar, Union, Set
+from typing import Iterable, List, NamedTuple, Tuple, Type, TypeVar, Union, Set, Any
 from pydantic import BaseModel
 import argparse
+import re
 
 class FileDetail(BaseModel):
     filename: str
@@ -34,7 +35,10 @@ class Correlation(BaseModel):
                  'data': [{'x': self.variable[u], 'y': v} for u, v in enumerate(j)]} 
                   for i, j in zip(self.variable, self.correlation)]
 
-
+def ifnone(a:Any,b:Any)->Any:
+    # Fastai Function...
+    "`a` if `a` is not None, otherwise `b`."
+    return b if a is None else a
 
 def process_arg():
     parser = argparse.ArgumentParser(prog='fastprocess',

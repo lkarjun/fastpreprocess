@@ -20,8 +20,7 @@ class PreProcess:
         temp = self.copy[column]
         self.log.append(f"Performed get_info for column: {column}")
         return {'dtype': f'{temp.dtype}', 'count': str(temp.count()),
-                'unique': str(temp.nunique()),
-                'unique_values': set(temp.unique().astype(str))}
+                'unique': str(temp.nunique())}
 
     def get_head_tail_(self):
         return self.copy.head(5).values, self.copy.tail(5).values
@@ -67,6 +66,9 @@ class PreProcess:
         if method == "categorical":
             self.copy[column] = self.copy[column].astype("category")
             return f"Converted column {column} astype to category"
+        
+        if method == "dtype":
+            self.copy[column].astype()
         else:
             self.copy[column] = pd.to_numeric(self.copy[column], errors='coerce', downcast=downcast)
             return f"Converted column {column} to_numeric({downcast}). Note: we handled errors = 'coerce'. So, we're requested to perform 'Fillmissing' Action."
@@ -123,6 +125,49 @@ class FastPreProcess(PreProcess):
         super().__init__(self.copy)
 
     
+    def make_date(self, date_field):
+        "Make sure `df[date_field]` is of the right date type." # Fastai Function
+        field_dtype = self.copy[date_field].dtype
+        try:
+            if isinstance(field_dtype, pd.core.dtypes.dtypes.DatetimeTZDtype):
+                field_dtype = np.datetime64
+            if not np.issubdtype(field_dtype, np.datetime64):
+                self.copy[date_field] = pd.to_datetime(self.copy[date_field], infer_datetime_format=True)
+            msg = f"Performed SetColumnDateTime for column {date_field} is done."
+            self.log.append(msg)
+            return msg
+        except Exception as e:
+            msg = f"Performed SetColumnDateTime for column {date_field} is Failed due to {e}"
+            self.log.append(msg)
+            return msg
+
+    def add_datepart(self, field_name, prefix=None, drop=True, time=False):
+        "Helper function that adds columns relevant to a date in the column `field_name` of `df`." # Fastai Function
+        try:
+            self.make_date(field_name)
+            field = self.copy[field_name]
+            prefix = ifnone(prefix, re.sub('[Dd]ate$', '', field_name))
+            attr = ['Year', 'Month', 'Week', 'Day', 'Dayofweek', 'Dayofyear', 'Is_month_end', 'Is_month_start',
+                'Is_quarter_end', 'Is_quarter_start', 'Is_year_end', 'Is_year_start']
+            if time: attr = attr + ['Hour', 'Minute', 'Second']
+            # Pandas removed `dt.week` in v1.1.10
+            week = field.dt.isocalendar().week.astype(field.dt.day.dtype) if hasattr(field.dt, 'isocalendar') else field.dt.week
+            for n in attr: self.copy[prefix + n] = getattr(field.dt, n.lower()) if n != 'Week' else week
+            mask = ~field.isna()
+            self.copy[prefix + 'Elapsed'] = np.where(mask,field.values.astype(np.int64) // 10 ** 9,np.nan)
+            if drop: self.copy.drop(field_name, axis=1, inplace=True)
+            msg = f"Performed AddDatePart for column {field_name} is done."
+            self.log.append(msg)
+            return msg
+        except Exception as e:
+            msg = f"Performed AddDatePart for column {field_name} is Failed due to {e}"
+            self.log.append(msg)
+            return msg
+    
+    def add_date(self, action, column):
+        if action == "addit": return self.add_datepart(column)
+        else: return self.make_date(column)
+
     def sample(self, new = False) -> SampleData:
         if new:
             return SampleData(5,
@@ -137,10 +182,11 @@ class FastPreProcess(PreProcess):
     
     def quick_stat(self, new=False) -> QuickStat:
         obj = self.copy if new else self.obj
+        
         try:
-            stat = np.round(obj.describe().values.tolist(), 3).tolist()
-            numerical_col = obj.select_dtypes(exclude = ['object', 'category']).columns.to_list()
-            zipping = [(variable, data) for variable, data in zip(QuickStat().variables, stat)]
+            stat = obj.describe().round(3)
+            numerical_col = stat.columns
+            zipping = [(variable, data) for variable, data in zip(QuickStat().variables, stat.values)]
             return QuickStat(stat, numerical_col, zipping)
         except:
             return 0
