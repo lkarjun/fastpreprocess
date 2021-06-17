@@ -60,15 +60,24 @@ def log(request: Request):
         return templates.TemplateResponse('error_file.html', context={'request': request, 'error': str(e)})
 #____________________________________________________________________________________________________________________________________
 
+@app.get('/Analysis')
+def analysis(request: Request, mode: str):
+    print("Obj copy anlayising")
+    try:
+        fastprocess.get_new()
+
+    except Exception as e:
+        print(e)
+        return templates.TemplateResponse('error_file.html', context={'request': request, 'error': str(e)})
+
+
 @app.get('/info')
 async def info(column):
     return fastprocess.get_info_(column)
 
 @app.get('/drop')
 def dropna(data):
-    print("Okag", data)
     fastprocess.dropna()
-    print('finished')
     return "droped missing values from all columns"
 
 @app.get('/replace')
@@ -105,11 +114,22 @@ def tester(column: str, action:str, res: bool = True):
     return str(finished)
 
 
-@app.get('/save')
-def save_file():
+@app.get('/{save}')
+async def save_file(save: str):
     from fastapi.responses import FileResponse
-    fastprocess.copy.to_csv('processed.csv', index = False)
-    return FileResponse('processed.csv', filename='processed.csv')
+    if save == 'save':
+        fastprocess.copy.to_csv('FP_processed.csv', index = False)
+        return FileResponse('FP_processed.csv', filename='FP_processed.csv')
+
+    if save == 'stat':
+        fastprocess.save_params()
+        return FileResponse('params.json', filename='params.json')
+    
+    if save == 'pickle':
+        import pickle
+        with open("fp_pickle.pkl", "wb") as p:
+            pickle.dump(fastprocess.copy, p)
+        return FileResponse('fp_pickle.pkl', filename='fp_pickle.pkl')
 
 @app.get('/savejson')
 def save_json():
@@ -124,18 +144,6 @@ def process_data(request: Request):
                         'sample': fastprocess.sample(), 'quick': fastprocess.quick_stat(),\
                         'corr': fastprocess.correlation(), 'process': fastprocess.process})
         return temp
-
-    except Exception as e:
-        
-        return templates.TemplateResponse('error_file.html', context={'request': request, 'error': str(e)})
-
-
-
-@app.get('/objcopyAnalysis')
-async def copy_analysis(request: Request, mode: str):
-    print("Obj copy anlayising")
-    try:
-        fastprocess.get_new()
 
     except Exception as e:
         

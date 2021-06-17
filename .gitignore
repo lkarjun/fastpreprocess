@@ -8,7 +8,7 @@ Untitled.ipynb
 .ipynb_checkpoints/Untitled-checkpoint.ipynb
 workout.ipynb
 .ipynb_checkpoints/workout-checkpoint.ipynb
-processed.csv
+FP_processed.csv
 # setup.py
 build
 dist
@@ -16,3 +16,4 @@ fastpreprocess.egg-info
 workout.ipynb
 fw1.py
 *.json
+*.pkl

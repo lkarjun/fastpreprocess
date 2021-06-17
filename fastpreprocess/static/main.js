@@ -111,7 +111,7 @@ function objcopy(tomain=false){
 
   $.ajax({
       type: 'get',
-      url: '/objcopyAnalysis',
+      url: '/Analysis',
       data: {'mode': 'true'},
       contentType: "application/json",
       success: function(data){
