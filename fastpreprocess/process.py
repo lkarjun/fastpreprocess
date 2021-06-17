@@ -1,5 +1,11 @@
 from fastpreprocess.operation import *
 
+def load_obj(filename):
+    import pickle
+    with open(filename, 'rb') as file:
+        df = pickle.load(file)
+    return df
+
 class PreProcess:
     
     def __init__(self, copy) -> None:
