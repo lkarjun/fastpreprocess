@@ -343,14 +343,79 @@
         {% for values in process.IV.Variables%}
         {% if values.vtype == 'numeric'%}
         
-        <a class='btn btn-round bg-secondary text-light m-2 p-2'>{{values.vname}}<span class='badge bg-danger ms-2'>{{ values.vmissing[0] }}</span></a>
+        <a onclick="statnumerical('{{values.vname}}')" class='btn btn-round bg-secondary text-light m-2 p-2'>{{values.vname}}<span class='badge bg-danger ms-2'>{{ values.vmissing[0] }}</span></a>
         <script>$("<a href='#INVA' class='btn btn-round bg-secondary text-light m-2 p-2'>{{values.vname}}<span class='badge bg-danger ms-2'>{{ values.vmissing[0] }}</span></a>").appendTo("#Badge");</script>
-
-            
-    
         {% endif %}
         {% endfor %}
 
+        <section id='numstatdisplay' style="display: none;">
+            
+            <div class="p-5 text-center">
+                <p class="h2" id='name_numerical' style="font-family: 'Exo', sans-serif;">0</p>    
+            </div>
+            
+            <div class="row">
+                
+                <div class="col-md-6">
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <tr>
+                                <th class="font-weight-bold">Number of observations</th> <td id='sn1'>0</td>
+                                <th class="font-weight-bold">Median</th><td id='sn6'>0</td>
+                            </tr>
+                            <tr>
+                                <th class="font-weight-bold">Mean</th><td id='sn2'>0</td>
+                                <th class="font-weight-bold">Quartile 2</th><td id='sn7'>0</td>
+                            </tr>
+                            <tr>
+                                <th class="font-weight-bold">Standard Deviation</th><td id='sn3'>0</td>
+                                <th class="font-weight-bold">Maximum</th><td id='sn8'>0</td>
+                            </tr>
+                            <tr>
+                                <th class="font-weight-bold">Minimum</th><td id='sn4'>0</td>
+                                <th class="font-weight-bold">Skewness</th><td id='sn9'>0</td>
+                            </tr>
+                            <tr>
+                                <th class="font-weight-bold">Quartile 1</th><td id='sn5'>0</td>
+                                <th class="font-weight-bold">Kurtosis</th><td id='sn10'>0</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="col-md-6 d-flex justify-content-center">
+                <div class="card bg-danger" style="min-height: 10rem;">
+                    <div class="card-header text-white">Facts</div>
+                    <div class="card-body table-responsive">
+                        <table class="table text-white">
+                            <tr>
+                                <th>Variable Type: </th> <td class="text-capitalize" id='n1'>0</td>
+                            </tr>
+                            <tr>
+                                <th>Total Missing: </th> <td class="text-capitalize" id='n2'>0</td>
+                            </tr>
+                            <tr>
+                                <th>Missing Percentage</th> <td id='n3'>0</td>   
+                            </tr>
+                            <tr>
+                                <th>Outlier Count</th> <td id='n4'>0</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                </div>
+            </div>
+
+            <div class="row">
+                
+                <!------------Distribution Visualising finish------------->
+                <div class="col-md-6">
+                    <div id="numerical_dis"></div>
+                </div>
+                <!------------Distribution plot Visualising finish------------->
+        
+            </div>
+        </section>
     </div>
 </section>
 {% endif %}
@@ -372,14 +437,59 @@
         {% for values in process.IV.Variables%}
         {% if values.vtype == 'categorical'%}
         
-        <a class="btn btn-round bg-warning text-light m-2 p-2">{{values.vname}}<span class="badge bg-danger ms-2">{{ values.vmissing[0] }}</span></a>
+        <a class="btn btn-round bg-warning text-light m-2 p-2" onclick="stat('{{values.vname}}')">{{values.vname}}<span class="badge bg-danger ms-2">{{ values.vmissing[0] }}</span></a>
         <script>$('<a href="#ICVA" class="btn btn-round bg-warning text-light m-2 p-2">{{values.vname}}<span class="badge bg-danger ms-2">{{ values.vmissing[0] }}</span></a>').appendTo("#Badge");</script>
-
-
     
         {% endif %}
         {% endfor %}
 
+        <section id='statdisplay' style="display: none;">
+            <div class="p-5 text-center">
+                <p class="h2" id='name' style="font-family: 'Exo', sans-serif;">0</p>    
+            </div>
+            <div class="row ">
+            <div class="col-md-6 table-responsive">
+                <table class="table table-hover">
+                    <tr>
+                        <th class="font-weight-bold">Number of observations</th> <td id='s1'>0</td>
+                    </tr>
+                    <tr>
+                        <th class="font-weight-bold">Number of unique values</th><td id='s2'>0</td>
+                    </tr>
+                    <tr>
+                        <th class="font-weight-bold">Highest occuring values</th><td id='s3'>0</td>
+                    </tr>
+                    <tr class="bg-danger text-light">
+                        <th class="font-weight-bold" id='total_miss'></th><td id='total_miss_count'></td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="col-md-6 d-flex justify-content-center">
+                <div class="card bg-success" style="max-width: 20rem; min-height: 8rem;">
+                    <div class="card-header text-white font-weight-bold">Most Common observations</div>
+                    <div class="card-body">
+                        <table class="table text-white">
+                            <tr>
+                                <th id='cat1'>0</th> <td class="text-capitalize" id='m1'>0</td>
+                            </tr>
+                            <tr>
+                                <th id='cat2'>0</th> <td class="text-capitalize" id='m2'>0</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!------------BarPlot Visualising here------------->
+        <div class="col-md-6 pt-4">
+            <div id="boxplot_chart"></div>     
+        </div>
+        <!------------BarPlot Visualising finish------------->
+
+        </section>
+    
     </div>
 </section>
 {% endif %}

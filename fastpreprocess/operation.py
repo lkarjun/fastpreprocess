@@ -8,7 +8,7 @@ from fastpreprocess.essential import *
 class NumericDetail(BaseModel):
     data: TypeVar('pandas.core.series.Series')
     vname: str
-    vmissing: Union[Tuple[int, float], None]
+    vmissing: Union[List, None]
     vtype: str
     vsummary: Tuple[List, List]
     vstat: TypeVar('pandas.core.frame.DataFrame')
@@ -33,13 +33,34 @@ class NumericDetail(BaseModel):
         hist = np.histogram(self.data.dropna().values)
         counter = hist[0].astype(int).tolist()
         categ = np.round(hist[1], 2).astype(str).tolist()
-        json = {'data': counter, 'categories': categ}
-        return [json]
+        return {'data': counter, 'categories': categ}
+
+    def get_stat(self):
+        stat = {'Facts': {'VType': self.vtype, 'TotalMissing': self.vmissing, 
+                         'Outlier Count': len(self.voutlier_track)},
+                         
+                'Summary': {'Number_of_observations': self.vsummary[1][0],
+                            'Mean': self.vsummary[1][1],
+                            'Standard_Deviation': self.vsummary[1][2],
+                            'Minimum': self.vsummary[1][3],
+                            'Quartile_1': self.vsummary[1][4],
+                            'Median': self.vsummary[1][5],
+                            'Quartile 2': self.vsummary[1][6],
+                            'Maximum': self.vsummary[1][7],
+                            'Skewness': self.vsummary[1][8],
+                            'Kurtosis': self.vsummary[1][9]
+                        },
+                'Distribution': self.distribution_json(),
+                'Boxplot': self.boxplot_json()
+                }
+        return stat
+    
+
 
 
 class CategoricalDetail(BaseModel):
     vname: str
-    vmissing: Union[Tuple[int, float], None]
+    vmissing: Union[List, None]
     vtype: str
     vsummary: Tuple[List, List]
     vstat: TypeVar('pandas.core.frame.DataFrame')
@@ -51,6 +72,16 @@ class CategoricalDetail(BaseModel):
     def barplot_json(self):
         return  {'categories': self.vmostcommon[0], 'data': self.vmostcommon[2]}
 
+    def get_stat(self):
+        stat = {'MostCommon': {'categories': self.vmostcommon[0][:2], 'data': self.vmostcommon[2][:2]}, 
+               'Summary': {
+                            'Number_of_observations': str(self.vsummary[1][0]),
+                            'Number_of_u0nique_values': str(self.vsummary[1][1]),
+                            'Highest_occuring_values': str(self.vsummary[1][2]),
+                            'Total_Missing': self.vmissing},
+                'BarPlot': self.barplot_json()
+            }
+        return stat
 
 class IndividualVariables(BaseModel):
     TotalNumeric: int = 0
@@ -175,6 +206,7 @@ class Bivariate:
         if missing_values == 0:
             return None
         else:
-            return missing_values, round(missing_values / len(self.data), 3)
+            percent = str(round((missing_values / len(self.data)) * 100, 3))
+            return [str(missing_values), percent]
 
     

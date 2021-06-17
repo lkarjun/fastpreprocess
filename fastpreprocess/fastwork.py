@@ -45,7 +45,7 @@ def view_new_ds(request: Request):
 
 
 @app.get('/testing')
-async def home(requset: Request, testing:str):
+def home(testing:str):
     filename = path[:-11]+'static/car_sample.csv'
     # filename = 'fastpreprocess/static/car_sample.csv'
     set_global_filedetail(filename, dm = ',', lowmem=False)
@@ -58,6 +58,11 @@ def log(request: Request):
         return templates.TemplateResponse('log.html', context={'request': request, 'values': fastprocess.log})
     except Exception as e:
         return templates.TemplateResponse('error_file.html', context={'request': request, 'error': str(e)})
+
+@app.get('/col_stat')
+async def detail(colname):
+    get_col = fastprocess.process.IV.VariableName.index(colname)
+    return fastprocess.process.IV.Variables[get_col].get_stat()
 #____________________________________________________________________________________________________________________________________
 
 @app.get('/Analysis')
