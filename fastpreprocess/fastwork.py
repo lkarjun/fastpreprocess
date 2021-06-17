@@ -46,7 +46,7 @@ def view_new_ds(request: Request):
 
 @app.get('/testing')
 def home(testing:str):
-    filename = path[:-11]+'static/car_sample.csv'
+    filename = path[:-11]+'static/FP_processed.csv'
     # filename = 'fastpreprocess/static/car_sample.csv'
     set_global_filedetail(filename, dm = ',', lowmem=False)
     return "Okay"

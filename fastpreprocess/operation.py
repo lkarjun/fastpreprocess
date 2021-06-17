@@ -61,12 +61,12 @@ class NumericDetail(BaseModel):
 class CategoricalDetail(BaseModel):
     vname: str
     vmissing: Union[List, None]
-    vtype: str
+    vtype: Any
     vsummary: Tuple[List, List]
     vstat: TypeVar('pandas.core.frame.DataFrame')
     vhtmlid: Tuple[int, int]
     vnunique: int
-    vnuniquevalues: Set[str]
+    vnuniquevalues: Set[Any]
     vmostcommon: Tuple[List, List, List]
 
     def barplot_json(self):
