@@ -1,6 +1,24 @@
 from fastpreprocess.operation import *
 
-def load_obj(filename):
+ALL = 'ALL###'
+Drop = "drop"
+SetColumn_numeric = "set_numeric"
+SetColumn_categorical = "set_categorical"
+SetColumn_date = 'date_makeit'
+Dtype_int = 'dtype_integer'
+Dtype_float = 'dtype_float'
+FillMissing_mode = 'fillmissing_mode'
+FillMissing_median = 'fillmissing_median'
+FillMissing_mean = 'fillmissing_mean'
+FillMissing_0 = 'fillmissing_0'
+GetDummy = 'get_dummy'
+LabelEncode = 'label_encode'
+AddDatepart = 'date_addit'
+StandardScaler = 'scalar_standard'
+MinMaxScaler = 'scalar_minmax'
+
+
+def load_obj(filename = 'fp_pickle.pkl'):
     import pickle
     with open(filename, 'rb') as file:
         df = pickle.load(file)
@@ -21,15 +39,6 @@ class PreProcess:
         except Exception as e:
             self.log.append(f"Performed replace for column: {column} is FAILED, due to {e}")
             return f"Failed to replace value {to}"
-    
-    def get_info_(self, column):
-        temp = self.copy[column]
-        self.log.append(f"Performed get_info for column: {column}")
-        return {'dtype': f'{temp.dtype}', 'count': str(temp.count()),
-                'unique': str(temp.nunique())}
-
-    def get_head_tail_(self):
-        return self.copy.head(5).values, self.copy.tail(5).values
 
     def get_dummy_(self, column):
         try:
@@ -122,16 +131,17 @@ class PreProcess:
 
 class FastPreProcess(PreProcess):
 
-    def __init__(self, file: FileDetail) -> None:
-        self.file = file
-        self.obj = file.obj
-        self.copy = file.objcopy
-        self.process = IndividualVariable(self.obj)
-        self.process.start()
+    def __init__(self, file: TypeVar('pandas.core.frame.DataFrame'), analyse = True, Notebook = True) -> None:
+        self.copy = file
+        self.col = self.copy.columns
+        self.Notebook = Notebook
+        self.process = IndividualVariable(self.copy)
+        if analyse:
+            self.process.start()
+        
         super().__init__(self.copy)
 
-    
-    def make_date(self, date_field):
+    def _make_date(self, date_field):
         "Make sure `df[date_field]` is of the right date type." # Fastai Function
         field_dtype = self.copy[date_field].dtype
         try:
@@ -141,16 +151,17 @@ class FastPreProcess(PreProcess):
                 self.copy[date_field] = pd.to_datetime(self.copy[date_field], infer_datetime_format=True)
             msg = f"Performed SetColumnDateTime for column {date_field} is done."
             self.log.append(msg)
-            return msg
+            if self.Notebook: print('SetColumn_date done 👍')
+            else: return msg
         except Exception as e:
             msg = f"Performed SetColumnDateTime for column {date_field} is Failed due to {e}"
             self.log.append(msg)
             return msg
 
-    def add_datepart(self, field_name, prefix=None, drop=True, time=False):
+    def _add_datepart(self, field_name, prefix=None, drop=True, time=False):
         "Helper function that adds columns relevant to a date in the column `field_name` of `df`." # Fastai Function
         try:
-            self.make_date(field_name)
+            self._make_date(field_name)
             field = self.copy[field_name]
             prefix = ifnone(prefix, re.sub('[Dd]ate$', '', field_name))
             attr = ['Year', 'Month', 'Week', 'Day', 'Dayofweek', 'Dayofyear', 'Is_month_end', 'Is_month_start',
@@ -164,75 +175,123 @@ class FastPreProcess(PreProcess):
             if drop: self.copy.drop(field_name, axis=1, inplace=True)
             msg = f"Performed AddDatePart for column {field_name} is done."
             self.log.append(msg)
-            return msg
+            if self.Notebook: print('AddDatePart Done 👍\n')
+            else: return msg
         except Exception as e:
             msg = f"Performed AddDatePart for column {field_name} is Failed due to {e}"
             self.log.append(msg)
-            return msg
+            if self.Notebook: 
+                print('AddDatePart Failed 🤔\n')
+                print(e)
+            else: return msg
     
-    def add_date(self, action, column):
-        if action == "addit": return self.add_datepart(column)
-        else: return self.make_date(column)
+    def _add_date(self, action, column):
+        if action == "addit": return self._add_datepart(column)
+        else: return self._make_date(column)
 
-    def sample(self, new = False) -> SampleData:
-        if new:
-            return SampleData(5,
-                       self.copy.sample(5).values.tolist(),
-                       self.copy.columns,
-                       len(self.copy.columns),
-                       len(self.copy))
-            
-        obj = self.obj
-        sample_data = SampleData(5, obj.sample(5).values.tolist(), obj.columns, len(obj.columns), len(obj))
-        return sample_data
-    
-    def quick_stat(self, new=False) -> QuickStat:
-        obj = self.copy if new else self.obj
+    def sample(self, num = 5) -> SampleData:
+        if self.Notebook:
+            print(f"Sample {num}\n")
+            print(self.copy.sample(num).to_string())
+            print('\n')
+        else:
+            return SampleData(num, self.copy.sample(num).values.tolist(), self.copy.columns,
+                          len(self.copy.columns), len(self.copy))
+             
+    def quick_stat(self) -> QuickStat:
+        obj = self.copy
         
         try:
             stat = obj.describe().round(3)
             numerical_col = stat.columns
             zipping = [(variable, data) for variable, data in zip(QuickStat().variables, stat.values)]
-            return QuickStat(stat, numerical_col, zipping)
+            if self.Notebook: print(stat.to_string())
+            else: return QuickStat(stat, numerical_col, zipping)
         except:
             return 0
 
-    def correlation(self, new=False) -> Correlation:
+    def correlation(self) -> Correlation:
         
         # -------------------------------------------Debuging----------------------------------------
-        corr = self.copy.corr() if new else self.obj.corr()
-    
-        if len(corr) > 1:
-            index = [k for i, k in zip(~corr.iloc[:1].isna().values.flatten(), corr.columns.values) if i]
-            corr = corr[index].dropna()
-            corr = np.round(corr.values, 3).tolist()
-            return Correlation(variable = index, correlation = corr, empty=1) if len(index) > 1 \
+        corr = self.copy.corr()
+        if self.Notebook:
+            print(corr.to_string())
+        else: 
+            if len(corr) > 1:
+                index = [k for i, k in zip(~corr.iloc[:1].isna().values.flatten(), corr.columns.values) if i]
+                corr = corr[index].dropna()
+                corr = np.round(corr.values, 3).tolist()
+                return Correlation(variable = index, correlation = corr, empty=1) if len(index) > 1 \
                    else Correlation(variable = None, correlation = None, empty=0)
         # -------------------------------------------Debuging----------------------------------------
         
-        return Correlation(variable = None, correlation = None, empty=0)
-
+            return Correlation(variable = None, correlation = None, empty=0)
 
     def get_info(self, column):
         temp = self.copy[column]
-        return {'dtype': f'{temp.dtype}', 'count': str(temp.count()),
+        if self.Notebook:
+            print('Column: ', column)
+            print('Dtype: ', temp.dtype)
+            print('Count: ', temp.count())
+            print('Total Unique value: ', temp.nunique())
+            print('Unique Values:\n', temp.unique())
+        
+        else:
+            return {'dtype': f'{temp.dtype}', 'count': str(temp.count()),
                 'unique': str(temp.nunique()),
                 'unique_values': set(temp.unique().astype(str))}
 
-    def get_head_tail(self):
-        return self.file.objcopy.head(5).values.tolist(), self.file.objcopy.tail(5).values.tolist()
+    def get_head_tail(self, num = 5, show_sample_too = True):
+        if self.Notebook:
+            if show_sample_too:
+                self.sample(num)
+            print(f"Head {num}\n")
+            print(self.copy.head(num).to_string())
+            print('\n')
+            print(f"Tail {num}\n")
+            print(self.copy.tail(num).to_string())
+        else:    
+            return self.copy.head(5).values.tolist(), self.copy.tail(5).values.tolist()
 
-    def get_new(self):
-        self.obj = self.copy
+    def get_new(self, analyse = True):
+        # self.obj = self.copy
         self.process = IndividualVariable(self.copy)
-        self.process.start()
+        if analyse:
+            self.process.start()
 
-    def dropna(self):
+    def dropna(self, analyse = True):
         self.copy = self.copy.dropna()
-        self.get_new()
+        self.get_new(analyse)
         self.log.append("Performed dropna for ALL Columns")
+        if self.Notebook: print("dropna done 👍")
 
     def save_params(self):
         import json
         with open('params.json', 'w', encoding='utf-8') as f:
             json.dump(self.params, f, ensure_ascii=False, indent=4)
+        if self.Notebook: print("Saved Params to current directory 😊")
+
+    def process_it(self, column: List, action: List, res: bool = False):
+        def do_it(act, i):
+            if act == 'drop': finished.append(self.drop_column_(i))
+            elif act == 'get_dummy': finished.append(self.get_dummy_(i))
+            elif act[:11] == 'fillmissing': finished.append(self.missing_(i, act[12:]))
+            elif act in ['set_numeric', 'set_categorical']: finished.append(self.convert_(i, act[4:]))
+            elif act[:5] == "dtype" : finished.append(self.convert_(i, "dtype", downcast=act[6:]))
+            elif act == 'label_encode': finished.append(self.label_encode_(i)) 
+            elif act[:6] == 'scalar': finished.append(self.scaler_(i, act[7:]))
+            elif act[:4] == 'date': finished.append(self._add_date(action=act[5:], column=i))
+            else: finished.append("cool")
+
+        finished = []
+
+        if "ALL###" in column:
+            if len(column) == 1: column = self.copy.columns
+            elif (column.index("ALL###") == 0) and (len(column) > 1):
+                column = [i for i in self.copy.columns if i not in column[1:]]
+            else: return "Can't Process!"
+        print(column, action)
+        for act in tqdm.tqdm(action):
+            for i in column: do_it(act, i)
+
+        if not self.Notebook: return str(finished)
