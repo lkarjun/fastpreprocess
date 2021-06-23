@@ -113,28 +113,19 @@ class IndividualVariable():
             if v.var_type == 'numeric':
                 self.IV.TotalNumeric += 1
                 var = NumericDetail(
-                            data = self.data[i],
-                            vname=i,
-                            vmissing=v.missing,
-                            vtype=v.var_type,
+                            data = self.data[i], vname=i, vmissing=v.missing, vtype=v.var_type,
                             vsummary=(v.statistics.index.to_list(), v.statistics.values.flatten().tolist()),
-                            vstat=v.statistics,
-                            voutlier_track=self.outlier(v, i),
+                            vstat=v.statistics, voutlier_track=self.outlier(v, i),
                             vhtmlid=(self.IV.Length, self.IV.Length)
                     )
                 
             if v.var_type == 'categorical':
                 self.IV.TotalCategorical += 1
                 var = CategoricalDetail(
-                            vname=i,
-                            vmissing=v.missing,
-                            vtype=v.var_type,
+                            vname=i, vmissing=v.missing, vtype=v.var_type,
                             vsummary=(v.statistics.index.to_list(),  v.statistics.values.flatten().tolist()),
-                            vstat=v.statistics,
-                            vhtmlid=(self.IV.Length, self.IV.Length),
-                            vnunique = v.num_unique,
-                            vnuniquevalues = v.unique,
-                            vmostcommon = v.most_common_items
+                            vstat=v.statistics, vhtmlid=(self.IV.Length, self.IV.Length), vnunique = v.num_unique,
+                            vnuniquevalues = v.unique, vmostcommon = v.most_common_items
                     )
             
             self.IV.Variables.append(var)
