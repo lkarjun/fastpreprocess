@@ -38,8 +38,8 @@ def view_new_ds(request: Request):
     try:
         return templates.TemplateResponse('ViewNewDataset.html', 
                         context={'request': request,
-                                 'sample': fastprocess.sample(new=True),
-                                 'head_tail': fastprocess.get_head_tail_()})
+                                 'sample': fastprocess.sample(),
+                                 'head_tail': fastprocess.get_head_tail()})
     except Exception as e:
         return templates.TemplateResponse('error_file.html', context={'request': request, 'error': str(e)})
 
@@ -78,7 +78,7 @@ def analysis(request: Request, mode: str):
 
 @app.get('/info')
 async def info(column):
-    return fastprocess.get_info_(column)
+    return fastprocess.get_info(column)
 
 @app.get('/drop')
 def dropna(data):
@@ -93,30 +93,8 @@ def replace(rep, column, to, reg):
 
 @app.get('/action')
 def tester(column: str, action:str, res: bool = True):
-    def do_it(act, i):
-        if act == 'drop': finished.append(fastprocess.drop_column_(i))
-        elif act == 'get_dummy': finished.append(fastprocess.get_dummy_(i))
-        elif act[:11] == 'fillmissing': finished.append(fastprocess.missing_(i, act[12:]))
-        elif act in ['set_numeric', 'set_categorical']: finished.append(fastprocess.convert_(i, act[4:]))
-        elif act[:5] == "dtype" : finished.append(fastprocess.convert_(i, "dtype", downcast=act[6:]))
-        elif act == 'label_encode': finished.append(fastprocess.label_encode_(i)) 
-        elif act[:6] == 'scalar': finished.append(fastprocess.scaler_(i, act[7:]))
-        elif act[:4] == 'date': finished.append(fastprocess.add_date(action=act[5:], column=i))
-        else: finished.append("cool")
-
-    finished = []
     column, action = column.split(','), action.split(',')
-    
-    if "ALL###" in column:
-        if len(column) == 1: column = fastprocess.copy.columns
-        elif (column.index("ALL###") == 0) and (len(column) > 1):
-            column = [i for i in fastprocess.copy.columns if i not in column[1:]]
-        else: return "Can't Process!"
-    print(column, action)
-    for act in action:
-        for i in column: do_it(act, i)
-
-    return str(finished)
+    return fastprocess.process_it(column, action, res)
 
 
 @app.get('/{save}')
@@ -183,10 +161,10 @@ def set_global_filedetail(filename, dm, lowmem):
     print("Global Filedetail Processing")
     global filedetail
     filedetail = FileDetail(filename = filename, filetype = filename.split('.')[-1], 
-                            sysfilepath=filename, obj=df, objcopy = df)
+                            sysfilepath=filename, obj=df, objcopy = None)
     
     global fastprocess
-    fastprocess = FastPreProcess(filedetail)
+    fastprocess = FastPreProcess(filedetail.obj, Notebook=False)
 
     global process
     process = fastprocess.process
