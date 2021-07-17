@@ -33,7 +33,7 @@ setuptools.setup(
         "pydantic==1.8.2",
         "numpy==1.20.3",
         "python-multipart",
-        "fastapi==0.65.1",
+        "fastapi==0.65.2",
         "pandas==1.2.4",
         "tqdm==4.60.0",
         "jinja2==2.11.3",
